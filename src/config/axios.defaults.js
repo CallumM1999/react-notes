@@ -1,3 +1,4 @@
 module.exports = {
-    baseURL: process.env.API_PATH || 'http://localhost:3000',
+    baseURL: 'https://agile-mountain-99443.herokuapp.com',
+    // baseURL: 'http://localhost:3000',
 }
