@@ -1,0 +1,83 @@
+.edit-list {
+    margin: 0 auto;
+    padding: 10px 0;
+    max-width: 1000px;
+}
+
+.edit-list__item {
+    height: 100px;
+    border-bottom: 1px solid #ddd;
+
+    display: flex;
+    justify-content: space-between;
+
+    &:hover {
+        .edit-list__buttons {
+            width: 200px;
+            transition: width .6s ease-in-out;
+        }
+    }
+}
+
+.edit-list__content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+}
+.edit-list__text {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    padding: 0 10px;
+}
+.edit-list__text-front,
+.edit-list__text-back {
+    line-height: 100px;
+
+    margin: 0 20px;
+    font-weight: 100;
+    font-size: 26px;
+}
+
+.edit-list__tab {
+    width: 8px;
+    border-radius: 4px 0 0 4px;
+}
+
+.edit-list__buttons {
+    transition: width .8s ease-out;
+    width: 0;
+    font-size: 0;
+
+    display: flex;
+    justify-content: flex-start;
+    overflow: hidden;
+}
+.edit__button {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    padding: 0;
+    border: 1px solid #fff;
+    color: #fff;
+    font-weight: 200;
+    font-size: 20px;
+    flex-shrink: 0;
+    cursor: pointer;
+
+    &:hover {
+        border-color: #ddd;
+    }
+}
+.edit__button-delete {
+    background-color: red;
+    &:hover {
+        background-color: lighten($color: red, $amount: 13%)
+    }
+}
+.edit__button-edit {
+    background-color: green;
+    &:hover {
+        background-color: lighten($color: green, $amount: 10%)
+    }
+}
