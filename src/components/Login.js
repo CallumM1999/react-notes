@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
+import { baseURL } from '../config/axios.defaults';
+
 import Form from './Form';
 
 const authorise = (data) => {
@@ -21,7 +23,7 @@ const Login = props => {
 
         if (!email.value || !password.value) return props.setError('missing fields');
 
-        axios.get('http://localhost:3000/login', {
+        axios.get(baseURL + '/login', {
             headers: {
                 email: email.value,
                 password: password.value
