@@ -15,6 +15,8 @@ const authorise = (data) => {
 
 const Login = props => {
 
+    console.log('process api', process.env.API_PATH)
+
     const loginHandler = e => {
         e.preventDefault();
         // console.log('login called')
