@@ -123,11 +123,12 @@ class Edit extends React.Component {
         axios.delete(baseURL + '/cards', 
         {
             headers: {
-                data: {id},
+                id,
                 authorization: this.props.auth.token
             }
         })
             .then(result => {
+                console.log('delete response', result)
                 this.setState(prev => {
                     return {
                         cards: prev.cards.filter(item => item.id !== id)
