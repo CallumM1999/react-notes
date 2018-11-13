@@ -15,7 +15,7 @@ const authorise = (data) => {
 
 const Login = props => {
 
-    console.log('process api', process.env.API_PATH)
+    // console.log('process api', process.env.API_PATH)
 
     const loginHandler = e => {
         e.preventDefault();
@@ -64,7 +64,7 @@ const Login = props => {
                 </div>
 
                 <div className="form-group">
-                    <input type="submit" value="Login" className="form-submit" />
+                    <input type="submit" value="Login" className="btn form-submit" />
                 </div>
 
                 <div className='form-group'>

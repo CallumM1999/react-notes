@@ -20,7 +20,7 @@ const Forgot = props => {
 
 
                 <div className='form-group'>
-                    <input type="button" value="Resend" onClick={props.sendCode} className='form-submit form-resend'/>
+                    <input type="button" value="Resend" onClick={props.sendCode} className='btn form-submit form-resend'/>
                     <input type="text" name="code" id="input_code" className='form-input form-input__code' placeholder='Code'/>
                 </div>
 
@@ -30,7 +30,7 @@ const Forgot = props => {
                 </div>
 
                 <div className='form-group'>
-                    <input type="submit" value="Confirm" className='form-submit' />
+                    <input type="submit" value="Confirm" className='btn form-submit' />
                 </div>
                 
                 <div className='form-group'>

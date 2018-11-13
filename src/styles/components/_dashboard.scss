@@ -6,52 +6,128 @@
     margin: 0 auto;
 }
 
-.dashboarditem {
+.dashboard-item {
     height: 100px;
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #ccc;
+    
+    // background-color: green;
+    padding: 0 20px;
+    position: relative;
 }
 
-.dashboarditem-label {
-    flex-grow: 1;
+.dashboard-actions,
+.dashboard-label {
+    font-size: 22px;
     line-height: 100px;
-    font-size: 26px;
     font-weight: 200;
-    margin-left: 20px;
+
+    &:hover {
+        text-decoration: underline;
+        // cursor: pointer;
+    }
+
 }
-.dashboard-buttons {
-    width: 300px;
-    font-size: 0px;
+
+.dashboard-label {
+    flex-grow: 1;
+    // margin-left: 20px;
 }
-.dashboard-button {
-    width: 100px;
-    height: 100px;
-    display: inline-block;
-    font-size: 24px;
+.dashboard-actions {
+
+    &::after {
+        content: "";
+        background-color: #000;
+
+        width: 12px;
+        height: 12px;
+
+        display: inline-block;
+        vertical-align: middle;
+
+        margin-left: 5px;
+
+        clip-path: polygon(0% 30%, 100% 30%, 50% 90%);
+
+    }
+}
+
+.dashboard-control {
+
+    background-color: pink;
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    display: flex;
+    
+  
+    
+}
+
+.dashboard-control-button {
     line-height: 100px;
     text-align: center;
+
+    cursor: pointer;
+}
+.dashboard-control-button-edit,
+.dashboard-control-button-rename,
+.dashboard-control-button-delete {
+    flex-grow: 1;
+
+    color: #fff;
+    font-size: 24px;
+    font-weight: 200;
+}
+.dashboard-control-button-edit {
+    background-color: green;
+
+    &:hover {
+        background-color: lighten($color: green, $amount: 10%);
+    }
+}
+.dashboard-control-button-delete {
+    background-color: red;
+       
+    &:hover {
+        background-color: lighten($color: red, $amount: 10%);
+    }
+}
+.dashboard-control-button-rename {
+    background-color: orange;
+       
+    &:hover {
+        background-color: lighten($color: orange, $amount: 10%);
+    }
+}
+.dashboard-control-button-close {
+    width: 100px;
+    background-color: #000;
     color: #fff;
 
-    &-rename {
-        background-color: #55f;
-        &:hover {
-            background-color: lighten($color: #55f, $amount: 10%)
-        }
+    font-size: 40px;
+    font-weight: 100;
+    // line-height: 100px;
+    text-transform: uppercase;
+
+    &:hover {
+        font-size: 44px;   
+        // color: #f0f0f0;
     }
-    &-edit {
-        background-color: green;
-        &:hover {
-            background-color: lighten($color: green, $amount: 10%)
-        }
-    }
-    &-delete {
-        border-color: red;
-        background-color: #f22;
-    
-        &:hover {
-            background-color:#f22 !important;
-            border-color: darken($color: #f22, $amount: 20%);
-        }
-    }
+}
+
+.dashboard-add {
+    width: 100%;
+    max-width: 600px;
+    margin: 50px auto 0;
+    color: #fff;
+    font-size: 24px;
+    height: 100px;
+    line-height: 100px;
+    background-color: purple;
 }

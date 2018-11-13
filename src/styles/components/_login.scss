@@ -30,16 +30,18 @@
 }
 
 .form-submit {
+    display: inline-block;
     width: 100%;
     background-color: #a31923;
-    border: none;
+    // border: none;
     height: 50px;
-    padding: 0;
-    border-radius: 2px;
+    // padding: 0;
+    // border-radius: 2px;
     color: #fff;
 
     font-size: 24px;
-    font-weight: 100;
+    // font-weight: 100;
+    border-width: 4px;
 }
 
 .form-group {

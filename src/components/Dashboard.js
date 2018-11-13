@@ -7,7 +7,7 @@ import uuid from 'uuid/v4'
 import Header from '../components/Header';
 
 
-import defaults from '../config/axios.defaults';
+import { baseURL } from '../config/axios.defaults';
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -26,7 +26,7 @@ class Dashboard extends React.Component {
         // console.log('component did mount', this.props.auth.token)
 
 
-        axios.get(defaults.baseURL + '/decks', 
+        axios.get(baseURL + '/decks', 
         {
             headers: {
                 id: this.props.auth.id,
@@ -48,7 +48,7 @@ class Dashboard extends React.Component {
         const id = uuid();
 
         if (deckName) {
-            axios.post(defaults.baseURL + '/decks', 
+            axios.post(baseURL + '/decks', 
             { name: deckName, id, owner: this.props.auth.id },
             {
                 headers: {
@@ -75,7 +75,7 @@ class Dashboard extends React.Component {
         }
     }
     renameDeck(id, name) {
-          axios.put(defaults.baseURL + '/decks', 
+          axios.put(baseURL + '/decks', 
             { name, id },
             {
                 headers: {
@@ -103,14 +103,16 @@ class Dashboard extends React.Component {
             });
     }
     deleteDeck(id) {
-        axios.delete(defaults.baseURL + '/decks', 
+        console.log('dashboard delete', id)
+        axios.delete(baseURL + '/decks', 
         {
             headers: {
-                data: {id},
+                id,
                 authorization: this.props.auth.token
             }
         })
         .then(response => {
+            console.log('delete respoonse', response)
             this.setState(prev => {
                 return {
                     decks: prev.decks.filter(item => item.id !== id)
@@ -126,7 +128,7 @@ class Dashboard extends React.Component {
             <div>
                 <Header subheading='Dashboard' auth={this.props.auth.auth} dispatch={this.props.dispatch} />
 
-                <button onClick={this.addDeck}>Add Deck</button>
+                <button className='btn dashboard-add' onClick={this.addDeck}>Add Deck</button>
 
 
                 <ul className="dashboard-container">

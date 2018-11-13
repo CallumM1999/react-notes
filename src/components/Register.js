@@ -78,7 +78,7 @@ const Register = props => {
                 </div>
 
                 <div className='form-group'>
-                    <input type="submit" value="Register" className='form-submit' />
+                    <input type="submit" value="Register" className='btn form-submit' />
                 </div>
 
 

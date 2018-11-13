@@ -78,9 +78,13 @@ class Edit extends React.Component {
     }
     editCard(id, front, back) {
         const newFront = prompt('Enter value for front: ', front);
-        const newBack = prompt('Enter value for back: ', back);
+        if (!newFront) return false;
 
-        if (newFront && newBack && (newFront !== front || newBack !== back)) {
+        const newBack = prompt('Enter value for back: ', back);
+        if (!newBack) return false;
+
+
+        if (newFront !== front || newBack !== back) {
 
             axios.put(baseURL + '/cards', 
             {
@@ -153,8 +157,8 @@ class Edit extends React.Component {
                 
                     {!!this.props.location.state ? 
                         <div>
-                            <h2>{this.props.location.state.deck}</h2>
-                            <button onClick={this.addCard}>Add card</button>
+                            <h2 className='edit-title'>{this.props.location.state.deck}</h2>
+                            <button onClick={this.addCard} className='btn edit-add'>Add card</button>
                             <ul className='edit-list'>
                                 {
                                     this.state.cards.map((item, index) => {
