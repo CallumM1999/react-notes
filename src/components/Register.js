@@ -5,6 +5,7 @@ import Recaptcha from 'react-recaptcha';
 
 
 import Form from './Form';
+import { baseURL } from '../config/axios.defaults';
 
 
 
@@ -51,7 +52,7 @@ class Register extends React.Component {
 
         // valid, send request to server
 
-        axios.post('http://localhost:3000/register', {
+        axios.post(baseURL + '/register', {
             email: email.value,
             password: password.value
         })
