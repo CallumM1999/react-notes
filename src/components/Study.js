@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 
 import Header from './Header';
 
+import { baseURL } from '../config/axios.defaults';
+
+
 class Study extends React.Component {
     constructor(props) {
         super(props);
@@ -26,7 +29,7 @@ class Study extends React.Component {
     componentWillMount() {
         console.log('mount', this.props);
 
-        axios.get('http://localhost:3000/cards', {
+        axios.get(baseURL + '/cards', {
             headers: {
                 id: this.props.id,
                 authorization: this.props.auth.token
