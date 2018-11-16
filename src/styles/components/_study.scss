@@ -1,0 +1,79 @@
+.study-container {
+    background-color: purple;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.study-title {
+    font-size: 54px;
+    font-weight: 200;
+    text-align: center;
+}
+
+.study-total {
+    text-align: center;
+    font-size: 22px;
+    margin: 10px 0 40px;
+    span {
+        color: red;
+    }
+}
+
+.study-count {
+    position: absolute;
+    right: 10px;
+    top: 10px;    
+}
+
+.study-value {
+    text-align: center;
+    font-size: 50px;
+    font-weight: 100;
+    border-bottom: 2px solid #666;
+    padding-bottom: 30px;
+}
+
+.study-back {
+    text-align: center;
+    font-size: 40px;
+    color: #333;
+    font-weight: 100;
+}
+
+.study-button-group {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.study-button {
+    background-color: #444;
+    margin: 0 10px;
+    padding: 6px 16px;
+}
+
+.study-button-study-now {
+    height: 70px;
+    width: 100%;
+    max-width: 450px;
+    margin: 20px auto;
+}
+
+.study-button-hard {
+    
+}
+.study-button-good {
+    
+}
+.study-button-easy {
+    
+}
+.study-button-show-answer {
+    font-size: 28px;
+    padding: 10px 20px;
+}
+
+.study-button-exit {
+    float: right;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import uuid from 'uuid/v4'
+import uuid from 'uuid/v4';
 import Header from '../components/Header';
 import { withRouter } from 'react-router-dom';
 import EditCard from './EditCard';
@@ -20,7 +20,7 @@ class Edit extends React.Component {
         this.state = {
             undefined: false,
             cards: []
-        }
+        };
     }
     
     componentDidMount() {
@@ -47,9 +47,11 @@ class Edit extends React.Component {
     }
     addCard() {
         const front = prompt('Enter card front text: ');
+        if (!front) return;
         const back = prompt('Enter card back text: ');
+        if (!back) return;
     
-        if (front && back) {
+        // if (front && back) {
             const id = uuid();
             const deck = this.props.id;
 
@@ -61,7 +63,7 @@ class Edit extends React.Component {
                 }
             })
             .then(response => {
-                console.log('add card', response)
+                console.log('add card', response);
                 this.setState(prev => {
                     return {
                         cards: [
@@ -74,7 +76,7 @@ class Edit extends React.Component {
             .catch(error => {
                 console.log('error', error);
             });
-        }
+        // }
     }
     editCard(id, front, back) {
         const newFront = prompt('Enter value for front: ', front);
@@ -106,15 +108,15 @@ class Edit extends React.Component {
                                         ...item,
                                         front: newFront,
                                         back: newBack
-                                    }
+                                    };
                                 }
                                 return item;
                             })
-                        }
+                        };
                     });
                 })
                 .catch(error => {
-                    console.log('error', error)
+                    console.log('error', error);
                 });
         }
     }
@@ -128,7 +130,6 @@ class Edit extends React.Component {
             }
         })
             .then(result => {
-                console.log('delete response', result)
                 this.setState(prev => {
                     return {
                         cards: prev.cards.filter(item => item.id !== id)
@@ -136,7 +137,7 @@ class Edit extends React.Component {
                 });
             })
             .catch(error => {
-                console.log('error', error)
+                console.log('error', error);
             });
     }
 
@@ -163,17 +164,17 @@ class Edit extends React.Component {
                             <ul className='edit-list'>
                                 {
                                     this.state.cards.map((item, index) => {
-                                        // console.log('item', item)
+        
                                         return (
                                             <EditCard 
-                                                key={index}
+                                                key={item.id}
                                                 front={item.front}
                                                 back={item.back}
                                                 id={item.id}
                                                 deleteCard={this.deleteCard}
                                                 editCard={this.editCard}
                                             />
-                                        )
+                                        );
                                     })
                     
                                 }
@@ -193,6 +194,6 @@ class Edit extends React.Component {
 const mapStateToProps = (state) => {
     return {
         auth: state.auth
-    }
-}
+    };
+};
 export default withRouter(connect(mapStateToProps)(Edit));

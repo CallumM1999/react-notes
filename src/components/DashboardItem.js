@@ -109,7 +109,10 @@ class DashboardItem extends React.Component {
         } else {
             return (
                 <li className='dashboard-item'>
-                    <div className="dashboard-label">{this.props.name}</div> 
+                    <div className="dashboard-label" onClick={() => {
+                        console.log('props', this.props);
+                        this.props.history.push(`/study/${this.props.id}`);
+                    }}>{this.props.name}</div> 
                     <div className="dashboard-actions" onClick={this.openOptions}>Actions</div>
                 </li>
             );
@@ -120,7 +123,7 @@ class DashboardItem extends React.Component {
 const mapStateToProps = state => {
     return {
         auth: state.auth
-    }
-}
+    };
+};
 
 export default withRouter(connect(mapStateToProps)(DashboardItem));

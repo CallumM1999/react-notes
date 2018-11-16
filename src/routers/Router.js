@@ -6,7 +6,8 @@ import Login from '../components/LoginContainer';
 import Dashboard from '../components/Dashboard';
 import Edit from '../components/Edit';
 import PageNotFound from '../components/PageNotFound';
-import PrivateRoute from '../components/PrivateRoute'
+import PrivateRoute from '../components/PrivateRoute';
+import Study from '../components/Study';
 
 const Router = props => {
 
@@ -23,6 +24,13 @@ const Router = props => {
                 <PrivateRoute 
                     path='/edit/:id' 
                     component={Edit} 
+                    exact={true} 
+                    auth={props.auth}
+                />
+
+                <PrivateRoute 
+                    path='/study/:id' 
+                    component={Study} 
                     exact={true} 
                     auth={props.auth}
                 />

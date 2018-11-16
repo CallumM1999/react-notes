@@ -12,6 +12,6 @@ const PrivateRoute = props => {
             }}
         />
     );
-}
+};
 
 export default PrivateRoute;

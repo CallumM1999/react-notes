@@ -12,10 +12,10 @@ const checkAuth = (auth) => {
             localStorage.removeItem('token');
             console.log('token expired');
 
-            return false
+            return false;
         }
     }
     return false;
-}
+};
 
 export default checkAuth;

@@ -11,8 +11,9 @@ class EditCard extends React.Component {
         this.state = {
             front: this.props.front,
             back: this.props.back
-        }
+        };
     }
+
     editCard() {
         this.props.editCard(this.props.id, this.props.front, this.props.back);
     }
@@ -20,7 +21,7 @@ class EditCard extends React.Component {
         const choice = confirm('Are you sure you want to delete this card?');
 
         if (choice) {
-            this.props.deleteCard(this.props.id)
+            this.props.deleteCard(this.props.id);
         }
     }
     render() {
@@ -28,23 +29,15 @@ class EditCard extends React.Component {
 
             <li className="edit-item">
                 <div className="edit-close" onClick={this.deleteCard}>x</div>
-                <div className="edit-content">
+                <div className="edit-content" onClick={this.editCard}>
                     <div className="edit-content-front">
                         
-                        <input type="text" name="" id="" className='edit-content-input' value={this.state.front} onChange={() => {
-                            this.setState({
-                                front: this.value
-                            });
-                        }}/>
+                        <div className='edit-content-input' >{this.props.front}</div>
 
                     </div>
                     <div className="edit-content-back">
                         
-                        <input type="text" name="" id="" className='edit-content-input' value={this.state.back} onChange={() => {
-                            this.setState({
-                                back: this.value
-                            });
-                        }}/>
+                     <div className='edit-content-input' >{this.props.back}</div>
 
                     </div>
                 </div>

@@ -13,6 +13,6 @@ const Form = (props) => {
             </form>
         </div>
     );
-}
+};
 
 export default Form;

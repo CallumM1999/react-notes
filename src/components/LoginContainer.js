@@ -22,40 +22,40 @@ class LoginContainer extends React.Component {
         this.state = {
             page: 'login',
             error: null
-        }
+        };
     }
 
     setError(message) {
         this.setState({
             error: message
-        })
+        });
     }
 
     redirect(path = '/') {
 
-        this.props.history.push(path)
+        this.props.history.push(path);
         
     }
 
     showLoginPage(e) {
         // e.preventDefault();
-        console.log('show login page')
-        this.setState({ page: 'login' })
+        console.log('show login page');
+        this.setState({ page: 'login' });
     }
     showRegisterPage(e) {
         // e.preventDefault();
-        console.log('show register page')
-        this.setState({ page: 'register' })
+        console.log('show register page');
+        this.setState({ page: 'register' });
     }
     showForgotPage(e) {
         // e.preventDefault();
-        console.log('show forgot page')
-        this.setState({ page: 'forgot' })
+        console.log('show forgot page');
+        this.setState({ page: 'forgot' });
     }
 
     sendCode() {
 
-        alert('Code: 195442S')
+        alert('Code: 195442S');
     }
 
     render() {
@@ -99,7 +99,7 @@ class LoginContainer extends React.Component {
                     );
     
             }
-        }
+        };
 
         return (
             <div>
@@ -114,6 +114,6 @@ class LoginContainer extends React.Component {
 const mapStateToProps = (state) => {
     return {
         auth: state.auth
-    }
-}
+    };
+};
 export default connect(mapStateToProps)(LoginContainer);

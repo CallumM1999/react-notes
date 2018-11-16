@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const PageNotFount = props => {
 
-    console.log('not found props', props)
+    console.log('not found props', props);
     return (
         <div>
             <h2>Sorry, page not found</h2>
@@ -17,7 +17,7 @@ const PageNotFount = props => {
             <Link to='/'>Home page</Link>
 
         </div>
-    )
-}
+    );
+};
 
 export default PageNotFount;

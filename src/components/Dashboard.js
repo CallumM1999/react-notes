@@ -2,7 +2,7 @@ import React from 'react';
 import DashboardItem from '../components/DashboardItem';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import uuid from 'uuid/v4'
+import uuid from 'uuid/v4';
 
 import Header from '../components/Header';
 
@@ -19,7 +19,7 @@ class Dashboard extends React.Component {
 
         this.state = {
             decks: []
-        }
+        };
     
     }
     componentDidMount() {
@@ -39,8 +39,8 @@ class Dashboard extends React.Component {
                 });
             })
             .catch(error => {
-                console.log('error', error)
-            })
+                console.log('error', error);
+            });
     }
 
     addDeck() {
@@ -66,7 +66,7 @@ class Dashboard extends React.Component {
                                     id
                                 }
                             ]
-                        }
+                        };
                     });
                 })
                 .catch(error => {
@@ -90,20 +90,20 @@ class Dashboard extends React.Component {
                                 return {
                                     ...item,
                                     name
-                                }
+                                };
                             }
                             return item;
                         })
-                    }
+                    };
                 });
 
             })
             .catch(error => {
-                console.log('error', error)
+                console.log('error', error);
             });
     }
     deleteDeck(id) {
-        console.log('dashboard delete', id)
+        console.log('dashboard delete', id);
         axios.delete(baseURL + '/decks', 
         {
             headers: {
@@ -112,15 +112,15 @@ class Dashboard extends React.Component {
             }
         })
         .then(response => {
-            console.log('delete respoonse', response)
+            console.log('delete respoonse', response);
             this.setState(prev => {
                 return {
                     decks: prev.decks.filter(item => item.id !== id)
-                }
-            })
+                };
+            });
         })
         .catch(error => {
-            console.log('error', error)
+            console.log('error', error);
         });
     }
     render() {
@@ -142,7 +142,7 @@ class Dashboard extends React.Component {
                                 renameDeck={this.renameDeck}
                                 deleteDeck={this.deleteDeck}
                             />                
-                        )
+                        );
                     })
                 }
                 </ul>
@@ -154,6 +154,6 @@ class Dashboard extends React.Component {
 const mapStateToProps = (state) => {
     return {
         auth: state.auth
-    }
-}
+    };
+};
 export default connect(mapStateToProps)(Dashboard);
