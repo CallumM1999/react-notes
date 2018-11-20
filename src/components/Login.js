@@ -7,6 +7,8 @@ import { baseURL } from '../config/axios.defaults';
 
 import Form from './Form';
 
+import validator from 'validator';
+
 const authorise = (data) => {
     return {
         type: 'AUTH_TRUE',
@@ -20,9 +22,20 @@ class Login extends React.Component {
 
         this.verifyCallback = this.verifyCallback.bind(this);
         this.loginHandler = this.loginHandler.bind(this);
+        this.setError = this.setError.bind(this);
+        this.inputChange = this.inputChange.bind(this);
 
         this.state = {
-            isVerified: false
+            isVerified: false,
+
+            email: {
+                error: null,
+                value: ''
+            },
+            password: {
+                error: null,
+                value: ''
+            }
         };
     }
 
@@ -30,40 +43,74 @@ class Login extends React.Component {
         this.setState({ isVerified: true });
     }
 
-    loginHandler(e) {
-        e.preventDefault();
-        // console.log('login called')
-
-        const { email, password } = e.target;
-
-        if (!email.value || !password.value) return this.props.setError('missing fields');
-
-        if (!this.state.isVerified) return this.props.setError('Confirm that you are not a robot');
-
-        this.props.setError('');
-
-        axios.get(baseURL + '/login', {
-            headers: {
-                email: email.value,
-                password: password.value
+    setError(field, error) {
+        this.setState({
+            [field]: {
+                ...this.state[field],
+                error
             }
-        })
-        .then(response => {
-            const { token, id, email } = response.data;
-
-            localStorage.setItem('token', token);
-
-            this.props.dispatch(authorise({ token, id, email }));
-   
-            this.props.redirect();
-        
-        })
-        .catch(error => {
-            this.props.setError('Auth error');
         });
-        
     }
 
+    inputChange(e) {
+        // e.preventDefault();
+        this.setState({
+            [e.target.name]: {
+                ...this.state[e.target.name],
+                value: e.target.value
+            }
+        });  
+    }
+
+    loginHandler(e) {
+        e.preventDefault();
+        let errors = false;
+
+        // const { email, password } = e.target;
+
+        if (!this.state.email.value) {
+            this.setError('email', 'this field is missing');
+            errors = true;
+        } else if (!validator.isEmail(this.state.email.value)) {
+            this.setError('email', 'invalid email address');
+            errors = true;
+        } else {
+            this.setError('email', null);
+        }
+
+        if (!this.state.password.value) {
+            this.setError('password', 'this field is missing');
+            errors = true;
+        } else {
+            this.setError('password', null);
+        }
+        
+        // validation errors
+        if (errors) return;
+
+        // if (!this.state.isVerified) {
+        //     return this.props.setError('Confirm that you are not a robot');
+        // } 
+
+        const sanitisedEmail = validator.normalizeEmail(this.state.email.value);
+
+        axios.get(baseURL + '/login', { headers: { email: sanitisedEmail, password: this.state.password.value }})
+        .then(response => {
+            const { token, id, email } = response.data;
+            localStorage.setItem('token', token);
+            this.props.dispatch(authorise({ token, id, email }));
+            this.props.redirect();
+        })
+        .catch(error => {
+            switch (error.response.status) {
+                case 401:
+                    this.props.setError('Your email or password was incorrect! Please try again.');
+                    break;
+                default:
+                    this.props.setError('Unknown error. Please Try again');
+            }
+        });
+    }
 
     render() {
         return (
@@ -71,11 +118,13 @@ class Login extends React.Component {
                 <Form title='Login' handler={this.loginHandler}>
 
                     <div className="form-group">
-                        <input className="form-input" type="text" name="email" id="input_email" placeholder="Email" />        
+                        <input className="form-input" type="text" name="email" placeholder='Email' value={this.state.email.value} onChange={this.inputChange}/> 
+                        <p className="input-err">{this.state.email.error}</p>
                     </div>
 
                     <div className="form-group">
-                        <input className="form-input" type="password" name="password" id="input_password" placeholder="Password" />
+                        <input className="form-input" type="password" name="password" placeholder='Password' value={this.state.password.value} onChange={this.inputChange}/>
+                        <p className="input-err">{this.state.password.error}</p>
                     </div>
 
                     <div className="form-group">

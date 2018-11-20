@@ -7,13 +7,9 @@ import Router from './routers/Router';
 import 'normalize.css';
 import './styles/styles.scss';
 
-const API = 'http://localhost:3000/';
-
 const store = configureStore();
 
-// store.subscribe(() => {
-//     console.log('getstate', store.getState())
-// });
+// store.subscribe(() => console.log('getstate', store.getState()));
 
 const jsx = (
     <Provider store={store}>

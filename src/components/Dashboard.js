@@ -34,12 +34,15 @@ class Dashboard extends React.Component {
             }
         })
             .then(response => {  
+                // console.log('%c test', 'color: red;')
+                console.log('response', response);
+                console.log({response});
                 this.setState({
                     decks: response.data
                 });
             })
             .catch(error => {
-                console.log('error', error);
+                console.error({error});
             });
     }
 

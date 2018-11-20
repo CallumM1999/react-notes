@@ -9,9 +9,9 @@
   },
   "scripts": {
     "server": "live-server public",
-    "build": "webpack",
+    "build": "webpack -p --env production",
     "dev-server": "webpack-dev-server",
-    "postinstall": "webpack",
+    "postinstall": "yarn run build",
     "start": "node server/server.js"
   },
   "engines": {
@@ -26,8 +26,10 @@
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-preset-env": "1.5.2",
     "babel-preset-react": "6.24.1",
+    "compression": "1.7.3",
     "css-loader": "0.28.4",
     "dev-server": "^0.0.2",
+    "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "express-subdomain": "^1.0.5",
     "extract-text-webpack-plugin": "3.0.0",
@@ -45,6 +47,7 @@
     "sass-loader": "6.0.6",
     "style-loader": "0.18.2",
     "uuid": "3.3.2",
+    "validator": "10.9.0",
     "webpack": "3.1.0",
     "webpack-dev-server": "2.5.1"
   }
