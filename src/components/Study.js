@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
 
 import Header from './Header';
 
@@ -112,85 +114,119 @@ class Study extends React.Component {
         return array;
     }
     render() {
+
         return (
             <div>
                 <Header subheading='Study' />
 
-                <div className='study-container'>
-                    <h2 className='study-title'>Title</h2>
+                <div className="study-container">
+                    <div className="study-head">
+                        <h3 className="study-title">{this.props.location.state.deckName}</h3>
+                        {this.state.studying && !this.state.studyComplete && <div className="study-count">{this.state.count +1} / {this.state.cards.length}</div>}
+                    </div>
                     
-
                     {
                         this.state.studying ?
 
-                        <div>
-                            {
-                                this.state.studyComplete ?
+                            <div className='study-output'>
+                                {
+                                    this.state.studyComplete ?
 
-                                <div>
-                                    <h2>finished</h2>
+                                    <div>
+                                        <h3 className='study-subheading'>Results</h3>
+                                        <ul className='study-list'>
+                                        {
+                                            this.state.results.map(item => {
+                                                console.log('item', item)
 
-                                    {this.state.results.map((item, index) => {
+                                                return (
+                                                    <li className='study-list-item'>
+                                                        <div>
+                                                            <span>{this.state.cards[item.id].front}</span>
+                                                            <span>{this.state.cards[item.id].back}</span>
+                                                        </div>
+                                                        <div>{item.score}</div>
+                                                    </li>
+                                                )
+                                            })
 
-                                        console.log('item results', item);
-                                        let score;
-
-                                        if (item.score === -1) {
-                                            score = 'bad'; 
-                                        } else if (item.score === 0) {
-                                            score = 'good';
-                                        } else {
-                                            score = 'excellent';
                                         }
+                                        </ul>
+                                    </div>
 
-                                        return (
-                                            <li key={item.id}>{this.state.cards[item.id].front} [{this.state.cards[item.id].back}] : {score}</li>
-                                        );
-                                    })}
-                                
-                                
-                                </div>
-                                :
+                                    :
 
-                                <div>
-                                    <div className='study-count'>{this.state.count +1} / {this.state.cards.length}</div>
-                                    <h2 className='study-value'>{this.state.cards[this.state.sequence[this.state.count]].front}</h2>
-                                    {
-                                        this.state.showAnswer ? 
-
-                                        <div>
-                                            <h3 className='study-back'>{this.state.cards[this.state.sequence[this.state.count]].back}</h3>
-                                                        
-                                            <div className="study-button-group">
-                                                <button className='btn study-button study-button-hard' onClick={() => this.handleOption(-1)}>Hard</button>
-                                                <button className='btn study-button study-button-good' onClick={() => this.handleOption(0)}>Good</button>
-                                                <button className='btn study-button study-button-easy' onClick={() => this.handleOption(1)}>Easy</button>
+                                    <div className='study-output-container'>
+                                        <div className="study-output-top">
+                                            <div className="study-output-text">
+                                                {this.state.cards[this.state.sequence[this.state.count]].front}
                                             </div>
                                         </div>
-
-                                        : 
-
-                                        <div className='study-button-group'>
-                                            <button className='btn study-button study-button-show-answer' onClick={this.handleShowAnswer}>Show Answer</button>
+                                        <hr className="study-rule" />
+                                        <div className="study-output-bottom">
+                                            <div className="study-output-text">
+                                                {this.state.showAnswer && this.state.cards[this.state.sequence[this.state.count]].back}
+                                            </div>
                                         </div>
-                                    }
-                                </div>
-                            }
-                            <button className='btn study-button study-button-exit' onClick={this.handleExit}>Exit</button>
-                        </div>
+                                    </div>
+                                }
+                            </div>
 
-                        : 
 
-                        <div>
-                            <div className='study-total'>Total: <span>{this.state.cards.length}</span></div>
-                            <button className="btn study-button study-button-study-now" onClick={this.handleStudyNow}>Study now</button>
-                        </div>
+                        :
+
+                            <div className='study-output'>
+                                <div className='study-total'>Total: <span>{this.state.cards.length}</span></div>
+                            </div>
+
                     }
                     
-                </div>
+                    <div className="study-control">
+                        <div className="study-control-top">
+                            {
+                                this.state.studying ?
 
+                                    <div>
+                                        {
+                                            !this.state.studyComplete && 
+
+                                            <div>
+                                                {
+                                                    this.state.showAnswer ?
+
+                                                    <div className='study-control-top-container'>
+                                                        <button className="btn study-btn-option" onClick={() => this.handleOption(-1)}>Easy</button>
+                                                        <button className="btn study-btn-option" onClick={() => this.handleOption(0)}>Good</button>
+                                                        <button className="btn study-btn-option" onClick={() => this.handleOption(1)}>Hard</button>
+                                                    </div>
+
+                                                    :
+
+                                                    <div className='study-control-top-container'>
+                                                        <button className="btn study-btn-study" onClick={this.handleShowAnswer}>Show answer</button>
+                                                    </div>
+
+                                                }
+                                            </div>
+                                        }
+ 
+                                    </div>
+
+                                :
+
+                                <div className='study-control-top-container'>
+                                    <button className="btn study-btn-study" onClick={this.handleStudyNow}>Study Now</button>
+                                </div>
+                            }
+
+                        </div>
+                        <div className="study-control-bottom">
+                            <button className="btn study-btn-exit" onClick={this.handleExit}>exit</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        );
+        );                                   
     }
 }
 const mapStateToProps = state => {
@@ -198,4 +234,4 @@ const mapStateToProps = state => {
         auth: state.auth
     };
 };
-export default connect(mapStateToProps)(Study);
+export default withRouter(connect(mapStateToProps)(Study));

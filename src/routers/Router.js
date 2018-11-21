@@ -8,6 +8,7 @@ import Edit from '../components/Edit';
 import PageNotFound from '../components/PageNotFound';
 import PrivateRoute from '../components/PrivateRoute';
 import Study from '../components/Study';
+import Account from '../components/Account';
 
 const Router = props => {
 
@@ -34,6 +35,14 @@ const Router = props => {
                     exact={true} 
                     auth={props.auth}
                 />
+
+                <PrivateRoute 
+                    path='/account' 
+                    component={Account} 
+                    exact={true} 
+                    auth={props.auth}
+                />
+
 
                 <Route path='/login' component={Login} exact={true}/>
                 <Route path='*' component={PageNotFound}/>

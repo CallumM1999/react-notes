@@ -3,11 +3,15 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import Recaptcha from 'react-recaptcha';
 
+import { Route, Redirect } from 'react-router-dom';
+
+
 import { baseURL } from '../config/axios.defaults';
 
 import Form from './Form';
 
 import validator from 'validator';
+import checkAuth from '../actions/checkAuth';
 
 const authorise = (data) => {
     return {
@@ -113,6 +117,9 @@ class Login extends React.Component {
     }
 
     render() {
+        if (checkAuth(this.props.auth)) {
+            return <Redirect to='/' />;
+        }
         return (
             <div>
                 <Form title='Login' handler={this.loginHandler}>
@@ -153,4 +160,10 @@ class Login extends React.Component {
     }
 }
 
-export default connect()(Login);
+const mapStateToProps = state => {
+    return {
+        auth: state.auth
+    }
+}
+
+export default connect(mapStateToProps)(Login);

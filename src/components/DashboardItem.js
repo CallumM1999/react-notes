@@ -111,7 +111,12 @@ class DashboardItem extends React.Component {
                 <li className='dashboard-item'>
                     <div className="dashboard-label" onClick={() => {
                         console.log('props', this.props);
-                        this.props.history.push(`/study/${this.props.id}`);
+                        this.props.history.push({
+                            pathname: `/study/${this.props.id}`,
+                            state: {
+                                deckName: this.props.name
+                            }
+                        });
                     }}>{this.props.name}</div> 
                     <div className="dashboard-actions" onClick={this.openOptions}>Actions</div>
                 </li>

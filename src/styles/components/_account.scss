@@ -1,0 +1,54 @@
+.account-container {
+    background-color: #ddd;
+
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.account-heading {
+    font-size: 28px;
+    font-weight: 100;
+    text-align: center;
+
+}
+
+.account-group {
+
+    &-list {
+        margin: 0;
+        padding: 20px;
+        
+
+        &-item {
+            display: flex;
+            justify-content: space-between;
+
+            background-color: #fff;
+            padding: 20px;
+
+            // margin: 0 0 20px;
+            &:not(:last-child) {
+                border-bottom: 4px solid #eee;
+            }
+        }
+    }
+}
+
+.account-btn {
+    &-update {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        &:hover {
+            color: #444;
+        }
+    }
+}
+
+.account-input {
+    border: none;
+    background-color: transparent;
+    // border-bottom: 1px solid 
+
+}

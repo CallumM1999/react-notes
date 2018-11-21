@@ -2,6 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import logout from '../actions/logout';
+
+
+
 class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -10,13 +14,9 @@ class Header extends React.Component {
     }
     logout() {
         localStorage.removeItem('token');
-
-        this.props.dispatch({
-            type: 'AUTH_FALSE'
-        });
+        this.props.dispatch(logout());
     }
     render() {
-        // console.log('header', this.props)
         const { subheading } = this.props;
         return (
             <header>
@@ -29,7 +29,9 @@ class Header extends React.Component {
                 </h1></Link>
                 {
                     this.props.auth.auth && 
-                    <p>Account: {this.props.auth.email} <button className='btn header-btn' onClick={this.logout}>Logout</button></p>
+                    <p>
+                      <Link to='/account'>Account</Link>
+                    : {this.props.auth.email} <button className='btn header-btn' onClick={this.logout}>Logout</button></p>
                 }
                 <h2 className="header-subheading">{subheading}</h2>
             </header>
