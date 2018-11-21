@@ -1,15 +1,13 @@
 import React from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import Recaptcha from 'react-recaptcha';
 
-
 import Form from './Form';
-import { baseURL } from '../config/axios.defaults';
 
 import validator from 'validator';
+import { register } from '../requests/auth';
 
-
+import authorize from '../actions/authorize';
 
 
 class Register extends React.Component {
@@ -39,13 +37,6 @@ class Register extends React.Component {
                 error: null,
                 value: ''
             }
-        };
-    }
-
-    authorise(data) {
-        return {
-            type: 'AUTH_TRUE',
-            ...data
         };
     }
 
@@ -126,13 +117,12 @@ class Register extends React.Component {
 
         const sanitisedEmail = validator.normalizeEmail(this.state.email.value);
 
-        axios.post(baseURL + '/register', { email: sanitisedEmail, password: this.state.password.value })
+        register(sanitisedEmail, this.state.password.value)
         .then(response => {
-            // if (response.status === 202) return this.props.setError('email taken');
             const { token, id, email } = response.data;
 
             localStorage.setItem('token', token);
-            this.props.dispatch(this.authorise({ token, id, email }));
+            this.props.dispatch(authorize({ token, id, email }));
             this.props.redirect();
         })
         .catch(error => {

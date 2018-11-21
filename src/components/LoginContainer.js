@@ -111,9 +111,6 @@ class LoginContainer extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        auth: state.auth
-    };
-};
+const mapStateToProps = ({ auth }) => ({ auth });
+
 export default connect(mapStateToProps)(LoginContainer);

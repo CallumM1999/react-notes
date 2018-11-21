@@ -3,11 +3,7 @@ import Recaptcha from 'react-recaptcha';
 
 import { Redirect } from 'react-router-dom';
 
-
-import axios from 'axios';
-import { baseURL } from '../config/axios.defaults';
-
-import { isEmpty, isNumeric, normalizeEmail, isEmail, isAscii } from 'validator';
+import { isEmpty, normalizeEmail, isEmail, isAscii } from 'validator';
 
 import { getResetCode, getResendCode, postConfirm, postUpdate } from '../requests/auth';
 

@@ -32,3 +32,19 @@ export const postUpdate = (email, code, password) => {
         .catch(error => reject(new Error(error)));
     });
 }
+
+export const login = (email, password) => {
+    return new Promise((resolve, reject) => {
+        axios.get(baseURL + '/login', { headers: { email, password } })
+        .then(response => resolve(response))
+        .catch(error => reject(Error( error )));
+    });
+}
+
+export const register = (email, password) => {
+    return new Promise((resolve, reject) => {
+        axios.post(baseURL + '/register', { email, password })
+        .then(response => resolve(response))
+        .catch(error => reject(Error( error )));
+    });
+}

@@ -1,13 +1,8 @@
 import React from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
-
 import Header from './Header';
-
-import { baseURL } from '../config/axios.defaults';
-
+import { getCard } from '../requests/cards';
 
 class Study extends React.Component {
     constructor(props) {
@@ -31,12 +26,7 @@ class Study extends React.Component {
     componentWillMount() {
         console.log('mount', this.props);
 
-        axios.get(baseURL + '/cards', {
-            headers: {
-                id: this.props.id,
-                authorization: this.props.auth.token
-            }
-        })
+        getCard(this.props.id, this.props.auth.token)
         .then(response => {
             console.log('get cards response', response);
             const cards = response.data;
@@ -45,11 +35,7 @@ class Study extends React.Component {
                 cards
             });
         })
-        .catch(
-            error => {
-                console.log('get cards error', error);
-            }
-        );
+        .catch( error => console.log('get cards error', error));
     }
 
     handleStudyNow() {
@@ -229,9 +215,6 @@ class Study extends React.Component {
         );                                   
     }
 }
-const mapStateToProps = state => {
-    return {
-        auth: state.auth
-    };
-};
+const mapStateToProps = ({ auth }) => ({ auth });
+
 export default withRouter(connect(mapStateToProps)(Study));

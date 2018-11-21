@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 
 import logout from '../actions/logout';
 
-
-
 class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -38,9 +36,6 @@ class Header extends React.Component {
         );
     }
 }
-const mapStateToProps = (state) => {
-    return {
-        auth: state.auth
-    };
-};
+const mapStateToProps = ({ auth }) => ({ auth });
+
 export default connect(mapStateToProps)(Header);

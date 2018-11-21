@@ -1,12 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import uuid from 'uuid/v4';
 import Header from '../components/Header';
 import { withRouter } from 'react-router-dom';
 import EditCard from './EditCard';
-
-import { baseURL } from '../config/axios.defaults';
 
 import { getCard, postCard, putCard, deleteCard } from '../requests/cards';
 
@@ -123,7 +120,6 @@ class Edit extends React.Component {
 
                 <div className='edit-container'>
 
-                
                     {!!this.props.location.state ? 
                         <div>
                             <h2 className='edit-title'>{this.props.location.state.deck}</h2>
@@ -158,9 +154,6 @@ class Edit extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        auth: state.auth
-    };
-};
+const mapStateToProps = ({ auth }) => ({ auth });
+
 export default withRouter(connect(mapStateToProps)(Edit));

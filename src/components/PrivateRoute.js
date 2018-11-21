@@ -4,8 +4,6 @@ import checkAuth from '../actions/checkAuth';
 import logout from '../actions/logout';
 import { connect } from 'react-redux';
 
-
-
 const PrivateRoute = props => {
     return (
         <Route 

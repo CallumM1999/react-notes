@@ -1,24 +1,16 @@
 import React from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import Recaptcha from 'react-recaptcha';
 
-import { Route, Redirect } from 'react-router-dom';
-
-
-import { baseURL } from '../config/axios.defaults';
+import { Redirect } from 'react-router-dom';
+import authorize from '../actions/authorize';
 
 import Form from './Form';
 
+import { login } from '../requests/auth';
+
 import validator from 'validator';
 import checkAuth from '../actions/checkAuth';
-
-const authorise = (data) => {
-    return {
-        type: 'AUTH_TRUE',
-        ...data
-    };
-};
 
 class Login extends React.Component {
     constructor(props) {
@@ -98,21 +90,18 @@ class Login extends React.Component {
 
         const sanitisedEmail = validator.normalizeEmail(this.state.email.value);
 
-        axios.get(baseURL + '/login', { headers: { email: sanitisedEmail, password: this.state.password.value }})
+        login(sanitisedEmail, this.state.password.value)
         .then(response => {
             const { token, id, email } = response.data;
             localStorage.setItem('token', token);
-            this.props.dispatch(authorise({ token, id, email }));
+            this.props.dispatch(authorize({ token, id, email }));
             this.props.redirect();
         })
         .catch(error => {
-            switch (error.response.status) {
-                case 401:
-                    this.props.setError('Your email or password was incorrect! Please try again.');
-                    break;
-                default:
-                    this.props.setError('Unknown error. Please Try again');
-            }
+            console.log('errpr',error)
+            this.props.setError('Your email or password was incorrect! Please try again.');
+
+
         });
     }
 
@@ -160,10 +149,6 @@ class Login extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        auth: state.auth
-    }
-}
+const mapStateToProps = ({ auth }) => ({ auth });
 
 export default connect(mapStateToProps)(Login);

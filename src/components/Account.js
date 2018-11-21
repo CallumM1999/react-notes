@@ -1,14 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import uuid from 'uuid/v4';
 import Header from '../components/Header';
 import { withRouter } from 'react-router-dom';
-import EditCard from './EditCard';
 
 import { isEmail } from 'validator';
-
-import { baseURL } from '../config/axios.defaults';
 
 
 class Account extends React.Component {
@@ -24,28 +19,6 @@ class Account extends React.Component {
         };
     }
     
-    componentDidMount() {
-        // console.log('edit id', this.props.id)
-        // axios.get(baseURL + '/cards', 
-        // {
-        //     headers: {
-        //         id: this.props.id,
-        //         authorization: this.props.auth.token
-        //     }
-        // })
-        // .then(response => {
-        //     // console.log('edit mount', response)
-        //     this.setState({
-        //         cards: response.data
-        //     });
-        // })
-        // .catch(error => {
-        //     console.log('error', error);
-        //     this.setState({
-        //         undefined: true
-        //     });
-        // });
-    }
 
    handleUpdate(e) {
         switch (e.target.name) {
@@ -113,9 +86,6 @@ class Account extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        auth: state.auth
-    };
-};
+const mapStateToProps = ({ auth }) => ({ auth });
+
 export default withRouter(connect(mapStateToProps)(Account));

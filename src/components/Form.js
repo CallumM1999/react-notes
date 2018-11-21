@@ -2,7 +2,6 @@ import React from 'react';
 
 const Form = (props) => {
 
-    // console.log('form props', props)
     return (
         <div className="form-container">
             <form id="loginForm" onSubmit={props.handler}>
