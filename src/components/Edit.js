@@ -8,6 +8,8 @@ import EditCard from './EditCard';
 
 import { baseURL } from '../config/axios.defaults';
 
+import { getCard, postCard, putCard, deleteCard } from '../requests/cards';
+
 
 class Edit extends React.Component {
     constructor(props) {
@@ -24,26 +26,20 @@ class Edit extends React.Component {
     }
     
     componentDidMount() {
-        // console.log('edit id', this.props.id)
-        axios.get(baseURL + '/cards', 
-        {
-            headers: {
-                id: this.props.id,
-                authorization: this.props.auth.token
-            }
-        })
+
+        getCard(this.props.id, this.props.auth.token)
         .then(response => {
-            // console.log('edit mount', response)
             this.setState({
                 cards: response.data
             });
         })
         .catch(error => {
-            console.log('error', error);
+            // console.log({error});
             this.setState({
                 undefined: true
             });
         });
+
     }
     addCard() {
         const front = prompt('Enter card front text: ');
@@ -51,32 +47,22 @@ class Edit extends React.Component {
         const back = prompt('Enter card back text: ');
         if (!back) return;
     
-        // if (front && back) {
-            const id = uuid();
-            const deck = this.props.id;
+        const id = uuid();
+        const deck = this.props.id;
 
-            axios.post(baseURL + '/cards', 
-            { deck, front, back, id },
-            {
-                headers: {
-                    authorization: this.props.auth.token
+        postCard(deck, front, back, id, this.props.auth.token)
+        .then(response => {
+            this.setState(prev => {
+                return {
+                    cards: [
+                        ...prev.cards,
+                        { deck, front, back, id }
+                    ]
                 }
-            })
-            .then(response => {
-                console.log('add card', response);
-                this.setState(prev => {
-                    return {
-                        cards: [
-                            ...prev.cards,
-                            { deck, front, back, id }
-                        ]
-                    }
-                });
-            })
-            .catch(error => {
-                console.log('error', error);
             });
-        // }
+        })
+        .catch(error => console.log({error}));
+
     }
     editCard(id, front, back) {
         const newFront = prompt('Enter value for front: ', front);
@@ -88,57 +74,38 @@ class Edit extends React.Component {
 
         if (newFront !== front || newBack !== back) {
 
-            axios.put(baseURL + '/cards', 
-            {
-                id,
-                front: newFront,
-                back: newBack
-            },
-            {
-                headers: {
-                    authorization: this.props.auth.token
-                }
-            })
-                .then(response => {
-                    this.setState(prev => {
-                        return {
-                            cards: prev.cards.map(item => {
-                                if (item.id === id) {
-                                    return {
-                                        ...item,
-                                        front: newFront,
-                                        back: newBack
-                                    };
-                                }
-                                return item;
-                            })
-                        };
-                    });
-                })
-                .catch(error => {
-                    console.log('error', error);
+            putCard(id, newFront, newBack, this.props.auth.token)
+            .then(response => {
+                this.setState(prev => {
+                    return {
+                        cards: prev.cards.map(item => {
+                            if (item.id === id) {
+                                return {
+                                    ...item,
+                                    front: newFront,
+                                    back: newBack
+                                };
+                            }
+                            return item;
+                        })
+                    };
                 });
+            })
+            .catch(error => console.log({error}));
         }
     }
 
     deleteCard(id) {
-        axios.delete(baseURL + '/cards', 
-        {
-            headers: {
-                id,
-                authorization: this.props.auth.token
-            }
-        })
-            .then(result => {
-                this.setState(prev => {
-                    return {
-                        cards: prev.cards.filter(item => item.id !== id)
-                    }
-                });
-            })
-            .catch(error => {
-                console.log('error', error);
+        deleteCard(id, this.props.auth.token)
+        .then(response => {
+            this.setState(prev => {
+                return {
+                    cards: prev.cards.filter(item => item.id !== id)
+                }
             });
+ 
+        })
+        .catch(error => console.log({error}));
     }
 
     render() {

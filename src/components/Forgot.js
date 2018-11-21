@@ -9,6 +9,8 @@ import { baseURL } from '../config/axios.defaults';
 
 import { isEmpty, isNumeric, normalizeEmail, isEmail, isAscii } from 'validator';
 
+import { getResetCode, getResendCode, postConfirm, postUpdate } from '../requests/auth';
+
 
 import Form from './Form';
 class Forgot extends React.Component {
@@ -97,35 +99,27 @@ class Forgot extends React.Component {
 
         const sanitisedEmail = normalizeEmail(this.state.email.value);
 
-        axios.get(baseURL + '/reset/code', { headers: { email: sanitisedEmail } })
+        getResetCode(sanitisedEmail)
         .then(response => {
-            console.log('send success');
-            // this.props.setError('');
-            console.log('state', this.state)
-
             this.setState({
                 formStage: 'SENT_CODE'
             });
-            console.log('state', this.state)
         })
         .catch(error => {
             console.log({ error })
             this.props.setError('unknown error');
-            
-        });
+        })
+
     }
 
     resend(e) {
         e.preventDefault();
 
-        axios.get(baseURL + '/reset/code/resend', {
-            headers: {
-                email: normalizeEmail(this.state.email.value)
-            }
-        })
+        const normalisedEmail = normalizeEmail(this.state.email.value);
+
+        getResendCode(normalisedEmail)
         .then(response => {
             console.log('code resent');
-            // console.log('email response', response);
         })
         .catch(error => {
             console.log({ error })
@@ -141,7 +135,6 @@ class Forgot extends React.Component {
 
         let errors = false;
 
-        // console.log('code val', this.state.code.value);
 
         if (isEmpty(this.state.code.value)) {
             this.setError('code', 'Field missing');
@@ -155,14 +148,11 @@ class Forgot extends React.Component {
 
         if (errors) return;
         
-        axios.post(baseURL + '/reset/confirm', {}, {
-            headers: {
-                email: normalizeEmail(this.state.email.value),
-                code: this.state.code.value
-            }
-        })
-        .then(response => {
-            console.log('email response', response);
+        const normalisedEmail = normalizeEmail(this.state.email.value);
+
+        postConfirm(normalisedEmail, this.state.code.value)
+        .then(error => {
+            console.log('email respon?se', response);
             this.props.setError(null);
             
             this.setState({
@@ -170,18 +160,13 @@ class Forgot extends React.Component {
 
             });
         })
-        .catch(error => {
-            console.log({ error })
-            this.props.setError('code is invalid');
-        });
+        .catch(error => this.props.setError('code is invalid'));
     }
 
     changeAddress() {
         this.setState({
             formStage: 'START'
         });
-
-
     }
 
     updatePassword(e) {
@@ -217,24 +202,18 @@ class Forgot extends React.Component {
 
         if (errors) return;
 
-        axios.post(baseURL + '/reset/update', {}, {
-            headers: {
-                code: this.state.code.value,
-                email: normalizeEmail(this.state.email.value),
-                password: this.state.password.value
-        }})
+        const normalizedEmail = normalizeEmail(this.state.email.value);
+
+        postUpdate(normalizedEmail, this.state.code.value, this.state.password.value)
         .then(response => {
             console.log('response', response);
 
             this.setState({
                 formStage: 'SUCCESS'
             });
-
         })
-        .catch(error => {
-            console.error('error', error)
-            this.props.setError('unknown error');
-        });
+        .catch(error => this.props.setError('unknown error'));
+
     }
 
     render() {

@@ -1,13 +1,11 @@
 import React from 'react';
 import DashboardItem from '../components/DashboardItem';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import uuid from 'uuid/v4';
 
 import Header from '../components/Header';
 
-
-import { baseURL } from '../config/axios.defaults';
+import { getDecks, postDecks, putDecks, deleteDecks } from '../requests/decks';
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -23,27 +21,14 @@ class Dashboard extends React.Component {
     
     }
     componentDidMount() {
-        // console.log('component did mount', this.props.auth.token)
 
-
-        axios.get(baseURL + '/decks', 
-        {
-            headers: {
-                id: this.props.auth.id,
-                authorization: this.props.auth.token
-            }
-        })
-            .then(response => {  
-                // console.log('%c test', 'color: red;')
-                console.log('response', response);
-                console.log({response});
-                this.setState({
-                    decks: response.data
-                });
-            })
-            .catch(error => {
-                console.error({error});
+        getDecks(this.props.auth.id, this.props.auth.token)
+        .then(response => {
+            this.setState({
+                decks: response.data
             });
+        })
+        .catch(error => console.error({error}));
     }
 
     addDeck() {
@@ -51,80 +36,57 @@ class Dashboard extends React.Component {
         const id = uuid();
 
         if (deckName) {
-            axios.post(baseURL + '/decks', 
-            { name: deckName, id, owner: this.props.auth.id },
-            {
-                headers: {
-                    authorization: this.props.auth.token
-                }
-            })
-                .then(response => {
-                    this.setState(prev => {
-                        return {
-                            decks: [
-                                ...prev.decks,
-                                {
-                                    name: deckName,
-                                    owner: this.props.auth.id,
-                                    id
-                                }
-                            ]
-                        };
-                    });
-                })
-                .catch(error => {
-                    console.log('error', error);
-                });
-        }
-    }
-    renameDeck(id, name) {
-          axios.put(baseURL + '/decks', 
-            { name, id },
-            {
-                headers: {
-                    authorization: this.props.auth.token
-                }
-            })
+            postDecks(deckName, this.props.auth.id, id, this.props.auth.token)
             .then(response => {
                 this.setState(prev => {
                     return {
-                        decks: prev.decks.map(item => {
-                            if (item.id === id) {
-                                return {
-                                    ...item,
-                                    name
-                                };
+                        decks: [
+                            ...prev.decks,
+                            {
+                                name: deckName,
+                                owner: this.props.auth.id,
+                                id
                             }
-                            return item;
-                        })
+                        ]
                     };
                 });
-
             })
-            .catch(error => {
-                console.log('error', error);
+            .catch(error => console.log({error}));
+        }
+    }
+    renameDeck(id, name) {
+
+        putDecks(name, id, this.props.auth.token)
+        .then(response => {
+            this.setState(prev => {
+                return {
+                    decks: prev.decks.map(item => {
+                        if (item.id === id) {
+                            return {
+                                ...item,
+                                name
+                            };
+                        }
+                        return item;
+                    })
+                };
             });
+        })
+        .catch(error => console.log({error}));
     }
     deleteDeck(id) {
         console.log('dashboard delete', id);
-        axios.delete(baseURL + '/decks', 
-        {
-            headers: {
-                id,
-                authorization: this.props.auth.token
-            }
-        })
+
+        deleteDecks(id, this.props.auth.token)
         .then(response => {
-            console.log('delete respoonse', response);
+            // console.log('delete respoonse', response);
             this.setState(prev => {
                 return {
                     decks: prev.decks.filter(item => item.id !== id)
                 };
             });
         })
-        .catch(error => {
-            console.log('error', error);
-        });
+        .catch(error => console.log({error}));
     }
     render() {
         return (
