@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { baseURL } from '../config/axios.defaults';
 
-export const getCard = (id, authorization) => {
+export const getCard = (deck, authorization) => {
     return new Promise((resolve, reject) => {
-        axios.get(baseURL + '/cards', { headers: { id, authorization } })
+        axios.get(baseURL + '/cards', { headers: { deck, authorization } })
         .then(response => resolve({ status: 'success', message: response.data }))
         .catch(error => {
             if (error.response) resolve({ status: 'error', message: error.response });
@@ -12,9 +12,9 @@ export const getCard = (id, authorization) => {
     });
 }
 
-export const postCard = (deck, front, back, id, authorization) => {
+export const postCard = (deck, front, back, authorization) => {
     return new Promise((resolve, reject) => {
-        axios.post(baseURL + '/cards', { deck, front, back, id }, { headers: { authorization } })
+        axios.post(baseURL + '/cards', { deck, front, back }, { headers: { authorization } })
         .then(response => resolve({ status: 'success', message: response.data }))
         .catch(error => {
             if (error.response) resolve({ status: 'error', message: error.response });

@@ -29,6 +29,8 @@ class Edit extends React.Component {
 
             if (status === 'error') return console.log('error', message.status);
 
+            console.log('get cards', message)
+
             this.setState({
                 cards: message
             });
@@ -47,19 +49,21 @@ class Edit extends React.Component {
         const back = prompt('Enter card back text: ');
         if (!back) return;
     
-        const id = uuid();
+        // const id = uuid();
         const deck = this.props.id;
 
-        postCard(deck, front, back, id, this.props.auth.token)
+        postCard(deck, front, back, this.props.auth.token)
         .then(({ status, message }) => {
 
             if (status === 'error') return console.log('error', message.status);
+
+            console.log('add card', message)
 
             this.setState(prev => {
                 return {
                     cards: [
                         ...prev.cards,
-                        { deck, front, back, id }
+                        { ...message }
                     ]
                 }
             });
@@ -67,25 +71,28 @@ class Edit extends React.Component {
         .catch(error => console.log({error}));
 
     }
-    editCard(id, front, back) {
+    editCard(_id, front, back) {
         const newFront = prompt('Enter value for front: ', front);
         if (!newFront) return false;
 
         const newBack = prompt('Enter value for back: ', back);
         if (!newBack) return false;
 
+        console.log(_id, front, back)
 
         if (newFront !== front || newBack !== back) {
 
-            putCard(id, newFront, newBack, this.props.auth.token)
+            putCard(_id, newFront, newBack, this.props.auth.token)
             .then(({ status, message }) => {
 
                 if (status === 'error') return console.log('error', message.status);
                 
+                console.log('edit card', message)
+
                 this.setState(prev => {
                     return {
                         cards: prev.cards.map(item => {
-                            if (item.id === id) {
+                            if (item._id === _id) {
                                 return {
                                     ...item,
                                     front: newFront,
@@ -101,15 +108,17 @@ class Edit extends React.Component {
         }
     }
 
-    deleteCard(id) {
-        deleteCard(id, this.props.auth.token)
+    deleteCard(_id) {
+        deleteCard(_id, this.props.auth.token)
         .then(({ status, message }) => {
 
             if (status === 'error') return console.log('error', message.status);
             
+            console.log('delete deck', message)
+
             this.setState(prev => {
                 return {
-                    cards: prev.cards.filter(item => item.id !== id)
+                    cards: prev.cards.filter(item => item._id !== _id)
                 }
             });
  
@@ -142,10 +151,10 @@ class Edit extends React.Component {
         
                                         return (
                                             <EditCard 
-                                                key={item.id}
+                                                key={item._id}
                                                 front={item.front}
                                                 back={item.back}
-                                                id={item.id}
+                                                _id={item._id}
                                                 deleteCard={this.deleteCard}
                                                 editCard={this.editCard}
                                             />

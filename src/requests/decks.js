@@ -12,9 +12,9 @@ export const getDecks = (id, authorization) => {
     });
 }
 
-export const postDecks = (name, owner, id, authorization) => {
+export const postDecks = (name, owner, authorization) => {
     return new Promise((resolve, reject) => {
-        axios.post(baseURL + '/decks', { name, id, owner }, { headers: { authorization } })
+        axios.post(baseURL + '/decks', { name, owner }, { headers: { authorization } })
         .then(response => resolve({ status: 'success', message: response.data }))
         .catch(error => {
             if (error.response) resolve({ status: 'error', message: error.response });

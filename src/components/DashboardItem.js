@@ -19,13 +19,15 @@ class DashboardItem extends React.Component {
         this.state = {
             optionsOpen: false
         };
+
     }
 
     delete() {
         const decision = confirm(`Are you sure you want to delete deck: ${this.props.name}?`);
         if (decision) {
             this.closeOptions();
-            this.props.deleteDeck(this.props.id);
+            
+            this.props.deleteDeck(this.props._id);
         } else {
             this.closeOptions();
         }
@@ -34,7 +36,7 @@ class DashboardItem extends React.Component {
     rename() {
         const name = prompt(`Enter new name for ${this.props.name}: `, this.props.name);
         if (name) {
-            this.props.renameDeck(this.props.id, name);
+            this.props.renameDeck(this.props._id, name);
             this.closeOptions();
         } else {
             this.closeOptions();
@@ -44,7 +46,7 @@ class DashboardItem extends React.Component {
     edit() {    
         this.closeOptions();
         this.props.history.push({
-            pathname: '/edit/' + this.props.id,
+            pathname: '/edit/' + this.props._id,
             state: {
                 deck: this.props.name
             }

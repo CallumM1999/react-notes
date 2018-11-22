@@ -1,7 +1,6 @@
 import React from 'react';
 import DashboardItem from '../components/DashboardItem';
 import { connect } from 'react-redux';
-import uuid from 'uuid/v4';
 
 import Header from '../components/Header';
 
@@ -27,31 +26,36 @@ class Dashboard extends React.Component {
 
             if (status === 'error') return console.log('error', message.status);
 
+
+            console.log('get decks', message)
+            
             this.setState({
                 decks: message
             });
+
+            console.log(this.state)
+            
         })
         .catch(error => console.error({error}));
     }
 
     addDeck() {
         const deckName = prompt('Enter name of new deck: ');
-        const id = uuid();
 
         if (deckName) {
-            postDecks(deckName, this.props.auth.id, id, this.props.auth.token)
+            postDecks(deckName, this.props.auth.id, this.props.auth.token)
             .then(({ status, message }) => {
 
                 if (status === 'error') return console.log('error', message.status);
+
+                console.log('deck added', message)
 
                 this.setState(prev => {
                     return {
                         decks: [
                             ...prev.decks,
                             {
-                                name: deckName,
-                                owner: this.props.auth.id,
-                                id
+                                ...message
                             }
                         ]
                     };
@@ -60,17 +64,19 @@ class Dashboard extends React.Component {
             .catch(error => console.log({error}));
         }
     }
-    renameDeck(id, name) {
+    renameDeck(_id, name) {
 
-        putDecks(name, id, this.props.auth.token)
+        putDecks(name, _id, this.props.auth.token)
         .then(({ status, message }) => {
 
             if (status === 'error') return console.log('error', message.status);
 
+            console.log('renaming deck', message)
+
             this.setState(prev => {
                 return {
                     decks: prev.decks.map(item => {
-                        if (item.id === id) {
+                        if (item._id === _id) {
                             return {
                                 ...item,
                                 name
@@ -83,17 +89,18 @@ class Dashboard extends React.Component {
         })
         .catch(error => console.log({error}));
     }
-    deleteDeck(id) {
-        console.log('dashboard delete', id);
+    deleteDeck(_id) {
 
-        deleteDecks(id, this.props.auth.token)
+        deleteDecks(_id, this.props.auth.token)
         .then(({ status, message }) => {
 
             if (status === 'error') return console.log('error', message.status);
 
+            console.log('delete deck', message)
+
             this.setState(prev => {
                 return {
-                    decks: prev.decks.filter(item => item.id !== id)
+                    decks: prev.decks.filter(item => item._id !== _id)
                 };
             });
         })
@@ -110,11 +117,12 @@ class Dashboard extends React.Component {
                 <ul className="dashboard-container">
                 {
                     this.state.decks.map((deck, index) => {
+                        // console.log('mapping', deck)
                         return (
                             <DashboardItem 
                                 key={index} 
                                 name={deck.name} 
-                                id={deck.id}
+                                _id={deck._id}
                                 renameDeck={this.renameDeck}
                                 deleteDeck={this.deleteDeck}
                             />                

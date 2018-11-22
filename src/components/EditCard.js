@@ -15,13 +15,13 @@ class EditCard extends React.Component {
     }
 
     editCard() {
-        this.props.editCard(this.props.id, this.props.front, this.props.back);
+        this.props.editCard(this.props._id, this.props.front, this.props.back);
     }
     deleteCard() {
         const choice = confirm('Are you sure you want to delete this card?');
 
         if (choice) {
-            this.props.deleteCard(this.props.id);
+            this.props.deleteCard(this.props._id);
         }
     }
     render() {
