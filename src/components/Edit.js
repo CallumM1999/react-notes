@@ -25,9 +25,12 @@ class Edit extends React.Component {
     componentDidMount() {
 
         getCard(this.props.id, this.props.auth.token)
-        .then(response => {
+        .then(({ status, message }) => {
+
+            if (status === 'error') return console.log('error', message.status);
+
             this.setState({
-                cards: response.data
+                cards: message
             });
         })
         .catch(error => {
@@ -48,7 +51,10 @@ class Edit extends React.Component {
         const deck = this.props.id;
 
         postCard(deck, front, back, id, this.props.auth.token)
-        .then(response => {
+        .then(({ status, message }) => {
+
+            if (status === 'error') return console.log('error', message.status);
+
             this.setState(prev => {
                 return {
                     cards: [
@@ -72,7 +78,10 @@ class Edit extends React.Component {
         if (newFront !== front || newBack !== back) {
 
             putCard(id, newFront, newBack, this.props.auth.token)
-            .then(response => {
+            .then(({ status, message }) => {
+
+                if (status === 'error') return console.log('error', message.status);
+                
                 this.setState(prev => {
                     return {
                         cards: prev.cards.map(item => {
@@ -94,7 +103,10 @@ class Edit extends React.Component {
 
     deleteCard(id) {
         deleteCard(id, this.props.auth.token)
-        .then(response => {
+        .then(({ status, message }) => {
+
+            if (status === 'error') return console.log('error', message.status);
+            
             this.setState(prev => {
                 return {
                     cards: prev.cards.filter(item => item.id !== id)

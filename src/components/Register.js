@@ -118,8 +118,11 @@ class Register extends React.Component {
         const sanitisedEmail = validator.normalizeEmail(this.state.email.value);
 
         register(sanitisedEmail, this.state.password.value)
-        .then(response => {
-            const { token, id, email } = response.data;
+        .then(({ status, message }) => {
+
+            if (status === 'error') return console.log('error', message.status);
+
+            const { token, id, email } = message;
 
             localStorage.setItem('token', token);
             this.props.dispatch(authorize({ token, id, email }));

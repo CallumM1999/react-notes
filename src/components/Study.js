@@ -27,12 +27,13 @@ class Study extends React.Component {
         console.log('mount', this.props);
 
         getCard(this.props.id, this.props.auth.token)
-        .then(response => {
-            console.log('get cards response', response);
-            const cards = response.data;
+        .then(({ status, message }) => {
+            if (status === 'error') return console.log('error', message.status);
+            console.log('get cards response', message);
+            // const cards = response.data;
 
             this.setState({
-                cards
+                cards: message
             });
         })
         .catch( error => console.log('get cards error', error));

@@ -19,10 +19,7 @@ class DashboardItem extends React.Component {
         this.state = {
             optionsOpen: false
         };
-
-      
     }
-
 
     delete() {
         const decision = confirm(`Are you sure you want to delete deck: ${this.props.name}?`);

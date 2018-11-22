@@ -96,7 +96,10 @@ class Forgot extends React.Component {
         const sanitisedEmail = normalizeEmail(this.state.email.value);
 
         getResetCode(sanitisedEmail)
-        .then(response => {
+        .then(({ status, message }) => {
+
+            if (status === 'error') return console.log('error', message.status);
+
             this.setState({
                 formStage: 'SENT_CODE'
             });
@@ -114,7 +117,10 @@ class Forgot extends React.Component {
         const normalisedEmail = normalizeEmail(this.state.email.value);
 
         getResendCode(normalisedEmail)
-        .then(response => {
+        .then(({ status, message }) => {
+
+            if (status === 'error') return console.log('error', message.status);
+
             console.log('code resent');
         })
         .catch(error => {
@@ -147,8 +153,11 @@ class Forgot extends React.Component {
         const normalisedEmail = normalizeEmail(this.state.email.value);
 
         postConfirm(normalisedEmail, this.state.code.value)
-        .then(error => {
-            console.log('email respon?se', response);
+        .then(({ status, message }) => {
+
+            if (status === 'error') return console.log('error', message.status);
+
+            console.log('email respon?se', message);
             this.props.setError(null);
             
             this.setState({
@@ -201,8 +210,11 @@ class Forgot extends React.Component {
         const normalizedEmail = normalizeEmail(this.state.email.value);
 
         postUpdate(normalizedEmail, this.state.code.value, this.state.password.value)
-        .then(response => {
-            console.log('response', response);
+        .then(({ status, message }) => {
+
+            if (status === 'error') return console.log('error', message.status);
+
+            console.log('response', message);
 
             this.setState({
                 formStage: 'SUCCESS'

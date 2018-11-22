@@ -23,9 +23,12 @@ class Dashboard extends React.Component {
     componentDidMount() {
 
         getDecks(this.props.auth.id, this.props.auth.token)
-        .then(response => {
+        .then(({ status, message }) => {
+
+            if (status === 'error') return console.log('error', message.status);
+
             this.setState({
-                decks: response.data
+                decks: message
             });
         })
         .catch(error => console.error({error}));
@@ -37,7 +40,10 @@ class Dashboard extends React.Component {
 
         if (deckName) {
             postDecks(deckName, this.props.auth.id, id, this.props.auth.token)
-            .then(response => {
+            .then(({ status, message }) => {
+
+                if (status === 'error') return console.log('error', message.status);
+
                 this.setState(prev => {
                     return {
                         decks: [
@@ -57,7 +63,10 @@ class Dashboard extends React.Component {
     renameDeck(id, name) {
 
         putDecks(name, id, this.props.auth.token)
-        .then(response => {
+        .then(({ status, message }) => {
+
+            if (status === 'error') return console.log('error', message.status);
+
             this.setState(prev => {
                 return {
                     decks: prev.decks.map(item => {
@@ -78,8 +87,10 @@ class Dashboard extends React.Component {
         console.log('dashboard delete', id);
 
         deleteDecks(id, this.props.auth.token)
-        .then(response => {
-            // console.log('delete respoonse', response);
+        .then(({ status, message }) => {
+
+            if (status === 'error') return console.log('error', message.status);
+
             this.setState(prev => {
                 return {
                     decks: prev.decks.filter(item => item.id !== id)

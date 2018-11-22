@@ -15,7 +15,6 @@ class LoginContainer extends React.Component {
         this.showForgotPage = this.showForgotPage.bind(this);        
         this.showRegisterPage = this.showRegisterPage.bind(this);
 
-        // this.Form = this.Form.bind(this);
         this.setError = this.setError.bind(this);
         this.redirect = this.redirect.bind(this);
 
@@ -53,11 +52,6 @@ class LoginContainer extends React.Component {
         this.setState({ page: 'forgot' });
     }
 
-    sendCode() {
-
-        alert('Code: 195442S');
-    }
-
     render() {
 
         const selectLoginOption = () => {
@@ -91,8 +85,7 @@ class LoginContainer extends React.Component {
                             state={this.state}
                             showRegisterPage={this.showRegisterPage}    
                             showLoginPage={this.showLoginPage}    
-                            showForgotPage={this.showForgotPage}  
-                            sendCode={this.sendCode}  
+                            showForgotPage={this.showForgotPage}   
                             setError={this.setError}  
                             redirect={this.redirect}
                         />

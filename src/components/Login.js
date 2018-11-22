@@ -91,8 +91,14 @@ class Login extends React.Component {
         const sanitisedEmail = validator.normalizeEmail(this.state.email.value);
 
         login(sanitisedEmail, this.state.password.value)
-        .then(response => {
-            const { token, id, email } = response.data;
+        .then(({ status, message }) => {
+
+            if (status === 'error') {
+                console.log('error', message.status)
+                return this.props.setError('Your email or password was incorrect! Please try again.')
+            }
+
+            const { token, id, email } = message;
             localStorage.setItem('token', token);
             this.props.dispatch(authorize({ token, id, email }));
             this.props.redirect();
