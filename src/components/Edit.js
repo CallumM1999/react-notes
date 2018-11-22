@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import uuid from 'uuid/v4';
 import Header from '../components/Header';
 import { withRouter } from 'react-router-dom';
 import EditCard from './EditCard';
