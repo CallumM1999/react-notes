@@ -1,21 +1,9 @@
 
 // https://coolors.co/a31932-560a14-650d1b-95141e-201f20
-
 header {
-    background-color: #95141e;
+    background-color: $color-red-dark;
     text-align: center;
     color: #eee;
-
-
-    
-    a {
-        text-decoration: none;
-        color: inherit;
-
-
-
-       
-    }  
 }
 .header-char-dark {
     color: #201f20;
@@ -29,56 +17,42 @@ header {
 .header-heading {
     height: 100px;
     line-height: 100px;
-    font-size: 64px;
     font-weight: 100;
     letter-spacing: 8px;
-    // position: relative;
-
 
     &::after {
         content: "";
-        // width: 320px;
-
-
         width: 20px;
         height: 2px;
         background-color: white;
-
         display: block;
-        // position: absolute;
-
         margin: -13px auto 0;
-
         left: 0;
-
         border-radius: 2px;
         transition: width .6s ease-out;
-
     }
-
     &:hover {
         &::after {
             width: 320px;
-
             transition: width .6s ease-out;
         }
     }
 }
 .header-subheading {
-    background-color: #a31932;
     color: #201f20;
-
     background-color: #201f20;
     color: #eee;
-
     height: 60px;
     line-height: 60px;
 }
 .header-btn {
     display: inline-block;
-    border: none;
-    border-radius: 2px;
     margin-left: 20px;
-
     padding: 5px 10px;
+}
+.header-account-link {
+    text-decoration: underline;
+    &:hover {
+        color: darken($color: $color-white-1, $amount: 20%);
+    }
 }

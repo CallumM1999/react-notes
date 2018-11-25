@@ -111,7 +111,7 @@ class Dashboard extends React.Component {
             <div>
                 <Header subheading='Dashboard' auth={this.props.auth.auth} dispatch={this.props.dispatch} />
 
-                <button className='btn dashboard-add' onClick={this.addDeck}>Add Deck</button>
+                <button className='btn btn-big dashboard-add' onClick={this.addDeck}>Add Deck</button>
 
 
                 <ul className="dashboard-container">

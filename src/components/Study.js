@@ -163,7 +163,7 @@ class Study extends React.Component {
                         :
 
                             <div className='study-output'>
-                                <div className='study-total'>Total: <span>{this.state.cards.length}</span></div>
+                                <h4 className='study-total'>Total: <span>{this.state.cards.length}</span></h4>
                             </div>
 
                     }
@@ -182,15 +182,15 @@ class Study extends React.Component {
                                                     this.state.showAnswer ?
 
                                                     <div className='study-control-top-container'>
-                                                        <button className="btn study-btn-option" onClick={() => this.handleOption(-1)}>Easy</button>
-                                                        <button className="btn study-btn-option" onClick={() => this.handleOption(0)}>Good</button>
-                                                        <button className="btn study-btn-option" onClick={() => this.handleOption(1)}>Hard</button>
+                                                        <button className="btn btn-small study-btn-option" onClick={() => this.handleOption(-1)}>Easy</button>
+                                                        <button className="btn btn-small study-btn-option" onClick={() => this.handleOption(0)}>Good</button>
+                                                        <button className="btn btn-small study-btn-option" onClick={() => this.handleOption(1)}>Hard</button>
                                                     </div>
 
                                                     :
 
                                                     <div className='study-control-top-container'>
-                                                        <button className="btn study-btn-study" onClick={this.handleShowAnswer}>Show answer</button>
+                                                        <button className="btn btn-medium study-btn-study" onClick={this.handleShowAnswer}>Show answer</button>
                                                     </div>
 
                                                 }
@@ -202,13 +202,13 @@ class Study extends React.Component {
                                 :
 
                                 <div className='study-control-top-container'>
-                                    <button className="btn study-btn-study" onClick={this.handleStudyNow}>Study Now</button>
+                                    <button className="btn btn-medium study-btn-study" onClick={this.handleStudyNow}>Study Now</button>
                                 </div>
                             }
 
                         </div>
                         <div className="study-control-bottom">
-                            <button className="btn study-btn-exit" onClick={this.handleExit}>exit</button>
+                            { this.state.studying && <button className="btn btn-small study-btn-exit" onClick={this.handleExit}>exit</button>}
                         </div>
                     </div>
                 </div>

@@ -18,20 +18,23 @@ class Header extends React.Component {
         const { subheading } = this.props;
         return (
             <header>
-                <Link to='/'><h1 className="header-heading">
-                    <span className="header-char-dark">N</span>
-                    <span>otes</span>
-                    
-                    <span className="header-char-dark">A</span>
-                    <span>pp</span>
-                </h1></Link>
+                <h1 className="header-heading">
+                    <Link to='/'>
+                        <span className="header-char-dark">N</span>
+                        <span>otes</span>
+                        
+                        <span className="header-char-dark">A</span>
+                        <span>pp</span>
+                    </Link>
+                </h1>
+
                 {
                     this.props.auth.auth && 
                     <p>
-                      <Link to='/account'>Account</Link>
+                      <Link to='/account' className='header-account-link'>Account</Link>
                     : {this.props.auth.email} <button className='btn header-btn' onClick={this.logout}>Logout</button></p>
                 }
-                <h2 className="header-subheading">{subheading}</h2>
+                <h3 className="header-subheading">{subheading}</h3>
             </header>
         );
     }

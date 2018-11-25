@@ -143,7 +143,7 @@ class Edit extends React.Component {
                     {!!this.props.location.state ? 
                         <div>
                             <h2 className='edit-title'>{this.props.location.state.deck}</h2>
-                            <button onClick={this.addCard} className='btn edit-add'>Add card</button>
+                            <button onClick={this.addCard} className='btn btn-medium edit-add'>Add card</button>
                             <ul className='edit-list'>
                                 {
                                     this.state.cards.map((item, index) => {

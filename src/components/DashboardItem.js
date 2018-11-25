@@ -45,6 +45,7 @@ class DashboardItem extends React.Component {
     }
     edit() {    
         this.closeOptions();
+
         this.props.history.push({
             pathname: '/edit/' + this.props._id,
             state: {
@@ -109,9 +110,8 @@ class DashboardItem extends React.Component {
             return (
                 <li className='dashboard-item'>
                     <div className="dashboard-label" onClick={() => {
-                        console.log('props', this.props);
                         this.props.history.push({
-                            pathname: `/study/${this.props.id}`,
+                            pathname: `/study/${this.props._id}`,
                             state: {
                                 deckName: this.props.name
                             }

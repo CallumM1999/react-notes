@@ -1,10 +1,18 @@
 body {
     margin: 0;
     padding: 0;
-
     font-family: Helvetica, Arial, sans-serif;
 }
 html {
     box-sizing: border-box;
+}
 
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }

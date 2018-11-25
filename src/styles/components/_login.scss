@@ -27,120 +27,61 @@
     font-size: 15px;
     font-weight: 100;
     box-sizing: border-box;
-
-    &:placeholder-shown {
-        // background-color: orange;
-        // font-size: 10px;
+    &:focus + label {
+        opacity: 0;
     }
-    &:focus {
-        // background-color: green;
-
-        & + label {
-            opacity: 0;
-            // background-color: red;
-        }
-    }
-
-    // label:active {
-    //     opacity: 0;
-    // }
 }
-
 
 .form-submit {
     display: inline-block;
     width: 100%;
     background-color: #a31923;
-    // border: none;
     height: 50px;
-    // padding: 0;
-    // border-radius: 2px;
     color: #fff;
-
     font-size: 24px;
-    // font-weight: 100;
     border-width: 4px;
 }
 
 .form-group {
-    // background-color: yellow;
-
     width: 100%;
     max-width: 450px;
     margin: 0 auto 30px;
-
-    font-size: 0;
-    label,
-    p,
-    input,
-    button,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-size: 20px;
-    }
-
     position: relative;
-
     label {
         position: absolute;
-
         opacity: .3;
         top: 14px;
         left: 20px;
         pointer-events: none;
     }
-
     .input-err {
         color: red;
-        // position: absolute;
         margin: 8px 10px;
-        font-size: 16px;
         font-weight: 100;
-
     }
 }
-
 .form-error {
     margin-top: 10px;
     padding: 5px 8px;
-    // color: #000;
-    font-size: 18px;
-
-    // background-color: lighten($color: #a31923, $amount: 20%);
-    // border: 1px solid #a31923;
     border-radius: 1px;
-
     color: #d8000c;
     background-color: #ffd2d2;
 }
-
 .form-link {
-
     background-color: transparent;
     border: none;
-
     text-decoration: #888 underline;
-
-    font-size: 16px;
     font-weight: 100;
-
     cursor: pointer;
-
     &:hover {
         color: #333;
     }
 }
-
 .form-resend {
     width: 30%;
     margin-right: 6%;
     background-color: #44f
 }
-
 .form-input__code {
     width: 64%;
 }

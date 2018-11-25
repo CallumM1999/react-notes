@@ -10,14 +10,14 @@
     height: 100px;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid $color-white-4;
     padding: 0 20px;
     position: relative;
 }
 
 .dashboard-actions,
 .dashboard-label {
-    font-size: 22px;
+    // font-size: 22px;
     line-height: 100px;
     font-weight: 200;
     cursor: pointer;
@@ -31,7 +31,7 @@
 .dashboard-actions {
     &::after {
         content: "";
-        background-color: #000;
+        background-color: $color-black-1;
         width: 12px;
         height: 12px;
         display: inline-block;
@@ -42,7 +42,7 @@
 }
 
 .dashboard-control {
-    background-color: pink;
+    background-color: $color-pink;
     width: 100%;
     height: 100%;
     position: absolute;
@@ -62,33 +62,33 @@
 .dashboard-control-button-delete {
     flex-grow: 1;
 
-    color: #fff;
-    font-size: 24px;
+    color: $color-white-1;
+    // font-size: 24px;
     font-weight: 200;
 }
 .dashboard-control-button-edit {
-    background-color: green;
+    background-color: $color-green;
 
     &:hover {
-        background-color: lighten($color: green, $amount: 10%);
+        background-color: lighten($color: $color-green, $amount: 10%);
     }
 }
 .dashboard-control-button-delete {
-    background-color: red;
+    background-color: $color-red;
     &:hover {
-        background-color: lighten($color: red, $amount: 10%);
+        background-color: lighten($color: $color-red, $amount: 10%);
     }
 }
 .dashboard-control-button-rename {
-    background-color: orange;
+    background-color: $color-orange;
     &:hover {
-        background-color: lighten($color: orange, $amount: 10%);
+        background-color: lighten($color: $color-orange, $amount: 10%);
     }
 }
 .dashboard-control-button-close {
     width: 100px;
-    background-color: #000;
-    color: #fff;
+    background-color: $color-black-1;
+    color: $color-white-1;
     font-size: 40px;
     font-weight: 100;
     text-transform: uppercase;
@@ -99,25 +99,10 @@
 }
 
 .dashboard-add {
-    width: 100%;
-    max-width: 600px;
-    margin: 50px auto 0;
-    color: #fff;
-    font-size: 24px;
-    height: 100px;
-    line-height: 100px;
-    background-color: #444;
+    color: $color-white-1;
+    background-color: $color-black-light;
 
-
-    // border-width: 2px 0 4px 0;
-
-
-
-
-    &:active {
-        border: none;
-        // border-top: 6px solid #000;
-        border-bottom: 2px solid #000;
-    
+    &:hover {
+        background-color: lighten($color: $color-black-light, $amount: 4%)
     }
 }

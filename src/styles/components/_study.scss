@@ -1,95 +1,61 @@
 .study-container {
     background-color: #eee;
     max-width: 600px;
-
     margin: 50px auto;
     position: relative;
-
     min-height: 600px;
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 5px;
-
 }
-
 .study-head {
     position: relative;
-
 }
-
 .study-subheading {
-    font-size: 26px;
     text-align: center;
+    margin: 1rem 0;
 }
-
 .study-output {
-    // background-color: #ccc;
     flex-grow: 1;
     padding: 20px;
     display: contents;
-
-
     &-container {
         display: flex;
         flex-direction: column;
         height: 320px;
         max-height: 100%;
-
     }
-    
     &-top,
     &-bottom {
         flex-grow: 1;
-        // text-align: center;
-        // line-height: 100%;
         position: relative;
-
-        font-size: 34px;
         font-weight: 100;
     }
-
-    &-top {
-        // border-bottom: 1px solid black;
-    }
-    &-bottom {
-        // border-top: 1px solid black;
-        // display: none;
-    }
-
     &-text {
         text-align: center;
         width: 100%;
         position: absolute;
         top: 50%;
+        font-size: 3.2rem;
 
         transform: translateY(-50%);
     }
 }
-
 .study-rule {
     size: 20px;
     width: 200px;
 }
-
 .study-control {
     padding: 20px;
-
     &-top {
-        // background-color: red;
         &-container {
             display: flex;
             justify-content: center;
         }
     }
-    &-bottom {
-        // background-color: blue;
-    }
 }
-
 .study-title {
-    font-size: 54px;
     font-weight: 200;
     text-align: center;
     margin: 20px 0;
@@ -99,69 +65,49 @@
     right: 10px;
     top: 10px;    
 }
-
-
 .study-btn {
+    &-study,
+    &-option {
+        &hover {
+            background-color: lighten($color: #444, $amount: 4%)
+        }
+    }
     &-exit {
-        float: right;
-        margin: 26px 12px 12px;
-        font-size: 20px;
-        background-color: red;
-        border-bottom-width: 4px;
-        padding: 5px 10px;
+        background-color: #95141e;
+        color: #fff;
+        
+        &:hover {
+            background-color: lighten($color: #95141e, $amount: 4%)
+        }
     }
     &-study {
-        width: 100%;
-        max-width: 450px;
-        margin: 0 auto;
-        font-size: 32px;
         background-color: #444;
         color: #fff;
-        padding: 10px 0;
-
     }
     &-option {
-        margin: 0 12px;
-
-        // width: 100%;
-        // max-width: 450px;
-        // margin: 0 auto;
-        font-size: 32px;
+        margin: 0 1.2rem 2rem;
         background-color: #444;
         color: #fff;
-        padding: 10px 0;
-
         width: 120px;
     }
 }
 .study-total {
-    // background-color: orange;
-
-    font-size: 32px;
     font-weight: 100;
-
     text-align: center;
-
     span {
+        margin-left: 2rem;
         color: red;
     }
 }
-
 .study-list {
-    margin: 0;
     padding: 20px;
-
     &-item {
         display: flex;
         justify-content: space-between;
         padding: 20px;
-        font-size: 20px;
-
         background-color: #fff;
         border-radius: 3px;
-
         margin: 0 0 20px;
-
         span {
             margin: 0 5px;
         }

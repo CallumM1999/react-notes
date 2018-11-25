@@ -271,7 +271,7 @@ class Forgot extends React.Component {
                     <Form title='Forgot' handler={this.confirm} >
 
                         <div className="form-group">
-                            <p>ACCOUNT : {this.state.email.value} <button onClick={this.changeAddress}>Change Address?</button></p>
+                            <p>ACCOUNT : {this.state.email.value} <button onClick={this.changeAddress} type='button'>Change Address?</button></p>
                         </div>
                     
                         <div className='form-group'>
