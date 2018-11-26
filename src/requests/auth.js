@@ -26,8 +26,13 @@ export const getResendCode = (email) => {
 export const postConfirm = (email, code) => {
     return new Promise((resolve, reject) => {
         axios.post(baseURL + '/reset/confirm', {}, { headers: { email, code } })
-        .then(response => resolve({ status: 'success', message: response.data }))
+        .then(response => {
+            console.log('postConfirm', response)
+            resolve({ status: 'success', message: response.data })
+        })
         .catch(error => {
+            console.log('postConfirm', error)
+
             if (error.response) resolve({ status: 'error', message: error.response });
             reject(Error( error ));
         });

@@ -85,3 +85,10 @@
 .form-input__code {
     width: 64%;
 }
+.form_link {
+    text-decoration: underline;
+    margin-right: 1rem;
+
+    color: $color-black-light;
+    // text-transform: capitalize !important;
+}

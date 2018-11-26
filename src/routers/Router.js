@@ -2,7 +2,10 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Login from '../components/LoginContainer';
+import Auth_Login from '../components/Auth_Login';
+import Auth_Forgot from '../components/Auth_Forgot';
+import Auth_Register from '../components/Auth_Register';
+
 import Dashboard from '../components/Dashboard';
 import Edit from '../components/Edit';
 import PageNotFound from '../components/PageNotFound';
@@ -44,7 +47,10 @@ const Router = props => {
                 />
 
 
-                <Route path='/login' component={Login} exact={true}/>
+                <Route path='/login' component={Auth_Login} exact={true}/>
+                <Route path='/forgot' component={Auth_Forgot} exact={true}/>
+                <Route path='/register' component={Auth_Register} exact={true}/>
+
                 <Route path='*' component={PageNotFound}/>
             </Switch>
         </BrowserRouter>

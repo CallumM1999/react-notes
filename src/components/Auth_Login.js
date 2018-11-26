@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Recaptcha from 'react-recaptcha';
+import Recaptcha from '../components/Recaptcha';
 
 import { Redirect } from 'react-router-dom';
 import authorize from '../actions/authorize';
@@ -12,7 +12,9 @@ import { login } from '../requests/auth';
 import validator from 'validator';
 import checkAuth from '../actions/checkAuth';
 
-class Login extends React.Component {
+import FormLink from '../components/FormLink';
+
+class Auth_Login extends React.Component {
     constructor(props) {
         super(props);
 
@@ -22,16 +24,9 @@ class Login extends React.Component {
         this.inputChange = this.inputChange.bind(this);
 
         this.state = {
-            isVerified: false,
-
-            email: {
-                error: null,
-                value: ''
-            },
-            password: {
-                error: null,
-                value: ''
-            }
+            email: { error: null, value: '' },
+            password: { error: null, value: '' },
+            main: { error: null }
         };
     }
 
@@ -49,7 +44,6 @@ class Login extends React.Component {
     }
 
     inputChange(e) {
-        // e.preventDefault();
         this.setState({
             [e.target.name]: {
                 ...this.state[e.target.name],
@@ -61,8 +55,6 @@ class Login extends React.Component {
     loginHandler(e) {
         e.preventDefault();
         let errors = false;
-
-        // const { email, password } = e.target;
 
         if (!this.state.email.value) {
             this.setError('email', 'this field is missing');
@@ -85,7 +77,7 @@ class Login extends React.Component {
         if (errors) return;
 
         // if (!this.state.isVerified) {
-        //     return this.props.setError('Confirm that you are not a robot');
+        //     return this.setError('main', Confirm that you are not a robot');
         // } 
 
         const sanitisedEmail = validator.normalizeEmail(this.state.email.value);
@@ -95,7 +87,7 @@ class Login extends React.Component {
 
             if (status === 'error') {
                 console.log('error', message.status)
-                return this.props.setError('Your email or password was incorrect! Please try again.')
+                return this.setError('main', 'Your email or password was incorrect! Please try again.')
             }
 
             const { token, id, email } = message;
@@ -105,9 +97,7 @@ class Login extends React.Component {
         })
         .catch(error => {
             console.log('errpr',error)
-            this.props.setError('Your email or password was incorrect! Please try again.');
-
-
+            this.setError('main', 'Your email or password was incorrect! Please try again.');
         });
     }
 
@@ -130,7 +120,7 @@ class Login extends React.Component {
                     </div>
 
                     <div className="form-group">
-                        {this.props.state.error && <p className="form-error">{this.props.state.error}</p>}
+                        {this.state.main.error && <p className="form-error">{this.state.main.error}</p>}
                     </div>
 
                     <div className="form-group">
@@ -138,16 +128,12 @@ class Login extends React.Component {
                     </div>
 
                     <div className="form-group">
-                        <Recaptcha
-                            sitekey="6LeF0XoUAAAAAJmJb_4y_b84mM7b9bcahGhmhA6x"
-                            render="explicit"
-                            verifyCallback={this.verifyCallback}
-                        />
+                        <Recaptcha verify={this.verifyCallback}/>
                     </div>
 
                     <div className='form-group'>
-                        <button type='button' className='form-link' onClick={this.props.showRegisterPage}>Register</button>
-                        <button type='button' className='form-link' onClick={this.props.showForgotPage}>Forgot</button>
+                        <FormLink name='register'/>
+                        <FormLink name='forgot'/>
                     </div>
                 </Form>
             </div>
@@ -157,4 +143,4 @@ class Login extends React.Component {
 
 const mapStateToProps = ({ auth }) => ({ auth });
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(Auth_Login);

@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Recaptcha from 'react-recaptcha';
 
 import Form from './Form';
+import FormLink from '../components/FormLink';
+import Recaptcha from '../components/Recaptcha';
 
 import validator from 'validator';
 import { register } from '../requests/auth';
@@ -10,7 +11,7 @@ import { register } from '../requests/auth';
 import authorize from '../actions/authorize';
 
 
-class Register extends React.Component {
+class Auth_Register extends React.Component {
     constructor(props) {
         super(props);
 
@@ -21,22 +22,11 @@ class Register extends React.Component {
 
         this.state = {
             isVerified: false,
-            email: {
-                error: null,
-                value: ''
-            },
-            email_conf: {
-                error: null,
-                value: ''
-            },
-            password: {
-                error: null,
-                value: ''
-            },
-            password_conf: {
-                error: null,
-                value: ''
-            }
+            email: { error: null, value: '' },
+            email_conf: { error: null, value: '' },
+            password: { error: null, value: '' },
+            password_conf: { error: null, value: '' },
+            main: { error: null }
         };
     }
 
@@ -112,7 +102,7 @@ class Register extends React.Component {
         if (errors) return;
 
         // if (!this.state.isVerified) {
-        //     return this.props.setError('Confirm that you are not a robot');
+        //     return this.setError('main', 'Confirm that you are not a robot');
         // }
 
         const sanitisedEmail = validator.normalizeEmail(this.state.email.value);
@@ -132,10 +122,10 @@ class Register extends React.Component {
             console.log({error})
             switch (error.response.status) {
                 case 401:
-                    this.props.setError('Email taken! Please try again.');
+                    this.setError('main', 'Email taken! Please try again.');
                     break;
                 default:
-                    this.props.setError('Unknown error. Please Try again');
+                    this.setError('main', 'Unknown error. Please Try again');
             }        
         });
     }
@@ -166,7 +156,7 @@ class Register extends React.Component {
                     </div>
     
                     <div className='form-group'>
-                        {this.props.state.error && <p className='form-error'>{this.props.state.error}</p>}
+                        {this.state.main.error && <p className='form-error'>{this.state.main.error}</p>}
                     </div>
     
                     <div className='form-group'>
@@ -174,16 +164,12 @@ class Register extends React.Component {
                     </div>
     
                     <div className="form-group">
-                        <Recaptcha
-                            sitekey="6LeF0XoUAAAAAJmJb_4y_b84mM7b9bcahGhmhA6x"
-                            render="explicit"
-                            verifyCallback={this.verifyCallback}
-                        />
+                        <Recaptcha verify={this.verifyCallback}/>
                     </div>
 
                     <div className='form-group'>
-                        <button type='button' className='form-link' onClick={this.props.showLoginPage}>Login</button>
-                        <button type='button' className='form-link' onClick={this.props.showForgotPage}>Forgot</button>
+                        <FormLink name='login'/>
+                        <FormLink name='forgot'/>
                     </div>
     
                 </Form>
@@ -192,4 +178,4 @@ class Register extends React.Component {
     }
 }
 
-export default connect()(Register);
+export default connect()(Auth_Register);
