@@ -14,6 +14,8 @@ import checkAuth from '../actions/checkAuth';
 
 import FormLink from '../components/FormLink';
 
+import Header from '../components/Header';
+
 class Auth_Login extends React.Component {
     constructor(props) {
         super(props);
@@ -107,6 +109,8 @@ class Auth_Login extends React.Component {
         }
         return (
             <div>
+                <Header subheading='Login'/>
+                
                 <Form title='Login' handler={this.loginHandler}>
 
                     <div className="form-group">

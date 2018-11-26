@@ -10,6 +10,7 @@ import { register } from '../requests/auth';
 
 import authorize from '../actions/authorize';
 
+import Header from '../components/Header';
 
 class Auth_Register extends React.Component {
     constructor(props) {
@@ -133,6 +134,8 @@ class Auth_Register extends React.Component {
     render() {
         return (
             <div>
+                <Header subheading='Register'/>
+
                 <Form title='Register' handler={this.registerHandler}>
     
                     <div className="form-group">

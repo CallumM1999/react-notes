@@ -6,6 +6,8 @@ import FormLink from '../components/FormLink';
 import { normalizeEmail, isEmail } from 'validator';
 import { getResetCode } from '../requests/auth';
 
+import Header from '../components/Header';
+
 
 class Auth_Forgot_Start extends React.Component {
     constructor(props) {
@@ -79,38 +81,42 @@ class Auth_Forgot_Start extends React.Component {
 
     render() {
         return (
-            <Form title='Forgot' handler={this.handleSubmit}>
-                
+            <div>
+                <Header subheading='Reset'/>
 
-                <div className='form-group'>
-                    <input 
-                        type="text" 
-                        name="email" 
-                        className='form-input' 
-                        placeholder='Email' 
-                        value={this.state.email.value}
-                        onChange={this.inputChange}
-                    />       
-                    <p className="input-err">{this.state.email.error}</p>
-                </div>
+                <Form title='Forgot' handler={this.handleSubmit}>
+                    <div className='form-group'>
+                        <input 
+                            type="text" 
+                            name="email" 
+                            className='form-input' 
+                            placeholder='Email' 
+                            value={this.state.email.value}
+                            onChange={this.inputChange}
+                        />       
+                        <p className="input-err">{this.state.email.error}</p>
+                    </div>
 
-                <div className='form-group'>
-                    {this.state.main.error && <p className='form-error'>{this.state.main.error}</p>}
-                </div>
+                    <div className='form-group'>
+                        {this.state.main.error && <p className='form-error'>{this.state.main.error}</p>}
+                    </div>
 
-                <div className='form-group'>
-                    <input type="submit" value="Confirm" className='btn form-submit' />
-                </div>
+                    <div className='form-group'>
+                        <input type="submit" value="Confirm" className='btn form-submit' />
+                    </div>
 
-                <div className="form-group">
-                    <Recaptcha verify={this.props.verifyCallback}/>
-                </div>
+                    <div className="form-group">
+                        <Recaptcha verify={this.props.verifyCallback}/>
+                    </div>
 
-                <div className='form-group'>
-                    <FormLink name='login'/>
-                    <FormLink name='register'/>
-                </div>
-            </Form>
+                    <div className='form-group'>
+                        <FormLink name='login'/>
+                        <FormLink name='register'/>
+                    </div>
+                </Form>
+            </div>
+
+            
         );
     }
 }

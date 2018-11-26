@@ -5,6 +5,9 @@ import FormLink from '../components/FormLink';
 import { isEmpty, normalizeEmail } from 'validator';
 import { getResendCode, postConfirm } from '../requests/auth';
 
+import Header from '../components/Header';
+
+
 class Auth_Forgot_Send extends React.Component {
     constructor(props) {
         super(props);
@@ -95,42 +98,46 @@ class Auth_Forgot_Send extends React.Component {
 
     render() {
         return (
-            <Form title='Forgot' handler={this.handleSubmit} >
-
-                <div className="form-group">
-                    <p>ACCOUNT : {this.props.email} <button onClick={this.props.changeAddress} type='button'>Change Address?</button></p>
-                </div>
+            <div>
+                <Header subheading='Reset'/>
             
-                <div className='form-group'>
-                    <input 
-                        type="text" 
-                        name="code" 
-                        className='form-input' 
-                        placeholder='Code'
-                        value={this.state.code.value}
-                        onChange={this.inputChange}
-                    />
-                    <p className="input-err">{this.state.code.error}</p>
-                </div>
+                <Form title='Forgot' handler={this.handleSubmit} >
 
-                <div className='form-group'>
-                    <p>If your email address exists in out records, we have send an email! Please check your inbox</p>
-                    <p>Not recieved email? <input type='button' value='Resend' onClick={this.resend} /></p>
-                </div>
+                    <div className="form-group">
+                        <p>ACCOUNT : {this.props.email} <button onClick={this.props.changeAddress} type='button'>Change Address?</button></p>
+                    </div>
+                
+                    <div className='form-group'>
+                        <input 
+                            type="text" 
+                            name="code" 
+                            className='form-input' 
+                            placeholder='Code'
+                            value={this.state.code.value}
+                            onChange={this.inputChange}
+                        />
+                        <p className="input-err">{this.state.code.error}</p>
+                    </div>
 
-                <div className='form-group'>
-                    {this.state.main.error && <p className='form-error'>{this.state.main.error}</p>}
-                </div>
+                    <div className='form-group'>
+                        <p>If your email address exists in out records, we have send an email! Please check your inbox</p>
+                        <p>Not recieved email? <input type='button' value='Resend' onClick={this.resend} /></p>
+                    </div>
 
-                <div className="form-group">
-                        <input type="submit" value="Submit" className='btn form-submit'/>
-                </div>
+                    <div className='form-group'>
+                        {this.state.main.error && <p className='form-error'>{this.state.main.error}</p>}
+                    </div>
 
-                <div className='form-group'>
-                    <FormLink name='login'/>
-                    <FormLink name='register'/>
-                </div>
-            </Form>
+                    <div className="form-group">
+                            <input type="submit" value="Submit" className='btn form-submit'/>
+                    </div>
+
+                    <div className='form-group'>
+                        <FormLink name='login'/>
+                        <FormLink name='register'/>
+                    </div>
+                </Form>
+            </div>
         );
     }
 }

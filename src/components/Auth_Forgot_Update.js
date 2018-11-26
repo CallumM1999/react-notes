@@ -5,6 +5,9 @@ import FormLink from '../components/FormLink';
 import { isEmpty, normalizeEmail, isAscii } from 'validator';
 import { postUpdate } from '../requests/auth';
 
+import Header from '../components/Header';
+
+
 class Auth_Forgot_Update extends React.Component {
     constructor(props) {
         super(props);
@@ -85,55 +88,58 @@ class Auth_Forgot_Update extends React.Component {
 
     render() {
         return (
-            <Form title='Forgot' handler={this.handleSubmit}>
+            <div>
+                <Header subheading='Reset'/>
 
-            <div className="form-group">
-                <h2>Success</h2>
-                <p>Update your password</p>
-            </div>
-
-                <div className='form-group'>
-                    <input 
-                        type="password" 
-                        name="password" 
-                        className='form-input' 
-                        placeholder='Password'
-                        value={this.state.password.value}
-                        onChange={this.inputChange} 
-                    />      
-                    <p className="input-err">{this.state.password.error}</p>
-                </div>
-
-                <div className='form-group'>
-                    <input 
-                        type="password" 
-                        name="password_conf" 
-                        className='form-input' 
-                        placeholder='Confirm Password'
-                        value={this.state.password_conf.value}
-                        onChange={this.inputChange} 
-                    />   
-                    <p className="input-err">{this.state.password_conf.error}</p>
-                </div>
-
-                <div className='form-group'>
-                    {this.state.main.error && <p className='form-error'>{this.state.main.error}</p>}
-                </div>
-
-                <div className='form-group'>
-                    <input type="submit" value="Update Password" className='btn form-submit' />
-                </div>
+                <Form title='Forgot' handler={this.handleSubmit}>
 
                 <div className="form-group">
-                    
+                    <h2>Success</h2>
+                    <p>Update your password</p>
                 </div>
-
-                <div className='form-group'>
-                    <FormLink name='login'/>
-                    <FormLink name='register'/>
-                </div>
-            </Form>
-
+    
+                    <div className='form-group'>
+                        <input 
+                            type="password" 
+                            name="password" 
+                            className='form-input' 
+                            placeholder='Password'
+                            value={this.state.password.value}
+                            onChange={this.inputChange} 
+                        />      
+                        <p className="input-err">{this.state.password.error}</p>
+                    </div>
+    
+                    <div className='form-group'>
+                        <input 
+                            type="password" 
+                            name="password_conf" 
+                            className='form-input' 
+                            placeholder='Confirm Password'
+                            value={this.state.password_conf.value}
+                            onChange={this.inputChange} 
+                        />   
+                        <p className="input-err">{this.state.password_conf.error}</p>
+                    </div>
+    
+                    <div className='form-group'>
+                        {this.state.main.error && <p className='form-error'>{this.state.main.error}</p>}
+                    </div>
+    
+                    <div className='form-group'>
+                        <input type="submit" value="Update Password" className='btn form-submit' />
+                    </div>
+    
+                    <div className="form-group">
+                        
+                    </div>
+    
+                    <div className='form-group'>
+                        <FormLink name='login'/>
+                        <FormLink name='register'/>
+                    </div>
+                </Form>
+            </div>
         );
     }
 }
