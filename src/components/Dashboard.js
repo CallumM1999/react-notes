@@ -83,8 +83,8 @@ class Dashboard extends React.Component {
             console.log('renaming deck', message)
 
             this.setState(prev => ({
-                decks: prev.decks.map(item => item._id === _id ? { ...item, name } : { item }),
-                renameModal: { isOpen: false }
+                decks: prev.decks.map(item => item._id === _id ? { ...item, name } : item),
+                renameModal: { ...prev.renameModal, isOpen: false }
             }));
         })
         .catch(error => console.log({error}));
