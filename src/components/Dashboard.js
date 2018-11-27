@@ -123,7 +123,6 @@ class Dashboard extends React.Component {
 
                 <button className='btn btn-big dashboard-add' onClick={() => this.openModal('addModal')}>Add Deck</button>
 
-
                 <ul className="dashboard-container">
                 {
                     this.state.decks.map((deck, index) => {

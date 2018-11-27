@@ -6,31 +6,63 @@ export const ModalAddDeck = props => (
         className='modal'
         isOpen={props.isOpen}
         contentLabel='Add new deck'
+        onRequestClose={() => props.close('addModal')}
     >
         <form onSubmit={props.submit}>
-            <h3>Add Deck</h3>
+            <h3 className='modal-heading' >Add Deck</h3>
 
-            <input type="text" name="name" id=""/>
+            <div className="modal-group">
+                <input type="text" name="name" className='modal-input' autoFocus/>
+            </div>
 
-            {props.modalError && <p className='form-error'>{props.error}</p>}
+            <div className="modal-group">
+                {props.modalError && <p className='form-error'>{props.error}</p>}
+            </div>
 
-            <button type="submit">Add</button>
-            <button type='button' onClick={() => props.close('addModal')}>Close</button>
+            <div className="modal-choice">
+                <button 
+                    type="submit"
+                    className='btn btn-medium btn-modal'
+                >
+                    Add
+                </button>
+            </div>
+
         </form>
     </ReactModal>
 );
+// <button type='button' onClick={() => props.close('addModal')}>Close</button>
+
 
 export const ModalDelete = props => (
     <ReactModal
         className='modal'
         isOpen={props.isOpen}
         contentLabel='Are you sure you want to delete this deck>'
+        onRequestClose={() => props.close('deleteModal')}
     >
         <form onSubmit={props.submit}>
-            <h3>Are you sure you want to delete : {props.selected}</h3>
+            <h3 className='modal-heading' >Delete Deck</h3>
+            <h4 className='modal-subheading'>Are you sure?</h4>
 
-            <button type="submit" name='yes'>Yes</button>
-            <button type='button' onClick={() => props.close('deleteModal')}>Close</button>
+            <div className="modal-choice">
+                <button 
+                    className='btn btn-medium btn-modal'
+                    type="submit" 
+                    name='yes'
+                >
+                    Yes
+                </button>
+                <button 
+                    className='btn btn-medium btn-modal'
+                    type='button' 
+                    onClick={() => props.close('deleteModal')}
+                >
+                    No
+                </button>
+            </div>
+
+            
             
             <input type="hidden" name="_id" value={props._id} />
         </form>
@@ -44,17 +76,38 @@ export const ModalRename = props => {
             className='modal'
             isOpen={props.isOpen}
             contentLabel='Rename deck'
+            onRequestClose={() => props.close('renameModal')}
         >
             <form onSubmit={props.submit}>
-                <h3>Rename {props.name}</h3>
+                <h3 className='modal-heading' >Rename</h3>
     
-                <input type="text" name="name" id="" value={props.name} onChange={props.updateName}/>
-    
-                {props.modalError && <p className='form-error'>{props.error}</p>}
-    
-                <button type="submit">Add</button>
-                <button type='button' onClick={() => props.close('renameModal')}>Close</button>
+                <div className="modal-group">
+                    <input 
+                        type="text" 
+                        name="name"
+                        value={props.name} 
+                        onChange={props.updateName}
+                        className='modal-input'
+                        autoFocus
+                        onFocus={
+                            e => {
+                                const val = e.target.value;
+                                e.target.value = '';
+                                e.target.value = val;
+                            }
+                        }
+                    />
+                </div>
+
+                <div className="modal-group">
+                    {props.modalError && <p className='form-error'>{props.error}</p>}
+                </div>
+
+                <div className="modal-choice">
+                    <button className='btn btn-medium btn-modal' type="submit">Add</button>
+                </div>
             </form>
         </ReactModal>
     )
 };
+// <button type='button' onClick={() => props.close('renameModal')}>Close</button>
