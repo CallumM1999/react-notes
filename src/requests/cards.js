@@ -12,9 +12,9 @@ export const getCard = (deck, authorization) => {
     });
 }
 
-export const postCard = (deck, front, back, authorization) => {
+export const postCard = (deckID, front, back, authorization) => {
     return new Promise((resolve, reject) => {
-        axios.post(baseURL + '/cards', { deck, front, back }, { headers: { authorization } })
+        axios.post(baseURL + '/cards', { deckID, front, back }, { headers: { authorization } })
         .then(response => resolve({ status: 'success', message: response.data }))
         .catch(error => {
             if (error.response) resolve({ status: 'error', message: error.response });

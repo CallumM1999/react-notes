@@ -4,6 +4,9 @@ import Header from '../components/Header';
 import { withRouter } from 'react-router-dom';
 import EditCard from './EditCard';
 
+import { ModalAddCard, ModalDeleteCard, ModalEditCard } from '../components/Modal';
+
+
 import { getCard, postCard, putCard, deleteCard } from '../requests/cards';
 
 
@@ -15,9 +18,15 @@ class Edit extends React.Component {
         this.deleteCard = this.deleteCard.bind(this);
         this.editCard = this.editCard.bind(this);
 
+        this.closeModal = this.closeModal.bind(this);
+        this.openModal = this.openModal.bind(this);
+
         this.state = {
             undefined: false,
-            cards: []
+            cards: [],
+            modalAddCard: { isOpen: false, error: null },
+            modalDeleteCard: { isOpen: false, error: null, _id: null },
+            modalEditCard: { isOpen: false, error: null, _id: null }
         };
     }
     
@@ -42,44 +51,54 @@ class Edit extends React.Component {
         });
 
     }
-    addCard() {
-        const front = prompt('Enter card front text: ');
-        if (!front) return;
-        const back = prompt('Enter card back text: ');
-        if (!back) return;
-    
-        // const id = uuid();
-        const deck = this.props.id;
 
-        postCard(deck, front, back, this.props.auth.token)
+    closeModal(el) {
+        this.setState({ [el]: { isOpen: false } });
+    }
+    openModal(el, props = {}) {
+        this.setState({ [el]: { isOpen: true , ...props} });
+    }
+
+    addCard(e) {
+
+        e.preventDefault();
+
+        const front = e.target.front.value;
+        const back = e.target.back.value;
+
+        if (!front || !back) return;
+    
+        const deckID = this.props.id;
+
+        // console.log('add card deck', deckID)
+
+        postCard(deckID, front, back, this.props.auth.token)
         .then(({ status, message }) => {
 
             if (status === 'error') return console.log('error', message.status);
 
             console.log('add card', message)
 
-            this.setState(prev => {
-                return {
-                    cards: [
-                        ...prev.cards,
-                        { ...message }
-                    ]
-                }
-            });
+            this.setState(prev => ({
+                cards: [ ...prev.cards, { ...message } ],
+                modalAddCard: { ...prev.modalAddCard, isOpen: false }
+            }));
+
         })
         .catch(error => console.log({error}));
 
     }
-    editCard(_id, front, back) {
-        const newFront = prompt('Enter value for front: ', front);
-        if (!newFront) return false;
+    editCard(e) {
+        e.preventDefault();
 
-        const newBack = prompt('Enter value for back: ', back);
-        if (!newBack) return false;
+        const newFront = e.target.front.value;
+        const newBack = e.target.back.value;
+        const _id = e.target._id.value;
 
-        console.log(_id, front, back)
+        if (!newFront || !newBack) return;
 
-        if (newFront !== front || newBack !== back) {
+
+        // if (newFront !== front || newBack !== back) {
 
             putCard(_id, newFront, newBack, this.props.auth.token)
             .then(({ status, message }) => {
@@ -88,26 +107,23 @@ class Edit extends React.Component {
                 
                 console.log('edit card', message)
 
-                this.setState(prev => {
-                    return {
-                        cards: prev.cards.map(item => {
-                            if (item._id === _id) {
-                                return {
-                                    ...item,
-                                    front: newFront,
-                                    back: newBack
-                                };
-                            }
-                            return item;
-                        })
-                    };
-                });
+                this.setState(prev => ({
+                    cards: prev.cards.map(item => item._id === _id ? { ...item, front: newFront, back: newBack } : item ),
+                    modalEditCard: { ...prev.modalEditCard, isOpen: false }
+                }));
+
             })
             .catch(error => console.log({error}));
-        }
+        // }
     }
 
-    deleteCard(_id) {
+    deleteCard(e) {
+        e.preventDefault();
+
+        const _id = e.target._id.value;
+
+        console.log('delete card', _id)
+
         deleteCard(_id, this.props.auth.token)
         .then(({ status, message }) => {
 
@@ -117,7 +133,8 @@ class Edit extends React.Component {
 
             this.setState(prev => {
                 return {
-                    cards: prev.cards.filter(item => item._id !== _id)
+                    cards: prev.cards.filter(item => item._id !== _id),
+                    modalDeleteCard: { ...prev.modalDeleteCard, isOpen: false }
                 }
             });
  
@@ -143,7 +160,7 @@ class Edit extends React.Component {
                     {!!this.props.location.state ? 
                         <div>
                             <h2 className='edit-title'>{this.props.location.state.deck}</h2>
-                            <button onClick={this.addCard} className='btn btn-medium edit-add'>Add card</button>
+                            <button onClick={() => this.openModal('modalAddCard')} className='btn btn-medium edit-add'>Add card</button>
                             <ul className='edit-list'>
                                 {
                                     this.state.cards.map((item, index) => {
@@ -154,8 +171,7 @@ class Edit extends React.Component {
                                                 front={item.front}
                                                 back={item.back}
                                                 _id={item._id}
-                                                deleteCard={this.deleteCard}
-                                                editCard={this.editCard}
+                                                openModal={this.openModal}
                                             />
                                         );
                                     })
@@ -168,6 +184,33 @@ class Edit extends React.Component {
                     }
                     
                 </div>
+
+                <ModalAddCard 
+                    isOpen={this.state.modalAddCard.isOpen}
+                    submit={this.addCard}
+                    close={this.closeModal}
+                    error={this.state.modalAddCard.error}
+                />
+
+                <ModalDeleteCard
+                    isOpen={this.state.modalDeleteCard.isOpen}
+                    submit={this.deleteCard}
+                    close={this.closeModal}
+                    error={this.state.modalDeleteCard.error}
+                    _id={this.state.modalDeleteCard._id}
+                />
+
+                <ModalEditCard 
+                    isOpen={this.state.modalEditCard.isOpen}
+                    submit={this.editCard}
+                    close={this.closeModal}
+                    error={this.state.modalEditCard.error}
+                    _id={this.state.modalEditCard._id}
+                    name={this.state.modalEditCard.name}
+                    front={this.state.modalEditCard.front}
+                    back={this.state.modalEditCard.back}
+                />
+
             </div>
 
         );

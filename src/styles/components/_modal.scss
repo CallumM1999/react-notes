@@ -2,14 +2,15 @@
     position: absolute;
 
     width: 600px;
-    height: 450px;
+    // height: 450px;
+
+    padding: 2rem 2rem 12rem;
 
     left: 50%;
     top: 50%;
     
     transform: translate(-50%, -50%);
 
-    padding: 2rem;
 
     background-color: $color-white-2;
 
@@ -68,4 +69,15 @@
     font-size: 4rem;
 
     padding: 0 1rem;
+    box-sizing: border-box;
 }
+.modal-label {
+    text-align: center;
+    display: block;
+    font-size: 3.5rem;
+    margin: 2rem 0;
+}
+
+// .modal-addCard {
+//     height: 580px;
+// }

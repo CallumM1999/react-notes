@@ -131,8 +131,7 @@ class Dashboard extends React.Component {
                                 key={index} 
                                 name={deck.name} 
                                 _id={deck._id}
-                                renameDeck={this.openModal}
-                                deleteDeck={this.openModal}
+                                openModal={this.openModal}
                             />                
                         );
                     })
