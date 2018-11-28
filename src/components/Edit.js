@@ -6,7 +6,7 @@ import EditCard from './EditCard';
 
 import { ModalAddCard, ModalDeleteCard, ModalEditCard } from '../components/Modal';
 
-
+import { getDecks } from '../requests/decks';
 import { getCard, postCard, putCard, deleteCard } from '../requests/cards';
 
 
@@ -26,11 +26,24 @@ class Edit extends React.Component {
             cards: [],
             modalAddCard: { isOpen: false, error: null },
             modalDeleteCard: { isOpen: false, error: null, _id: null },
-            modalEditCard: { isOpen: false, error: null, _id: null }
+            modalEditCard: { isOpen: false, error: null, _id: null },
+
+            deckName: null
         };
     }
     
     componentDidMount() {
+
+        getDecks(this.props.id, this.props.auth.token)
+        .then(response => {
+            console.log('get deck', response);
+
+            const name = response.message.filter(item => item._id == this.props.id)[0].name;
+
+            // console.log('name', name);
+            this.setState({ deckName: name })
+        })
+        .catch( error => console.log('get cards error', error));
 
         getCard(this.props.id, this.props.auth.token)
         .then(({ status, message }) => {
@@ -144,31 +157,29 @@ class Edit extends React.Component {
 
                 <div className='edit-container'>
 
-                    {!!this.props.location.state ? 
-                        <div>
-                            <h2 className='edit-title'>{this.props.location.state.deck}</h2>
-                            <button onClick={() => this.openModal('modalAddCard')} className='btn btn-medium edit-add'>Add card</button>
-                            <ul className='edit-list'>
-                                {
-                                    this.state.cards.map((item, index) => {
-        
-                                        return (
-                                            <EditCard 
-                                                key={item._id}
-                                                front={item.front}
-                                                back={item.back}
-                                                _id={item._id}
-                                                openModal={this.openModal}
-                                            />
-                                        );
-                                    })
+                
+                    <div>
+                        <h2 className='edit-title'>{this.state.deckName}</h2>
+                        <button onClick={() => this.openModal('modalAddCard')} className='btn btn-medium edit-add'>Add card</button>
+                        <ul className='edit-list'>
+                            {
+                                this.state.cards.map((item, index) => {
+    
+                                    return (
+                                        <EditCard 
+                                            key={item._id}
+                                            front={item.front}
+                                            back={item.back}
+                                            _id={item._id}
+                                            openModal={this.openModal}
+                                        />
+                                    );
+                                })
+                
+                            }
+                        </ul>
+                    </div>
                     
-                                }
-                            </ul>
-                        </div>
-                    : 
-                        <h1>Unknown deck</h1>
-                    }
                     
                 </div>
 

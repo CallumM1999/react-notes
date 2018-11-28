@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Header from './Header';
 import { getCard } from '../requests/cards';
+import { getDecks } from '../requests/decks';
 
 class Study extends React.Component {
     constructor(props) {
@@ -15,7 +16,9 @@ class Study extends React.Component {
             showAnswer: false,
             studyComplete: false,
             sequence: [],
-            results: []
+            results: [],
+
+            deckName: null
         };
 
         this.handleStudyNow = this.handleStudyNow.bind(this);
@@ -26,6 +29,19 @@ class Study extends React.Component {
     componentWillMount() {
         console.log('mount', this.props);
 
+        getDecks(this.props.id, this.props.auth.token)
+        .then(response => {
+            console.log('get deck', response);
+
+            const name = response.message.filter(item => item._id == this.props.id)[0].name;
+
+            // console.log('name', name);
+            this.setState({ deckName: name })
+        })
+        .catch( error => console.log('get cards error', error));
+
+
+        this.handleStudyNow = this.h
         getCard(this.props.id, this.props.auth.token)
         .then(({ status, message }) => {
             if (status === 'error') return console.log('error', message.status);
@@ -108,7 +124,7 @@ class Study extends React.Component {
 
                 <div className="study-container">
                     <div className="study-head">
-                        <h3 className="study-title">{this.props.location.state.deckName}</h3>
+                        <h3 className="study-title">{this.state.deckName}</h3>
                         {this.state.studying && !this.state.studyComplete && <div className="study-count">{this.state.count +1} / {this.state.cards.length}</div>}
                     </div>
                     
