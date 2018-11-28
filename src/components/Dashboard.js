@@ -2,7 +2,7 @@ import React from 'react';
 import DashboardItem from '../components/DashboardItem';
 import { connect } from 'react-redux';
 
-import { ModalAddDeck, ModalDelete, ModalRename } from '../components/Modal';
+import { ModalAddDeck, ModalDeleteDeck, ModalRenameDeck } from '../components/Modal';
 
 import Header from '../components/Header';
 
@@ -21,13 +21,11 @@ class Dashboard extends React.Component {
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
 
-        this.updateName = this.updateName.bind(this);
-
         this.state = {
             decks: [],
-            addModal: { isOpen: false, error: null },
-            renameModal: { isOpen: false, error: null, _id: null, name: null },
-            deleteModal: { isOpen: false, error: null, _id: null }
+            modalAddCard: { isOpen: false, error: null },
+            modalRenameCard: { isOpen: false, error: null, _id: null, name: null },
+            modalDeleteCard: { isOpen: false, error: null, _id: null }
         };
     }
     
@@ -50,21 +48,18 @@ class Dashboard extends React.Component {
 
     addDeck(e) {
         e.preventDefault();
-
         const deckName = e.target.name.value;
 
-        if (!deckName) return this.setState({ modalError: 'Enter a name!' }); 
+        if (!deckName) return this.setState(prev => ({ modalAddCard: { ...prev.modalAddCard, error: 'Enter a name!' } }))
 
         postDecks(deckName, this.props.auth.id, this.props.auth.token)
         .then(({ status, message }) => {
 
-            if (status === 'error') return console.log('error', message.status);
-
-            console.log('deck added', message);
+            if (status === 'error') return this.setState(prev => ({ modalAddCard: { ...prev.modalAddCard, error: 'unknown error' } }))
 
             this.setState(prev => ({
                 decks: [ ...prev.decks, { ...message } ],
-                addModal: { isOpen: false, error: null }
+                modalAddCard: { isOpen: false, error: null }
             }));
         })
         .catch(error => console.log({error}));
@@ -72,28 +67,25 @@ class Dashboard extends React.Component {
     renameDeck(e) {
         e.preventDefault();
 
-        const { name, _id } = this.state.renameModal;
+        const { _id } = this.state.modalRenameCard;
+        const name = e.target.name.value;
 
+        const prevName = this.state.decks.filter(item => item._id === _id)[0].name;
+
+        if (!name) return this.setState(prev => ({ modalRenameCard: { ...prev.modalRenameCard, error: 'Enter a name!' } }))
+        if (name === prevName) return this.setState(prev => ({ modalRenameCard: { ...prev.modalRenameCard, error: 'Name has not changed.' } }))
 
         putDecks(name, _id, this.props.auth.token)
         .then(({ status, message }) => {
 
-            if (status === 'error') return console.log('error', message.status);
-
-            console.log('renaming deck', message)
+            if (status === 'error') return this.setState(prev => ({ modalRenameCard: { ...prev.modalRenameCard, error: 'error' } }))
 
             this.setState(prev => ({
                 decks: prev.decks.map(item => item._id === _id ? { ...item, name } : item),
-                renameModal: { ...prev.renameModal, isOpen: false }
+                modalRenameCard: { ...prev.modalRenameCard, isOpen: false }
             }));
         })
         .catch(error => console.log({error}));
-    }
-
-    updateName(e) {
-        this.setState({
-            renameModal: { ...this.state.renameModal, name: e.target.value }
-        });
     }
 
     deleteDeck(e) {
@@ -106,11 +98,9 @@ class Dashboard extends React.Component {
 
             if (status === 'error') return console.log('error', message.status);
 
-            console.log('delete deck', message)
-
             this.setState(prev => ({
                 decks: prev.decks.filter(item => item._id !== _id),
-                deleteModal: { isOpen: false }
+                modalDeleteCard: { isOpen: false }
             }));
         })
         .catch(error => console.log({error}));
@@ -121,7 +111,7 @@ class Dashboard extends React.Component {
             <div>
                 <Header subheading='Dashboard' auth={this.props.auth.auth} dispatch={this.props.dispatch} />
 
-                <button className='btn btn-big dashboard-add' onClick={() => this.openModal('addModal')}>Add Deck</button>
+                <button className='btn btn-big dashboard-add' onClick={() => this.openModal('modalAddCard')}>Add Deck</button>
 
                 <ul className="dashboard-container">
                 {
@@ -139,28 +129,26 @@ class Dashboard extends React.Component {
                 </ul>
 
                 <ModalAddDeck 
-                    isOpen={this.state.addModal.isOpen}
+                    isOpen={this.state.modalAddCard.isOpen}
                     submit={this.addDeck}
                     close={this.closeModal}
-                    error={this.state.addModal.error}
+                    error={this.state.modalAddCard.error}
                 />
 
-                <ModalDelete 
-                    isOpen={this.state.deleteModal.isOpen}
+                <ModalDeleteDeck
+                    isOpen={this.state.modalDeleteCard.isOpen}
                     submit={this.deleteDeck}
                     close={this.closeModal}
-                    error={this.state.deleteModal.error}
-                    _id={this.state.deleteModal._id}
+                    _id={this.state.modalDeleteCard._id}
                 />
 
-                <ModalRename 
-                    isOpen={this.state.renameModal.isOpen}
+                <ModalRenameDeck
+                    isOpen={this.state.modalRenameCard.isOpen}
                     submit={this.renameDeck}
                     close={this.closeModal}
-                    error={this.state.renameModal.error}
-                    _id={this.state.renameModal._id}
-                    name={this.state.renameModal.name}
-                    updateName={this.updateName}
+                    error={this.state.modalRenameCard.error}
+                    _id={this.state.modalRenameCard._id}
+                    name={this.state.modalRenameCard.name}
                 />
                 
             </div>

@@ -1,21 +1,33 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import checkAuth from '../actions/checkAuth';
-import logout from '../actions/logout';
 import { connect } from 'react-redux';
 
-const PrivateRoute = props => {
-    return (
-        <Route 
-            render={() => {
-                if (checkAuth(props.auth)) return <props.component id={props.computedMatch.params.id} />;
+class PrivateRoute extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    
+    componentDidMount() {
+        if (!checkAuth(this.props.auth)) {
+            this.props.dispatch({
+                type: 'AUTH_FALSE'
+            });
+        }
+    }
 
-                props.dispatch(logout());
-                return <Redirect to='/login'/>;
-                    
-            }}
-        />
-    );
-};
+    render() {
+        return (checkAuth(this.props.auth)) ? (
+            <this.props.component id={this.props.computedMatch.params.id} />
+        ) : (
+            <Redirect to='/login'/>
+        );
+    }
+}
 
-export default connect()(PrivateRoute);
+const mapStateToProps = state => {
+    return {
+        auth: state.auth
+    }
+}
+export default connect(mapStateToProps)(PrivateRoute);

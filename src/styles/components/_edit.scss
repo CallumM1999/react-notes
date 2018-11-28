@@ -24,17 +24,29 @@
         }
     }
 }
-.edit-close {
+
+.edit-close,
+.edit-edit {
     position: absolute;
     top: 0;
-    right: 0;
     width: 35px;
     height: 35px;
     line-height: 35px;
     text-align: center;
     cursor: pointer;
+}
+
+.edit-close {
+    right: 0;
     &:hover {
         color: $color-red-dark;
+    }
+}
+.edit-edit {
+    left: 8px;
+    
+    &:hover {
+        color: $color-green;
     }
 }
 

@@ -1,8 +1,5 @@
-const logout = () => {
-
-    return {
-        type: 'AUTH_FALSE'
-    }
-}
+const logout = () => ({
+    type: 'AUTH_FALSE'
+});
 
 export default logout;

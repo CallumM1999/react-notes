@@ -37,19 +37,11 @@ class Edit extends React.Component {
 
             if (status === 'error') return console.log('error', message.status);
 
-            console.log('get cards', message)
-
-            this.setState({
-                cards: message
-            });
+            this.setState({ cards: message });
         })
         .catch(error => {
-            // console.log({error});
-            this.setState({
-                undefined: true
-            });
+            this.setState({ undefined: true });
         });
-
     }
 
     closeModal(el) {
@@ -60,24 +52,18 @@ class Edit extends React.Component {
     }
 
     addCard(e) {
-
         e.preventDefault();
 
+        const deckID = this.props.id;
         const front = e.target.front.value;
         const back = e.target.back.value;
 
-        if (!front || !back) return;
+        if (!front || !back) return this.setState(prev => ({ modalAddCard: { ...prev.modalAddCard, error: 'Add missing fields!' } }));
     
-        const deckID = this.props.id;
-
-        // console.log('add card deck', deckID)
-
         postCard(deckID, front, back, this.props.auth.token)
         .then(({ status, message }) => {
 
-            if (status === 'error') return console.log('error', message.status);
-
-            console.log('add card', message)
+            if (status === 'error') return this.setState(prev => ({ modalAddCard: { ...prev.modalAddCard, error: 'unknown error!' } }));
 
             this.setState(prev => ({
                 cards: [ ...prev.cards, { ...message } ],
@@ -86,8 +72,8 @@ class Edit extends React.Component {
 
         })
         .catch(error => console.log({error}));
-
     }
+
     editCard(e) {
         e.preventDefault();
 
@@ -95,10 +81,12 @@ class Edit extends React.Component {
         const newBack = e.target.back.value;
         const _id = e.target._id.value;
 
-        if (!newFront || !newBack) return;
+        if (!newFront || !newBack) return this.setState(prev => ({ modalEditCard: { ...prev.modalEditCard, error: 'Add missing fields!' } }));
 
+        const previous = this.state.cards.filter(item => item._id === _id)[0];
 
-        // if (newFront !== front || newBack !== back) {
+        if (newFront === previous.front && newBack === previous.back) return this.setState(prev => ({ modalEditCard: { ...prev.modalEditCard, error: 'You haven\'t changed any of the fields!' } }));
+
 
             putCard(_id, newFront, newBack, this.props.auth.token)
             .then(({ status, message }) => {
@@ -109,12 +97,11 @@ class Edit extends React.Component {
 
                 this.setState(prev => ({
                     cards: prev.cards.map(item => item._id === _id ? { ...item, front: newFront, back: newBack } : item ),
-                    modalEditCard: { ...prev.modalEditCard, isOpen: false }
+                    modalEditCard: { ...prev.modalEditCard, isOpen: false, front: newFront, back: newBack }
                 }));
 
             })
             .catch(error => console.log({error}));
-        // }
     }
 
     deleteCard(e) {

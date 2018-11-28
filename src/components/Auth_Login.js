@@ -28,13 +28,34 @@ class Auth_Login extends React.Component {
         this.state = {
             email: { error: null, value: '' },
             password: { error: null, value: '' },
-            main: { error: null }
+            main: { error: null },
+            isVerified: false
         };
+
+        console.log('props', props)
     }
 
     verifyCallback() {
         this.setState({ isVerified: true });
     }
+
+    // setError(field, error) {
+    //     this.setState(prev => ({
+    //         [field]: {
+    //             ...prev[field],
+    //             error
+    //         }
+    //     }));
+    // }
+
+    // inputChange(e) {
+    //     this.setState(prev => ({
+    //         [e.target.name]: {
+    //             ...prev[e.target.name],
+    //             value: e.target.value
+    //         }
+    //     })); 
+    // }
 
     setError(field, error) {
         this.setState({
@@ -94,8 +115,10 @@ class Auth_Login extends React.Component {
 
             const { token, id, email } = message;
             localStorage.setItem('token', token);
+
+
             this.props.dispatch(authorize({ token, id, email }));
-            this.props.redirect();
+            // this.props.redirect();
         })
         .catch(error => {
             console.log('errpr',error)

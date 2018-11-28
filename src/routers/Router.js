@@ -46,7 +46,6 @@ const Router = props => {
                     auth={props.auth}
                 />
 
-
                 <Route path='/login' component={Auth_Login} exact={true}/>
                 <Route path='/forgot' component={Auth_Forgot} exact={true}/>
                 <Route path='/register' component={Auth_Register} exact={true}/>
