@@ -23,9 +23,9 @@ class Dashboard extends React.Component {
 
         this.state = {
             decks: [],
-            modalAddCard: { isOpen: false, error: null },
-            modalRenameCard: { isOpen: false, error: null, _id: null, name: null },
-            modalDeleteCard: { isOpen: false, error: null, _id: null }
+            modalAddDeck: { isOpen: false, error: null },
+            modalRenameDeck: { isOpen: false, error: null, _id: null, name: null },
+            modalDeleteDeck: { isOpen: false, error: null, _id: null }
         };
     }
     
@@ -50,16 +50,16 @@ class Dashboard extends React.Component {
         e.preventDefault();
         const deckName = e.target.name.value;
 
-        if (!deckName) return this.setState(prev => ({ modalAddCard: { ...prev.modalAddCard, error: 'Enter a name!' } }))
+        if (!deckName) return this.setState(prev => ({ modalAddDeck: { ...prev.modalAddDeck, error: 'Enter a name!' } }))
 
         postDecks(deckName, this.props.auth.id, this.props.auth.token)
         .then(({ status, message }) => {
 
-            if (status === 'error') return this.setState(prev => ({ modalAddCard: { ...prev.modalAddCard, error: 'unknown error' } }))
+            if (status === 'error') return this.setState(prev => ({ modalAddDeck: { ...prev.modalAddDeck, error: 'unknown error' } }))
 
             this.setState(prev => ({
                 decks: [ ...prev.decks, { ...message } ],
-                modalAddCard: { isOpen: false, error: null }
+                modalAddDeck: { isOpen: false, error: null }
             }));
         })
         .catch(error => console.log({error}));
@@ -67,22 +67,22 @@ class Dashboard extends React.Component {
     renameDeck(e) {
         e.preventDefault();
 
-        const { _id } = this.state.modalRenameCard;
+        const { _id } = this.state.modalRenameDeck;
         const name = e.target.name.value;
 
         const prevName = this.state.decks.filter(item => item._id === _id)[0].name;
 
-        if (!name) return this.setState(prev => ({ modalRenameCard: { ...prev.modalRenameCard, error: 'Enter a name!' } }))
-        if (name === prevName) return this.setState(prev => ({ modalRenameCard: { ...prev.modalRenameCard, error: 'Name has not changed.' } }))
+        if (!name) return this.setState(prev => ({ modalRenameDeck: { ...prev.modalRenameDeck, error: 'Enter a name!' } }))
+        if (name === prevName) return this.setState(prev => ({ modalRenameDeck: { ...prev.modalRenameDeck, error: 'Name has not changed.' } }))
 
         putDecks(name, _id, this.props.auth.token)
         .then(({ status, message }) => {
 
-            if (status === 'error') return this.setState(prev => ({ modalRenameCard: { ...prev.modalRenameCard, error: 'error' } }))
+            if (status === 'error') return this.setState(prev => ({ modalRenameDeck: { ...prev.modalRenameDeck, error: 'error' } }))
 
             this.setState(prev => ({
                 decks: prev.decks.map(item => item._id === _id ? { ...item, name } : item),
-                modalRenameCard: { ...prev.modalRenameCard, isOpen: false }
+                modalRenameDeck: { ...prev.modalRenameDeck, isOpen: false }
             }));
         })
         .catch(error => console.log({error}));
@@ -100,7 +100,7 @@ class Dashboard extends React.Component {
 
             this.setState(prev => ({
                 decks: prev.decks.filter(item => item._id !== _id),
-                modalDeleteCard: { isOpen: false }
+                modalDeleteDeck: { isOpen: false }
             }));
         })
         .catch(error => console.log({error}));
@@ -111,7 +111,7 @@ class Dashboard extends React.Component {
             <div>
                 <Header subheading='Dashboard' auth={this.props.auth.auth} dispatch={this.props.dispatch} />
 
-                <button className='btn btn-big dashboard-add' onClick={() => this.openModal('modalAddCard')}>Add Deck</button>
+                <button className='btn btn-big dashboard-add' onClick={() => this.openModal('modalAddDeck')}>Add Deck</button>
 
                 <ul className="dashboard-container">
                 {
@@ -129,26 +129,26 @@ class Dashboard extends React.Component {
                 </ul>
 
                 <ModalAddDeck 
-                    isOpen={this.state.modalAddCard.isOpen}
+                    isOpen={this.state.modalAddDeck.isOpen}
                     submit={this.addDeck}
                     close={this.closeModal}
-                    error={this.state.modalAddCard.error}
+                    error={this.state.modalAddDeck.error}
                 />
 
                 <ModalDeleteDeck
-                    isOpen={this.state.modalDeleteCard.isOpen}
+                    isOpen={this.state.modalDeleteDeck.isOpen}
                     submit={this.deleteDeck}
                     close={this.closeModal}
-                    _id={this.state.modalDeleteCard._id}
+                    _id={this.state.modalDeleteDeck._id}
                 />
 
                 <ModalRenameDeck
-                    isOpen={this.state.modalRenameCard.isOpen}
+                    isOpen={this.state.modalRenameDeck.isOpen}
                     submit={this.renameDeck}
                     close={this.closeModal}
-                    error={this.state.modalRenameCard.error}
-                    _id={this.state.modalRenameCard._id}
-                    name={this.state.modalRenameCard.name}
+                    error={this.state.modalRenameDeck.error}
+                    _id={this.state.modalRenameDeck._id}
+                    name={this.state.modalRenameDeck.name}
                 />
                 
             </div>

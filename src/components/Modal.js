@@ -4,16 +4,14 @@ import ReactModal from 'react-modal';
 ReactModal.setAppElement('#app');
 
 export const ModalAddDeck = props => {
-
-    // console.log('modaladd', props.error)
-
     return (
         <ReactModal
             className='modal'
             isOpen={props.isOpen}
             contentLabel='Add new deck'
-            onRequestClose={() => props.close('modalAddCard')}
+            onRequestClose={() => props.close('modalAddDeck')}
         >
+            <div className="modal-close" onClick={() => props.close('modalAddDeck')}>x</div>
             <form onSubmit={props.submit}>
                 <h3 className='modal-heading' >Add Deck</h3>
     
@@ -44,8 +42,9 @@ export const ModalDeleteDeck = props => (
         className='modal'
         isOpen={props.isOpen}
         contentLabel='Are you sure you want to delete this deck>'
-        onRequestClose={() => props.close('modalDeleteCard')}
+        onRequestClose={() => props.close('modalDeleteDeck')}
     >
+        <div className="modal-close" onClick={() => props.close('modalDeleteDeck')}>x</div>
         <form onSubmit={props.submit}>
             <h3 className='modal-heading' >Delete Deck</h3>
             <h4 className='modal-subheading'>Are you sure?</h4>
@@ -61,7 +60,7 @@ export const ModalDeleteDeck = props => (
                 <button 
                     className='btn btn-medium btn-modal'
                     type='button' 
-                    onClick={() => props.close('deleteModal')}
+                    onClick={() => props.close('modalDeleteDeck')}
                 >
                     No
                 </button>
@@ -105,8 +104,9 @@ export class ModalRenameDeck extends React.Component {
                 className='modal'
                 isOpen={this.props.isOpen}
                 contentLabel='Rename deck'
-                onRequestClose={() => this.props.close('modalRenameCard')}
+                onRequestClose={() => this.props.close('modalRenameDeck')}
             >
+                <div className="modal-close" onClick={() => this.props.close('modalRenameDeck')}>x</div>
                 <form onSubmit={this.props.submit}>
                     <h3 className='modal-heading' >Rename</h3>
         
@@ -151,6 +151,8 @@ export const ModalAddCard = props => {
             contentLabel='Rename deck'
             onRequestClose={() => props.close('modalAddCard')}
         >
+
+            <div className="modal-close" onClick={() => props.close('modalAddCard')}>x</div>
             <form onSubmit={props.submit}>
                 <h3 className='modal-heading' >Add Card</h3>
     
@@ -191,6 +193,7 @@ export const ModalDeleteCard = props => (
         contentLabel='Are you sure you want to delete this card?'
         onRequestClose={() => props.close('modalDeleteCard')}
     >
+        <div className="modal-close" onClick={() => props.close('modalDeleteCard')}>x</div>
         <form onSubmit={props.submit}>
             <h3 className='modal-heading' >Delete Card</h3>
             <h4 className='modal-subheading'>Are you sure?</h4>
@@ -254,6 +257,7 @@ export class ModalEditCard extends React.Component {
                 contentLabel='Rename deck'
                 onRequestClose={() => this.props.close('modalEditCard')}
             >
+                <div className="modal-close" onClick={() => props.close('modalEditCard')}>x</div>
                 <form onSubmit={this.props.submit}>
                     <h3 className='modal-heading' >Edit Card</h3>
 

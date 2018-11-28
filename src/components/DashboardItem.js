@@ -63,13 +63,13 @@ class DashboardItem extends React.Component {
                         </div>
                         <div 
                             className="dashboard-control-button dashboard-control-button-rename"
-                            onClick={() => this.props.openModal('renameModal', { _id: this.props._id, name: this.props.name })}
+                            onClick={() => this.props.openModal('modalRenameDeck', { _id: this.props._id, name: this.props.name })}
                         >
                             rename
                         </div>
                         <div 
                             className="dashboard-control-button dashboard-control-button-delete"
-                            onClick={() => this.props.openModal('deleteModal', { _id: this.props._id })}
+                            onClick={() => this.props.openModal('modalDeleteDeck', { _id: this.props._id })}
                         >
                             delete
                         </div>

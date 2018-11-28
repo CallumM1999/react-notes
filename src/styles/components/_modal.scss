@@ -78,6 +78,18 @@
     margin: 2rem 0;
 }
 
-// .modal-addCard {
-//     height: 580px;
-// }
+.modal-close {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+        color: $color-red-dark;
+
+    }
+}
