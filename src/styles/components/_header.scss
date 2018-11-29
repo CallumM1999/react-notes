@@ -47,12 +47,32 @@ header {
 }
 .header-btn {
     display: inline-block;
-    margin-left: 20px;
+    margin: 1rem 0 0 2rem;
     padding: 5px 10px;
 }
 .header-account-link {
     text-decoration: underline;
     &:hover {
         color: darken($color: $color-white-1, $amount: 20%);
+    }
+}
+
+@media (max-width: 400px) {
+    .header-heading {
+        font-size: 5rem;
+
+        &::after {
+            margin: -18px auto 0;
+        }
+    }
+}
+
+@media (max-width: 300px) {
+    .header-heading {
+        font-size: 4rem;
+
+        &::after {
+            margin: -24px auto 0;
+        }
     }
 }

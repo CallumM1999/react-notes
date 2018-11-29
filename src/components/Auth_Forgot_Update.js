@@ -144,7 +144,7 @@ class Auth_Forgot_Update extends React.Component {
                         {this.state.loading && <p>Loading...</p>}
                     </div>
     
-                    <div className='form-group'>
+                    <div className='form-group form-links'>
                         <FormLink name='login'/>
                         <FormLink name='register'/>
                     </div>

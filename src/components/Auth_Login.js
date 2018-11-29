@@ -156,7 +156,7 @@ class Auth_Login extends React.Component {
                         <Recaptcha verify={this.verifyCallback}/>
                     </div>
 
-                    <div className='form-group'>
+                    <div className='form-group form-links'>
                         <FormLink name='register'/>
                         <FormLink name='forgot'/>
                     </div>

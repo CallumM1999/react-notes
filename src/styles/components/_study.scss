@@ -1,7 +1,7 @@
 .study-container {
     background-color: #eee;
     max-width: 600px;
-    margin: 50px auto;
+    margin: 0 auto;
     position: relative;
     min-height: 600px;
     display: flex;
@@ -59,6 +59,10 @@
     font-weight: 200;
     text-align: center;
     margin: 20px 0;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    padding: 0 2rem;
+
 }
 .study-count {
     position: absolute;
@@ -124,4 +128,18 @@
     font-size: 4rem;
     text-align: center;
     margin-top: 12rem;
+}
+
+@media (min-width: 600px) {
+    .study-container {
+        margin: 4rem auto;
+
+    }
+}
+
+@media (min-width: 800px) {
+    .study-container {
+        margin: 7rem auto;
+
+    }
 }

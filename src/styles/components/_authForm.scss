@@ -5,7 +5,7 @@
     border-radius: 2px;
     padding: 5px;
     box-sizing: border-box;
-    margin: 70px auto;
+    margin: 0 auto;
 }
 
 .form-heading {
@@ -95,4 +95,23 @@
 
 .form-loading {
     height: 23px;
+}
+
+.form-links {
+    display: flex;
+    justify-content: center;
+}
+
+@media (min-width: 600px) {
+    .form-container {
+        margin: 4rem auto;
+
+    }
+}
+
+@media (min-width: 800px) {
+    .form-container {
+        margin: 7rem auto;
+
+    }
 }

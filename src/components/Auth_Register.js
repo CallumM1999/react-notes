@@ -184,7 +184,7 @@ class Auth_Register extends React.Component {
                         <Recaptcha verify={this.verifyCallback}/>
                     </div>
 
-                    <div className='form-group'>
+                    <div className='form-group form-links'>
                         <FormLink name='login'/>
                         <FormLink name='forgot'/>
                     </div>

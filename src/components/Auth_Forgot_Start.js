@@ -121,7 +121,7 @@ class Auth_Forgot_Start extends React.Component {
                         <Recaptcha verify={this.props.verifyCallback}/>
                     </div>
 
-                    <div className='form-group'>
+                    <div className='form-group form-links'>
                         <FormLink name='login'/>
                         <FormLink name='register'/>
                     </div>

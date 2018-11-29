@@ -1,6 +1,6 @@
 .dashboard-container {
     border-radius: 2px;
-    padding: 20px 0;
+    // padding: 20px 0;
     margin: 50px;
     max-width: 1000px;
     margin: 0 auto;
@@ -10,22 +10,35 @@
     height: 100px;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid $color-white-4;
-    padding: 0 20px;
+    border-top: 1px solid $color-white-4;
+
+
+    padding: 0 2rem;
+
+    line-height: 100px;
+
     position: relative;
 }
 
 .dashboard-actions,
 .dashboard-label {
     // font-size: 22px;
-    line-height: 100px;
+    // line-height: 100px;
     font-weight: 200;
     cursor: pointer;
     padding: 0 20px;
 
+
     &:hover {
         text-decoration: underline;
     }
+}
+
+.dashboard-label {
+    max-width: calc(100% - 180px);
+    text-overflow: ellipsis;
+    overflow: hidden;
+
 }
 
 .dashboard-actions {
