@@ -97,14 +97,12 @@ class Auth_Forgot_Send extends React.Component {
 
             this.setState({ loading: false });
 
-            if (status === 'error') return console.log('error', message.status);
-
-            // console.log('send funx', this.props.send)
+            if (status === 'error') {
+                if (message.status === 404) return this.setError('main', 'Code is incorrect! try again.');
+                return this.setError('main', 'unknown error');
+            }
             
             this.props.send({ code: this.state.code.value });
-
-            // console.log('email respon?se', message);
-            // this.props.setError(null);
 
         })
         .catch(error => {
