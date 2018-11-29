@@ -34,7 +34,7 @@ class Auth_Login extends React.Component {
             success: false
         };
 
-        console.log('props', props)
+        // console.log('props', props)
     }
 
     verifyCallback() {

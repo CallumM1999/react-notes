@@ -45,6 +45,9 @@ class Auth_Forgot_Start extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
+
+        if (this.state.loading) return;
+
         console.log('handleSend()');
 
         let errors = false;

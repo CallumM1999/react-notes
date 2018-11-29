@@ -44,6 +44,8 @@ class Auth_Forgot_Update extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();  
+
+        if (this.state.loading) return;
         
         let errors = false;
         

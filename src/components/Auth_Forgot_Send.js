@@ -44,6 +44,8 @@ class Auth_Forgot_Send extends React.Component {
     resend(e) {
         e.preventDefault();
 
+        if (this.state.loading) return;
+
         const normalisedEmail = normalizeEmail(this.props.email);
 
         this.setState({ loading: true });
@@ -66,6 +68,8 @@ class Auth_Forgot_Send extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
+
+        if (this.state.loading) return;
 
         let errors = false;
 
