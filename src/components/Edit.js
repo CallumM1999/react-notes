@@ -22,38 +22,35 @@ class Edit extends React.Component {
         this.openModal = this.openModal.bind(this);
 
         this.state = {
-            undefined: false,
+            // undefined: false,
             cards: [],
             modalAddCard: { isOpen: false, error: null },
             modalDeleteCard: { isOpen: false, error: null, _id: null },
             modalEditCard: { isOpen: false, error: null, _id: null },
 
-            deckName: null
+            deckName: null,
+            loaded: false,
+            error: null
         };
     }
     
-    componentDidMount() {
+    componentWillMount () {
 
-        getDecks(this.props.id, this.props.auth.token)
+        Promise.all([getDecks(this.props.id, this.props.auth.token), getCard(this.props.id, this.props.auth.token)])
         .then(response => {
-            console.log('get deck', response);
+            const [decks, cards] = response;
 
-            const name = response.message.filter(item => item._id == this.props.id)[0].name;
+            if (decks.status === 'error') return this.setState({ error: 'Deck not found' });
+            if (cards.status === 'error') return this.setState({ error: 'Deck not found' });
 
-            // console.log('name', name);
-            this.setState({ deckName: name })
-        })
-        .catch( error => console.log('get cards error', error));
+            const name = decks.message.filter(item => item._id == this.props.id)[0].name;
 
-        getCard(this.props.id, this.props.auth.token)
-        .then(({ status, message }) => {
-
-            if (status === 'error') return console.log('error', message.status);
-
-            this.setState({ cards: message });
+            this.setState({ deckName: name, cards: cards.message, loaded: true })
+        
         })
         .catch(error => {
-            this.setState({ undefined: true });
+            console.log('cards error', error);
+            // this.setState({ undefined: true });
         });
     }
 
@@ -143,45 +140,45 @@ class Edit extends React.Component {
     }
 
     render() {
-        if (this.state.undefined) {
-            return (
-                <div>
-                    <h2>Deck undefined</h2>
-                </div>
-            );
-        } 
-
         return (
             <div>
                 <Header subheading='Edit' auth={this.props.auth.auth} dispatch={this.props.dispatch} />
 
-                <div className='edit-container'>
-
+                {this.state.loaded ? 
                 
-                    <div>
-                        <h2 className='edit-title'>{this.state.deckName}</h2>
-                        <button onClick={() => this.openModal('modalAddCard')} className='btn btn-medium edit-add'>Add card</button>
-                        <ul className='edit-list'>
-                            {
-                                this.state.cards.map((item, index) => {
-    
-                                    return (
-                                        <EditCard 
-                                            key={item._id}
-                                            front={item.front}
-                                            back={item.back}
-                                            _id={item._id}
-                                            openModal={this.openModal}
-                                        />
-                                    );
-                                })
-                
-                            }
-                        </ul>
+                    <div className='edit-container'>
+                        <div>
+                            <h2 className='edit-title'>{this.state.deckName}</h2>
+                            <button onClick={() => this.openModal('modalAddCard')} className='btn btn-medium edit-add'>Add card</button>
+                            <ul className='edit-list'>
+                                {
+                                    this.state.cards.map((item, index) => {
+        
+                                        return (
+                                            <EditCard 
+                                                key={item._id}
+                                                front={item.front}
+                                                back={item.back}
+                                                _id={item._id}
+                                                openModal={this.openModal}
+                                            />
+                                        );
+                                    })
+                    
+                                }
+                            </ul>
+                        </div>
                     </div>
-                    
-                    
-                </div>
+
+                :
+                    <div className="edit-container">
+                        {this.state.error ?
+                            <div className='edit-error'>Error! {this.state.error}</div>
+                        :
+                            <div className="edit-loading">loading...</div>
+                        }
+                    </div>
+                }
 
                 <ModalAddCard 
                     isOpen={this.state.modalAddCard.isOpen}
@@ -208,9 +205,7 @@ class Edit extends React.Component {
                     front={this.state.modalEditCard.front}
                     back={this.state.modalEditCard.back}
                 />
-
             </div>
-
         );
     }
 }

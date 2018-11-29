@@ -9,88 +9,73 @@ class Study extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            studying: false,
-            cards: [],
-            count: 0,
-            showAnswer: false,
-            studyComplete: false,
-            sequence: [],
-            results: [],
-
-            deckName: null
-        };
-
         this.handleStudyNow = this.handleStudyNow.bind(this);
         this.handleExit = this.handleExit.bind(this);
         this.handleShowAnswer = this.handleShowAnswer.bind(this);
         this.handleOption = this.handleOption.bind(this);
+
+        this.state = {
+            cards: [],
+            count: 0,
+            showAnswer: false,
+            sequence: [],
+            results: [],
+            deckName: null,
+            stage: 'start',
+            loaded: false,
+            error: null
+        };
     }
     componentWillMount() {
-        console.log('mount', this.props);
-
-        getDecks(this.props.id, this.props.auth.token)
+        Promise.all([getDecks(this.props.id, this.props.auth.token), getCard(this.props.id, this.props.auth.token)])
         .then(response => {
-            console.log('get deck', response);
+            const [decks, cards] = response;
 
-            const name = response.message.filter(item => item._id == this.props.id)[0].name;
+            if (decks.status === 'error') return this.setState({ error: 'Deck not found' });
+            if (cards.status === 'error') return this.setState({ error: 'Deck not found' });
 
-            // console.log('name', name);
-            this.setState({ deckName: name })
+            const name = decks.message.filter(item => item._id == this.props.id)[0].name;
+
+            this.setState({ deckName: name, cards: cards.message, loaded: true })
+        
         })
-        .catch( error => console.log('get cards error', error));
-
-
-        this.handleStudyNow = this.h
-        getCard(this.props.id, this.props.auth.token)
-        .then(({ status, message }) => {
-            if (status === 'error') return console.log('error', message.status);
-            console.log('get cards response', message);
-            // const cards = response.data;
-
-            this.setState({
-                cards: message
-            });
-        })
-        .catch( error => console.log('get cards error', error));
+        .catch(error => {
+            console.log('cards error', error);
+            // this.setState({ undefined: true });
+        });
     }
 
     handleStudyNow() {
         this.setState({
-            studying: true,
-            studyComplete: false,
             count: 0,
             showAnswer: false,
             sequence: this.generateRandomSequence(this.state.cards.length),
-            results: []
+            results: [],
+            stage: 'study'
         });
     }
 
     handleExit() {
         this.setState({
-            studying: false
+            stage: 'start'
         });
     }
+
     handleShowAnswer() {
         this.setState({
             showAnswer: true
         });
     }
 
-
     handleOption(score) {
         this.setState(prev => ({
-            studyComplete: prev.cards.length === prev.count +1,
+            stage : prev.cards.length === prev.count +1 ? 'complete' : 'study',
             showAnswer: false,
             count: prev.count +1,
             results: [
                 ...prev.results,
-                {
-                    id: prev.sequence[prev.count],
-                    score
-                }
+                { id: prev.sequence[prev.count], score }
             ]
-
         }));
     }
 
@@ -99,9 +84,7 @@ class Study extends React.Component {
         let count = length;
         let temp, index;
 
-        for (let i=0;i<length;i++) {
-            array.push(i);
-        }
+        for (let i=0;i<length;i++) { array.push(i) }
 
         // shuffle
         while (count > 0) {
@@ -117,48 +100,61 @@ class Study extends React.Component {
         return array;
     }
     render() {
+        if (!this.state.loaded) {
+            return (
+                <div>
+                    <Header subheading='Study' />
 
-        return (
-            <div>
-                <Header subheading='Study' />
+                    {this.state.error ?
+                        <div className="study-container">
+                            <div className="study-error">Error: {this.state.error}</div>
+                        </div>
+                    :
+                        <div className="study-container">
+                            <div className="study-loading">loading...</div>
+                        </div>
+                    }
+                </div>
+            );
+        }
 
-                <div className="study-container">
-                    <div className="study-head">
-                        <h3 className="study-title">{this.state.deckName}</h3>
-                        {this.state.studying && !this.state.studyComplete && <div className="study-count">{this.state.count +1} / {this.state.cards.length}</div>}
-                    </div>
-                    
-                    {
-                        this.state.studying ?
-
+        switch (this.state.stage) {
+            case 'start':
+                return (
+                    <div>
+                        <Header subheading='Study' />
+        
+                        <div className="study-container">
+                            <div className="study-head">
+                                <h3 className="study-title">{this.state.deckName}</h3>
+                            </div>
+                            
                             <div className='study-output'>
-                                {
-                                    this.state.studyComplete ?
-
-                                    <div>
-                                        <h3 className='study-subheading'>Results</h3>
-                                        <ul className='study-list'>
-                                        {
-                                            this.state.results.map(item => {
-                                                console.log('item', item)
-
-                                                return (
-                                                    <li className='study-list-item'>
-                                                        <div>
-                                                            <span>{this.state.cards[item.id].front}</span>
-                                                            <span>{this.state.cards[item.id].back}</span>
-                                                        </div>
-                                                        <div>{item.score}</div>
-                                                    </li>
-                                                )
-                                            })
-
-                                        }
-                                        </ul>
+                                <h4 className='study-total'>Total: <span>{this.state.cards.length}</span></h4>
+                            </div>
+        
+                            <div className="study-control">
+                                <div className="study-control-top">
+                                    <div className='study-control-top-container'>
+                                        <button className="btn btn-medium study-btn-study" onClick={this.handleStudyNow}>Study Now</button>
                                     </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                );
+            case 'study':
+                return (
+                    <div>
+                        <Header subheading='Study' />
 
-                                    :
-
+                        <div className="study-container">
+                            <div className="study-head">
+                                <h3 className="study-title">{this.state.deckName}</h3>
+                                 <div className="study-count">{this.state.count +1} / {this.state.cards.length}</div>
+                            </div>
+                                <div className='study-output'>
                                     <div className='study-output-container'>
                                         <div className="study-output-top">
                                             <div className="study-output-text">
@@ -172,64 +168,83 @@ class Study extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                }
-                            </div>
-
-
-                        :
-
-                            <div className='study-output'>
-                                <h4 className='study-total'>Total: <span>{this.state.cards.length}</span></h4>
-                            </div>
-
-                    }
-                    
-                    <div className="study-control">
-                        <div className="study-control-top">
-                            {
-                                this.state.studying ?
-
-                                    <div>
-                                        {
-                                            !this.state.studyComplete && 
-
-                                            <div>
-                                                {
-                                                    this.state.showAnswer ?
-
-                                                    <div className='study-control-top-container'>
-                                                        <button className="btn btn-small study-btn-option" onClick={() => this.handleOption(-1)}>Easy</button>
-                                                        <button className="btn btn-small study-btn-option" onClick={() => this.handleOption(0)}>Good</button>
-                                                        <button className="btn btn-small study-btn-option" onClick={() => this.handleOption(1)}>Hard</button>
-                                                    </div>
-
-                                                    :
-
-                                                    <div className='study-control-top-container'>
-                                                        <button className="btn btn-medium study-btn-study" onClick={this.handleShowAnswer}>Show answer</button>
-                                                    </div>
-
-                                                }
-                                            </div>
-                                        }
- 
-                                    </div>
-
-                                :
-
-                                <div className='study-control-top-container'>
-                                    <button className="btn btn-medium study-btn-study" onClick={this.handleStudyNow}>Study Now</button>
                                 </div>
-                            }
+                            <div className="study-control">
+                                <div className="study-control-top">
+                                    <div>
+                                        <div>
+                                            {
+                                                this.state.showAnswer ?
 
-                        </div>
-                        <div className="study-control-bottom">
-                            { this.state.studying && <button className="btn btn-small study-btn-exit" onClick={this.handleExit}>exit</button>}
+                                                <div className='study-control-top-container'>
+                                                    <button className="btn btn-small study-btn-option" onClick={() => this.handleOption(-1)}>Easy</button>
+                                                    <button className="btn btn-small study-btn-option" onClick={() => this.handleOption(0)}>Good</button>
+                                                    <button className="btn btn-small study-btn-option" onClick={() => this.handleOption(1)}>Hard</button>
+                                                </div>
+
+                                                :
+
+                                                <div className='study-control-top-container'>
+                                                    <button className="btn btn-medium study-btn-study" onClick={this.handleShowAnswer}>Show answer</button>
+                                                </div>
+
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="study-control-bottom">
+                                    <button className="btn btn-small study-btn-exit" onClick={this.handleExit}>exit</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        );                                   
+                );
+
+            case 'complete':
+                return (
+                    <div>
+                        <Header subheading='Study' />
+
+                        <div className="study-container">
+                            <div className="study-head">
+                                <h3 className="study-title">{this.state.deckName}</h3>
+      
+                            </div>
+                            
+                                <div className='study-output'>
+                            
+                                    <div>
+                                        <h3 className='study-subheading'>Results</h3>
+                                        <ul className='study-list'>
+                                        {
+                                            this.state.results.map(item => (
+                                                <li className='study-list-item' key={item.id}>
+                                                        <div>
+                                                            <span>{this.state.cards[item.id].front}</span>
+                                                            <span>{this.state.cards[item.id].back}</span>
+                                                        </div>
+                                                        <div>{item.score}</div>
+                                                    </li>
+                                            ))
+                                        }
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+                            
+                            <div className="study-control">
+
+                                <div className="study-control-bottom">
+                                    <button className="btn btn-small study-btn-exit" onClick={this.handleExit}>exit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );  
+        
+        }
+                          
     }
 }
 const mapStateToProps = ({ auth }) => ({ auth });

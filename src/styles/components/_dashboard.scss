@@ -106,3 +106,9 @@
         background-color: lighten($color: $color-black-light, $amount: 4%)
     }
 }
+
+.dashboard-loading {
+    font-size: 4rem;
+    text-align: center;
+    margin-top: 12rem;
+}
