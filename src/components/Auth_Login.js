@@ -29,7 +29,9 @@ class Auth_Login extends React.Component {
             email: { error: null, value: '' },
             password: { error: null, value: '' },
             main: { error: null },
-            isVerified: false
+            isVerified: false,
+            loading: false,
+            success: false
         };
 
         console.log('props', props)
@@ -38,24 +40,6 @@ class Auth_Login extends React.Component {
     verifyCallback() {
         this.setState({ isVerified: true });
     }
-
-    // setError(field, error) {
-    //     this.setState(prev => ({
-    //         [field]: {
-    //             ...prev[field],
-    //             error
-    //         }
-    //     }));
-    // }
-
-    // inputChange(e) {
-    //     this.setState(prev => ({
-    //         [e.target.name]: {
-    //             ...prev[e.target.name],
-    //             value: e.target.value
-    //         }
-    //     })); 
-    // }
 
     setError(field, error) {
         this.setState({
@@ -77,6 +61,9 @@ class Auth_Login extends React.Component {
 
     loginHandler(e) {
         e.preventDefault();
+
+        if (this.state.loading) return;
+
         let errors = false;
 
         if (!this.state.email.value) {
@@ -105,8 +92,12 @@ class Auth_Login extends React.Component {
 
         const sanitisedEmail = validator.normalizeEmail(this.state.email.value);
 
+        this.setState({ loading: true });
+
         login(sanitisedEmail, this.state.password.value)
         .then(({ status, message }) => {
+
+            this.setState({ loading: false });
 
             if (status === 'error') {
                 console.log('error', message.status)
@@ -118,18 +109,21 @@ class Auth_Login extends React.Component {
 
 
             this.props.dispatch(authorize({ token, id, email }));
-            // this.props.redirect();
+            this.setState({ success: true })
+            
         })
         .catch(error => {
-            console.log('errpr',error)
+            this.setState({ loading: false });
+            console.log('error', error);
             this.setError('main', 'Your email or password was incorrect! Please try again.');
         });
     }
 
     render() {
-        if (checkAuth(this.props.auth)) {
-            return <Redirect to='/' />;
-        }
+        if (this.state.success) return <Redirect to='/' />
+
+        if (checkAuth(this.props.auth)) return <Redirect to='/' />;
+        
         return (
             <div>
                 <Header subheading='Login'/>
@@ -152,6 +146,10 @@ class Auth_Login extends React.Component {
 
                     <div className="form-group">
                         <input type="submit" value="Login" className="btn form-submit" />
+                    </div>
+
+                    <div className="form-group form-loading">
+                        {this.state.loading && <p>Loading...</p>}
                     </div>
 
                     <div className="form-group">

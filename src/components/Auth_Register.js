@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Form from './Form';
@@ -27,7 +28,9 @@ class Auth_Register extends React.Component {
             email_conf: { error: null, value: '' },
             password: { error: null, value: '' },
             password_conf: { error: null, value: '' },
-            main: { error: null }
+            main: { error: null },
+            loading: false,
+            success: false
         };
     }
 
@@ -54,6 +57,8 @@ class Auth_Register extends React.Component {
 
     registerHandler(e) {
         e.preventDefault();
+
+        if (this.state.loading) return;
 
         let errors = false;
 
@@ -108,30 +113,35 @@ class Auth_Register extends React.Component {
 
         const sanitisedEmail = validator.normalizeEmail(this.state.email.value);
 
+        this.setState({ loading: true });
+
         register(sanitisedEmail, this.state.password.value)
         .then(({ status, message }) => {
 
-            if (status === 'error') return console.log('error', message.status);
+            this.setState({ loading: false });
+
+            if (status === 'error') {
+                if (message.status === 401) return this.setError('main', 'Email taken! Please try again.');
+                return this.setError('main', message);
+            }
 
             const { token, id, email } = message;
 
             localStorage.setItem('token', token);
             this.props.dispatch(authorize({ token, id, email }));
-            this.props.redirect();
+            this.setState({ success: true })
         })
         .catch(error => {
+            this.setState({ loading: false });
             console.log({error})
-            switch (error.response.status) {
-                case 401:
-                    this.setError('main', 'Email taken! Please try again.');
-                    break;
-                default:
-                    this.setError('main', 'Unknown error. Please Try again');
-            }        
+            this.setError('main', 'Unknown error. Please Try again');
+    
         });
     }
 
     render() {
+        if (this.state.success) return <Redirect to='/' />
+        
         return (
             <div>
                 <Header subheading='Register'/>
@@ -164,6 +174,10 @@ class Auth_Register extends React.Component {
     
                     <div className='form-group'>
                         <input type="submit" value="Register" className='btn form-submit' />
+                    </div>
+
+                    <div className="form-group form-loading">
+                        {this.state.loading && <p>Loading...</p>}
                     </div>
     
                     <div className="form-group">

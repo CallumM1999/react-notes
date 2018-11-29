@@ -19,7 +19,8 @@ class Auth_Forgot_Update extends React.Component {
         this.state = {
             password: { value: '', error: null },
             password_conf: { value: '', error: null },
-            main: { error: null }
+            main: { error: null },
+            loading: false
         }
     }
 
@@ -75,16 +76,23 @@ class Auth_Forgot_Update extends React.Component {
 
         const normalizedEmail = normalizeEmail(this.props.email);
 
+        this.setState({ loading: true });
+
         postUpdate(normalizedEmail, this.props.code, this.state.password.value)
         .then(({ status, message }) => {
+            this.setState({ loading: false });
 
             if (status === 'error') return console.log('error', message.status);
 
             this.props.update();
 
         })
-        .catch(error => this.setError('main', 'unknown error'));
+        .catch(error => {
+            this.setState({ loading: false });
+            this.setError('main', 'unknown error');
+        });
     }
+
 
     render() {
         return (
@@ -130,8 +138,8 @@ class Auth_Forgot_Update extends React.Component {
                         <input type="submit" value="Update Password" className='btn form-submit' />
                     </div>
     
-                    <div className="form-group">
-                        
+                    <div className="form-group form-loading">
+                        {this.state.loading && <p>Loading...</p>}
                     </div>
     
                     <div className='form-group'>

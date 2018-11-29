@@ -19,7 +19,8 @@ class Auth_Forgot_Send extends React.Component {
 
         this.state = {
             code: { value: '', error: null },
-            main: { error: null }
+            main: { error: null },
+            loading: false
         }
     }
 
@@ -45,14 +46,19 @@ class Auth_Forgot_Send extends React.Component {
 
         const normalisedEmail = normalizeEmail(this.props.email);
 
+        this.setState({ loading: true });
+        
         getResendCode(normalisedEmail)
         .then(({ status, message }) => {
+
+            this.setState({ loading: false });
 
             if (status === 'error') return console.log('error', message.status);
 
             console.log('code resent');
         })
         .catch(error => {
+            this.setState({ loading: false });
             console.log({ error })
             this.setError('main', 'unknown error');
         });
@@ -80,8 +86,12 @@ class Auth_Forgot_Send extends React.Component {
         
         const normalisedEmail = normalizeEmail(this.props.email);
 
+        this.setState({ loading: true });
+
         postConfirm(normalisedEmail, this.state.code.value)
         .then(({ status, message }) => {
+
+            this.setState({ loading: false });
 
             if (status === 'error') return console.log('error', message.status);
 
@@ -93,8 +103,14 @@ class Auth_Forgot_Send extends React.Component {
             // this.props.setError(null);
 
         })
-        .catch(error => this.setError('main', 'code is invalid'));
+        .catch(error => {
+            this.setState({ loading: false });
+            this.setError('main', 'code is invalid');
+        });
     }
+
+    
+
 
     render() {
         return (
@@ -130,6 +146,10 @@ class Auth_Forgot_Send extends React.Component {
 
                     <div className="form-group">
                             <input type="submit" value="Submit" className='btn form-submit'/>
+                    </div>
+
+                    <div className="form-group form-loading">
+                        {this.state.loading && <p>Loading...</p>}
                     </div>
 
                     <div className='form-group'>

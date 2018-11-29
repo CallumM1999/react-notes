@@ -19,7 +19,8 @@ class Auth_Forgot_Start extends React.Component {
 
         this.state = {
             email: { value: '', error: null },
-            main: { error: null }
+            main: { error: null },
+            loading: false
         }
     }
 
@@ -64,8 +65,11 @@ class Auth_Forgot_Start extends React.Component {
 
         const sanitisedEmail = normalizeEmail(this.state.email.value);
 
+        this.setState({ loading: true });
+
         getResetCode(sanitisedEmail)
         .then(({ status, message }) => {
+            this.setState({ loading: false });
 
             if (status === 'error') return console.log('error', message.status);
 
@@ -73,6 +77,7 @@ class Auth_Forgot_Start extends React.Component {
             
         })
         .catch(error => {
+            this.setState({ loading: false });
             console.log({ error })
             this.setError('main', 'unknown error');
         })
@@ -103,6 +108,10 @@ class Auth_Forgot_Start extends React.Component {
 
                     <div className='form-group'>
                         <input type="submit" value="Confirm" className='btn form-submit' />
+                    </div>
+
+                    <div className="form-group form-loading">
+                        {this.state.loading && <p>Loading...</p>}
                     </div>
 
                     <div className="form-group">
