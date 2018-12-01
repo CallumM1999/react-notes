@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import Header from './Header';
 import { getCard } from '../requests/cards';
 import { getDecks } from '../requests/decks';
@@ -21,8 +21,7 @@ class Study extends React.Component {
             sequence: [],
             results: [],
             deckName: null,
-            stage: 'start',
-            loaded: false,
+            stage: 'loading',
             error: null
         };
     }
@@ -36,12 +35,16 @@ class Study extends React.Component {
 
             const name = decks.message.filter(item => item._id == this.props.id)[0].name;
 
-            this.setState({ deckName: name, cards: cards.message, loaded: true })
-        
+            this.setState(() => ({
+                deckName: name, 
+                cards: cards.message, 
+                loaded: true, 
+                stage: cards.message.length > 0 ? 'start' : 'empty'
+            }));
+
         })
         .catch(error => {
             console.log('cards error', error);
-            // this.setState({ undefined: true });
         });
     }
 
@@ -100,25 +103,42 @@ class Study extends React.Component {
         return array;
     }
     render() {
-        if (!this.state.loaded) {
+        switch (this.state.stage) {
+            case 'loading':
+                return (
+                    <div>
+                        <Header subheading='Study' />
+
+                        {this.state.error ?
+                            <div className="study-container">
+                                <div className="study-error">Error: {this.state.error}</div>
+                            </div>
+                        :
+                            <div className="study-container">
+                                <div className="study-loading">loading...</div>
+                            </div>
+                        }
+                    </div>
+                );
+
+            case 'empty': 
             return (
                 <div>
                     <Header subheading='Study' />
 
-                    {this.state.error ?
-                        <div className="study-container">
-                            <div className="study-error">Error: {this.state.error}</div>
-                        </div>
-                    :
-                        <div className="study-container">
-                            <div className="study-loading">loading...</div>
-                        </div>
-                    }
+                    <div className="study-head">
+                    </div>
+                    
+                    <div className="study-container">
+                        <h3 className="study-title">{this.state.deckName}</h3>
+
+                        <p>Deck has no cards...</p>
+                        <Link to={'/edit/' + this.props.id}>Add cards?</Link>
+                    </div>
+                    
                 </div>
             );
-        }
 
-        switch (this.state.stage) {
             case 'start':
                 return (
                     <div>
@@ -219,22 +239,20 @@ class Study extends React.Component {
                                         {
                                             this.state.results.map(item => (
                                                 <li className='study-list-item' key={item.id}>
-                                                        <div>
-                                                            <span>{this.state.cards[item.id].front}</span>
-                                                            <span>{this.state.cards[item.id].back}</span>
-                                                        </div>
-                                                        <div>{item.score}</div>
-                                                    </li>
+                                                    <div>
+                                                        <span>{this.state.cards[item.id].front}</span>
+                                                        <span>{this.state.cards[item.id].back}</span>
+                                                    </div>
+                                                    <div>{item.score}</div>
+                                                </li>
                                             ))
                                         }
                                         </ul>
                                     </div>
-
                                 </div>
 
                             
                             <div className="study-control">
-
                                 <div className="study-control-bottom">
                                     <button className="btn btn-small study-btn-exit" onClick={this.handleExit}>exit</button>
                                 </div>
@@ -242,11 +260,9 @@ class Study extends React.Component {
                         </div>
                     </div>
                 );  
-        
-        }
-                          
+        }                   
     }
 }
-const mapStateToProps = ({ auth }) => ({ auth });
+const mapStateToProps = (state) => ({ auth: state });
 
 export default withRouter(connect(mapStateToProps)(Study));

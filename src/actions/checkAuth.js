@@ -6,14 +6,10 @@ const checkAuth = (auth) => {
         const { exp } = jwt.decode(auth.token);
         const now = Date.now() / 1000;
 
-        if (exp - now > 0) {
-            return true;
-        } else {
-            localStorage.removeItem('token');
-            console.log('token expired');
+        if (exp - now > 0) return true;
 
-            return false;
-        }
+        localStorage.removeItem('token');
+        return false;
     }
     return false;
 };

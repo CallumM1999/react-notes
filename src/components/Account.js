@@ -5,13 +5,11 @@ import { withRouter } from 'react-router-dom';
 
 import { isEmail } from 'validator';
 
-
 class Account extends React.Component {
     constructor(props) {
         super(props);
 
         this.handleUpdate = this.handleUpdate.bind(this);
-
 
         this.state = {
             undefined: false,
@@ -58,7 +56,7 @@ class Account extends React.Component {
     render() {
         return (
             <div>
-                <Header subheading='Account' auth={this.props.auth.auth} dispatch={this.props.dispatch} />
+                <Header subheading='Account' auth={this.props.auth.auth} />
             
 
                 <div className="account-container">
@@ -86,6 +84,6 @@ class Account extends React.Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => ({ auth });
+const mapStateToProps = (state) => ({ auth: state });
 
 export default withRouter(connect(mapStateToProps)(Account));

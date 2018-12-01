@@ -166,6 +166,6 @@ class Auth_Login extends React.Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => ({ auth });
+const mapStateToProps = (state) => ({ auth: state });
 
 export default connect(mapStateToProps)(Auth_Login);

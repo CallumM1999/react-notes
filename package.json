@@ -4,13 +4,16 @@
   "main": "index.js",
   "author": "<callummac@protonmail.com>",
   "license": "MIT",
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "20.0.4"
+  },
   "scripts": {
     "server": "live-server public",
     "build": "webpack -p --env production",
     "dev-server": "webpack-dev-server",
     "postinstall": "yarn run build",
-    "start": "node server/server.js"
+    "start": "node server/server.js",
+    "test": "jest"
   },
   "engines": {
     "node": "8.10.0"

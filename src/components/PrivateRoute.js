@@ -3,16 +3,18 @@ import { Redirect } from 'react-router-dom';
 import checkAuth from '../actions/checkAuth';
 import { connect } from 'react-redux';
 
+import deauthorize from '../actions/deauthorize';
+
 class PrivateRoute extends React.Component {
     constructor(props) {
         super(props);
     }
     
     componentDidMount() {
-        if (!checkAuth(this.props.auth)) {
-            this.props.dispatch({
-                type: 'AUTH_FALSE'
-            });
+
+        // console.log('private route', this.props.auth)
+        if (!checkAuth(this.props)) {
+            this.props.dispatch(deauthorize);
         }
     }
 
@@ -25,9 +27,6 @@ class PrivateRoute extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        auth: state.auth
-    }
-}
+const mapStateToProps = (state) => ({ auth: state });
+
 export default connect(mapStateToProps)(PrivateRoute);

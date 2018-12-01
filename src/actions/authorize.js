@@ -1,9 +1,12 @@
-const logout = data => {
+const authorize = ({
+    token=null,
+    email=null,
+    id=null
+} = {}) => ({
+    type: 'AUTH_TRUE',
+    token,
+    email,
+    id
+});
 
-    return {
-        type: 'AUTH_TRUE',
-        ...data
-    }
-}
-
-export default logout;
+export default authorize;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import logout from '../actions/logout';
+import deauthorize from '../actions/deauthorize';
 
 class Header extends React.Component {
     constructor(props) {
@@ -12,7 +12,7 @@ class Header extends React.Component {
     }
     logout() {
         localStorage.removeItem('token');
-        this.props.dispatch(logout());
+        this.props.dispatch(deauthorize);
     }
     render() {
         const { subheading } = this.props;
@@ -39,6 +39,6 @@ class Header extends React.Component {
         );
     }
 }
-const mapStateToProps = ({ auth }) => ({ auth });
+const mapStateToProps = (state) => ({ auth: state });
 
 export default connect(mapStateToProps)(Header);

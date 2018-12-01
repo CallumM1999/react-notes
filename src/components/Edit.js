@@ -142,7 +142,7 @@ class Edit extends React.Component {
     render() {
         return (
             <div>
-                <Header subheading='Edit' auth={this.props.auth.auth} dispatch={this.props.dispatch} />
+                <Header subheading='Edit' auth={this.props.auth.auth} />
 
                 {this.state.loaded ? 
                 
@@ -210,6 +210,6 @@ class Edit extends React.Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => ({ auth });
+const mapStateToProps = (state) => ({ auth: state });
 
 export default withRouter(connect(mapStateToProps)(Edit));

@@ -52,7 +52,7 @@ export const postUpdate = (email, code, password) => {
 
 export const login = (email, password) => {
     return new Promise((resolve, reject) => {
-        axios.get(baseURL + '/login', { headers: { email, password } })
+        axios.post(baseURL + '/login', { email, password })
         .then(response => resolve({ status: 'success', message: response.data }))
         .catch(error => {
             if (error.response) resolve({ status: 'error', message: error.response });

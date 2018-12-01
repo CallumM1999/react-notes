@@ -82,6 +82,6 @@ class DashboardItem extends React.Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => ({ auth });
+const mapStateToProps = (state) => ({ auth: state });
 
 export default withRouter(connect(mapStateToProps)(DashboardItem));

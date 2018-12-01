@@ -110,7 +110,7 @@ class Dashboard extends React.Component {
     render() {
         return (
             <div>
-                <Header subheading='Dashboard' auth={this.props.auth.auth} dispatch={this.props.dispatch} />
+                <Header subheading='Dashboard' auth={this.props.auth.auth} />
 
                 <button className='btn btn-big dashboard-add' onClick={() => this.openModal('modalAddDeck')}>Add Deck</button>
 
@@ -169,6 +169,6 @@ class Dashboard extends React.Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => ({ auth });
+const mapStateToProps = (state) => ({ auth: state });
 
 export default connect(mapStateToProps)(Dashboard);
