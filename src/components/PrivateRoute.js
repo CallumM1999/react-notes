@@ -3,19 +3,9 @@ import { Redirect } from 'react-router-dom';
 import checkAuth from '../actions/checkAuth';
 import { connect } from 'react-redux';
 
-import deauthorize from '../actions/deauthorize';
-
 class PrivateRoute extends React.Component {
     constructor(props) {
         super(props);
-    }
-    
-    componentDidMount() {
-
-        // console.log('private route', this.props.auth)
-        if (!checkAuth(this.props)) {
-            this.props.dispatch(deauthorize);
-        }
     }
 
     render() {
