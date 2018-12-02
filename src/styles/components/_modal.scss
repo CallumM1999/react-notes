@@ -5,7 +5,7 @@
     max-width: calc(100% - 2rem);
     // height: 450px;
 
-    padding: 2rem 2rem 12rem;
+    padding: .5rem .5rem 10.5rem;
 
     left: 50%;
     top: 50%;
@@ -35,7 +35,7 @@
 .modal-group,
 .modal-choice {
     width: 100%;
-    padding: 2rem;
+    padding: 2rem 1rem;
     box-sizing: border-box
 }
 
@@ -89,8 +89,35 @@
     text-align: center;
     cursor: pointer;
 
+    font-size: 3rem;
+
     &:hover {
         color: $color-red-dark;
 
+    }
+}
+
+@media (min-width: 600px) {
+    .modal {
+        padding: 2rem 2rem 12rem;
+
+    }
+
+    .modal-group,
+    .modal-choice {
+        padding: 2rem;
+
+    }
+}
+@media (max-height: 600px) {
+
+    .modal-group,
+    .modal-choice {
+        padding: .5rem;
+
+    }
+
+    .modal-heading {
+        margin: 1rem;
     }
 }
