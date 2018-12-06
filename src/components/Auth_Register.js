@@ -1,17 +1,13 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-
-import Form from './Form';
-import FormLink from '../components/FormLink';
 import Recaptcha from '../components/Recaptcha';
-
 import validator from 'validator';
 import { register } from '../requests/auth';
-
 import authorize from '../actions/authorize';
-
 import Header from '../components/Header';
+import { Link } from 'react-router-dom';
+import FormTextInput from '../components/FormTextInput';
 
 class Auth_Register extends React.Component {
     constructor(props) {
@@ -117,11 +113,10 @@ class Auth_Register extends React.Component {
 
         register(sanitisedEmail, this.state.password.value)
         .then(({ status, message }) => {
-
             this.setState({ loading: false });
 
             if (status === 'error') {
-                if (message.status === 401) return this.setError('main', 'Email taken! Please try again.');
+                if (message.status === 409) return this.setError('main', 'Email taken! Please try again.');
                 return this.setError('main', message);
             }
 
@@ -144,53 +139,73 @@ class Auth_Register extends React.Component {
         
         return (
             <div>
-                <Header subheading='Register'/>
+                <Header />
+                <div className="form-container">
+                    <form onSubmit={this.registerHandler} id="registerForm">
+                        <h3 className="form-heading">Register</h3>
+                        
+                        <FormTextInput 
+                            id='inputEmail'
+                            label='email'
+                            name='email'
+                            value={this.state.email.value}
+                            onChange={this.inputChange}
+                            error={this.state.email.error}
+                            autoFocus={true}
+                        />
 
-                <Form title='Register' handler={this.registerHandler}>
-    
-                    <div className="form-group">
-                        <input type="text" name="email" className='form-input' placeholder='Email' value={this.state.email.value} onChange={this.inputChange}/>        
-                        <p className="input-err">{this.state.email.error}</p>
-                    </div>
-    
-                    <div className="form-group">
-                        <input type="text" name="email_conf" className='form-input' placeholder='Confirm email' value={this.state.email_conf.value} onChange={this.inputChange}/>   
-                        <p className="input-err">{this.state.email_conf.error}</p>
-                    </div>
-    
-                    <div className="form-group">
-                        <input type="password" name="password" className='form-input' placeholder='Password' value={this.state.password.value} onChange={this.inputChange}/>
-                        <p className="input-err">{this.state.password.error}</p>
-                    </div>
-    
-                    <div className="form-group">
-                        <input type="password" name="password_conf" className='form-input' placeholder='Confirm password' value={this.state.password_conf.value} onChange={this.inputChange}/>
-                        <p className="input-err">{this.state.password_conf.error}</p>
-                    </div>
-    
-                    <div className='form-group'>
-                        {this.state.main.error && <p className='form-error'>{this.state.main.error}</p>}
-                    </div>
-    
-                    <div className='form-group'>
-                        <input type="submit" value="Register" className='btn form-submit' />
-                    </div>
+                        <FormTextInput 
+                            id='inputEmail_conf'
+                            label='confirm email'
+                            name='email_conf'
+                            value={this.state.email_conf.value}
+                            onChange={this.inputChange}
+                            error={this.state.email_conf.error}
+                        />
 
-                    <div className="form-group form-loading">
-                        {this.state.loading && <p>Loading...</p>}
-                    </div>
-    
-                    <div className="form-group">
-                        <Recaptcha verify={this.verifyCallback}/>
-                    </div>
+                        <FormTextInput 
+                            id='inputPassword'
+                            label='password'
+                            name='password'
+                            type='password'
+                            value={this.state.password.value}
+                            onChange={this.inputChange}
+                            error={this.state.password.error}
+                        />
 
-                    <div className='form-group form-links'>
-                        <FormLink name='login'/>
-                        <FormLink name='forgot'/>
-                    </div>
-    
-                </Form>
-            </div>    
+                        <FormTextInput 
+                            id='inputPassword_conf'
+                            label='confirm password'
+                            name='password_conf'
+                            type='password'
+                            value={this.state.password_conf.value}
+                            onChange={this.inputChange}
+                            error={this.state.password_conf.error}
+                        />
+
+                        <div className="form-group form-control">
+                            <input type="submit" value='Register' className="waves-effect waves-light btn-large grey" />
+                        </div>
+
+                        <div className="form-group form-loading">
+                            {this.state.loading && <p>Loading...</p>}
+                        </div>
+
+                        <div className="form-group">
+                            {this.state.main.error && <p className="form-error">{this.state.main.error}</p>}
+                        </div>
+
+                        <div className="form-group">
+                            <Recaptcha verify={this.verifyCallback}/>
+                        </div>
+
+                        <div className='form-group form-links'>
+                            <Link className='form_link' to='/login'>Login</Link>
+                            <Link className='form_link' to='/forgot'>Forgot</Link>
+                        </div>
+                    </form>
+                </div>
+            </div>
         );
     }
 }

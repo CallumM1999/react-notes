@@ -1,12 +1,9 @@
 import React from 'react';
-import Form from './Form';
-import FormLink from '../components/FormLink';
-
 import { isEmpty, normalizeEmail, isAscii } from 'validator';
 import { postUpdate } from '../requests/auth';
-
 import Header from '../components/Header';
-
+import FormTextInput from '../components/FormTextInput';
+import { Link } from 'react-router-dom';
 
 class Auth_Forgot_Update extends React.Component {
     constructor(props) {
@@ -95,60 +92,62 @@ class Auth_Forgot_Update extends React.Component {
         });
     }
 
-
     render() {
         return (
             <div>
-                <Header subheading='Reset'/>
+                <Header />
+                <div className="form-container">
+                    <form id="loginForm" onSubmit={this.handleSubmit}>
+                        <h3 className="form-heading">Forgot</h3>
 
-                <Form title='Forgot' handler={this.handleSubmit}>
+                        <div className="form-group">
+                            <h2>Success</h2>
+                            <p>Update your password</p>
+                        </div>
 
-                <div className="form-group">
-                    <h2>Success</h2>
-                    <p>Update your password</p>
-                </div>
-    
-                    <div className='form-group'>
-                        <input 
-                            type="password" 
-                            name="password" 
-                            className='form-input' 
-                            placeholder='Password'
+                        <FormTextInput 
+                            id='inputPassword'
+                            label='password'
+                            name='password'
+                            type='password'
                             value={this.state.password.value}
-                            onChange={this.inputChange} 
-                        />      
-                        <p className="input-err">{this.state.password.error}</p>
-                    </div>
-    
-                    <div className='form-group'>
-                        <input 
-                            type="password" 
-                            name="password_conf" 
-                            className='form-input' 
-                            placeholder='Confirm Password'
+                            onChange={this.inputChange}
+                            error={this.state.password.error}
+                            autoFocus={true}
+                        />
+
+                        <FormTextInput 
+                            id='inputPassword_conf'
+                            label='confirm password'
+                            name='password_conf'
+                            type='password'
                             value={this.state.password_conf.value}
-                            onChange={this.inputChange} 
-                        />   
-                        <p className="input-err">{this.state.password_conf.error}</p>
-                    </div>
-    
-                    <div className='form-group'>
-                        {this.state.main.error && <p className='form-error'>{this.state.main.error}</p>}
-                    </div>
-    
-                    <div className='form-group'>
-                        <input type="submit" value="Update Password" className='btn form-submit' />
-                    </div>
-    
-                    <div className="form-group form-loading">
-                        {this.state.loading && <p>Loading...</p>}
-                    </div>
-    
-                    <div className='form-group form-links'>
-                        <FormLink name='login'/>
-                        <FormLink name='register'/>
-                    </div>
-                </Form>
+                            onChange={this.inputChange}
+                            error={this.state.password_conf.error}
+                            autoFocus={true}
+                        />
+
+                        <div className="form-group form-control">
+                            <input type="submit" value='Update' className="waves-effect waves-light btn-large grey" />
+                        </div>
+
+                        <div className="form-group form-loading">
+                            {this.state.loading && <p>Loading...</p>}
+                        </div>
+
+                        <div className="form-group">
+                            {this.state.main.error && <p className="form-error">{this.state.main.error}</p>}
+                        </div>
+
+                     
+                        
+
+                        <div className='form-group form-links'>
+                            <Link className='form_link' to='/login'>Login</Link>
+                            <Link className='form_link' to='/register'>Register</Link>
+                        </div>
+                    </form>
+                </div>
             </div>
         );
     }

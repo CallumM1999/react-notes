@@ -3,303 +3,268 @@ import ReactModal from 'react-modal';
 
 ReactModal.setAppElement('#app');
 
-export const ModalAddDeck = props => {
-    return (
-        <ReactModal
+const ModalCloseButton = props => (
+    <div className="modal-close" onClick={ props.onClick } >
+        <i className="small material-icons grey-text text-darken-4">close</i>
+    </div>
+);
+
+const ModalHead = props => (
+    <div className="modal-head">
+        <h3>{ props.headText }</h3>
+    </div>
+);
+
+const ModalButton = props => (
+    <button 
+        type={props.type || "submit"}
+        className={'waves-effect waves-light btn-large grey darken-2 ' + props.className}
+        onClick={props.onClick}
+    >
+        { props.buttonText }
+    </button>
+);
+
+const ModalTextInput = props => (
+    <div className="input-field modal-group">
+        <input 
+            type="text" 
+            className='modal-input' 
+            id={ props.id } 
+            autoFocus={ props.autoFocus }
+            name={ props.label }
+            
+
+            defaultValue={ props.defaultValue }    
+            onFocus={ props.onFocus &&  
+                (e => {
+                    const val = e.target.value;
+                    e.target.value = '';
+                    e.target.value = val;
+                })
+            }
+            
+        />
+        <label htmlFor={ props.id } className={props.active && 'active'}>{ props.label }</label>
+    </div>
+)
+
+const ModalTemplate = props => (
+    <ReactModal
             className='modal'
             isOpen={props.isOpen}
-            contentLabel='Add new deck'
-            onRequestClose={() => props.close('modalAddDeck')}
+            contentLabel={props.contentLabel}
+            onRequestClose={props.close}
         >
-            <div className="modal-close" onClick={() => props.close('modalAddDeck')}>x</div>
-            <form onSubmit={props.submit}>
-                <h3 className='modal-heading' >Add Deck</h3>
-    
-                <div className="modal-group">
-                    <input type="text" name="name" className='modal-input' autoFocus/>
+            <ModalCloseButton onClick={props.close}/>
+
+            <ModalHead headText={props.title}/>
+
+            <form className='modal-form' onSubmit={props.submit}>
+
+                <div className="modal-content">
+                    <props.modalContent />
                 </div>
-    
+
+                <div className="modal-choice">
+                    <props.modalChoice />
+                </div>
+
+            </form>
+
+        </ReactModal>
+);
+
+export const ModalAddDeck = props => (
+    <ModalTemplate 
+        isOpen={props.isOpen}
+        contentLabel='Add new deck'
+        close={() => props.close('modalAddDeck')}
+        title='Add Deck'
+        submit={props.submit}
+
+        modalContent={() => (
+            <div>
+                <ModalTextInput 
+                    id='inputName'
+                    label='name'
+                    autoFocus={true}
+                />
+
                 <div className="modal-group">
                     {props.error && <p className='form-error'>{props.error}</p>}
                 </div>
-    
-                <div className="modal-choice">
-                    <button 
-                        type="submit"
-                        className='btn btn-medium btn-modal'
-                    >
-                        Add
-                    </button>
-                </div>
-    
-            </form>
-        </ReactModal>
-    )
-};
+            </div>
+        )}
+
+        modalChoice={() => (
+            <ModalButton buttonText='Add' />
+        )}
+    />
+)
 
 export const ModalDeleteDeck = props => (
-    <ReactModal
-        className='modal'
+    <ModalTemplate 
         isOpen={props.isOpen}
-        contentLabel='Are you sure you want to delete this deck>'
-        onRequestClose={() => props.close('modalDeleteDeck')}
-    >
-        <div className="modal-close" onClick={() => props.close('modalDeleteDeck')}>x</div>
-        <form onSubmit={props.submit}>
-            <h3 className='modal-heading' >Delete Deck</h3>
-            <h4 className='modal-subheading'>Are you sure?</h4>
+        contentLabel='Are you sure that you want to delete this deck?'
+        close={() => props.close('modalDeleteDeck')}
+        title='Delete Deck'
+        submit={props.submit}
 
-            <div className="modal-choice">
-                <button 
-                    className='btn btn-medium btn-modal'
-                    type="submit" 
-                    name='yes'
-                >
-                    Yes
-                </button>
-                <button 
-                    className='btn btn-medium btn-modal'
-                    type='button' 
-                    onClick={() => props.close('modalDeleteDeck')}
-                >
-                    No
-                </button>
+        modalContent={() => (
+            <div>
+                <div className="modal-group">
+                    <h3>Are you sure?</h3>
+                </div>
+                <input type="hidden" name="_id" value={props._id || false} />
             </div>
-            <input type="hidden" name="_id" value={props._id || false} />
-        </form>
-    </ReactModal>
+        )}
+
+        modalChoice={() => (
+            <div>
+                <ModalButton buttonText='yes'/>
+                <ModalButton buttonText='no' type='button' onClick={() => props.close('modalDeleteDeck')}/>
+            </div>
+        )}
+    />
 );
 
-export class ModalRenameDeck extends React.Component {
-    constructor(props) {
-        super(props);
+export const ModalRenameDeck = props => (
+    <ModalTemplate 
+        isOpen={props.isOpen}
+        contentLabel='Rename deck'
+        close={() => props.close('modalRenameDeck')}
+        title='Rename Deck'
+        submit={props.submit}
 
-        this.inputChange = this.inputChange.bind(this);
+        modalContent={() => (
+            <div>
+                <ModalTextInput 
+                    id='inputName'
+                    label='name'
+                    defaultValue={ props.name }
+                    autoFocus={true}
+                    onFocus={true}
+                />
 
-        this.state = {
-            name: ''
-        }
-    }
+                <div className="modal-group">
+                    {props.error && <p className='form-error'>{props.error || false}</p>}
+                </div>
+            </div>
+            
+        )}
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.isOpen && !prevProps.isOpen) {
-            // console.log('load stuff');
-
-            this.setState({
-                name: this.props.name
-            });
-        }
-    }
-
-    inputChange(e) {
-        // console.log('change', e.target.name, e.target.value)
-        this.setState({
-            [e.target.name]: e.target.value
-        });  
-    }
-
-    render() {
-        return (
-            <ReactModal
-                className='modal'
-                isOpen={this.props.isOpen}
-                contentLabel='Rename deck'
-                onRequestClose={() => this.props.close('modalRenameDeck')}
-            >
-                <div className="modal-close" onClick={() => this.props.close('modalRenameDeck')}>x</div>
-                <form onSubmit={this.props.submit}>
-                    <h3 className='modal-heading' >Rename</h3>
-        
-                    <div className="modal-group">
-                        <input 
-                            type="text" 
-                            name="name"
-                            value={this.state.name} 
-                            onChange={this.inputChange}
-                            className='modal-input'
-                            autoFocus
-                            onFocus={
-                                e => {
-                                    const val = e.target.value;
-                                    e.target.value = '';
-                                    e.target.value = val;
-                                }
-                            }
-                        />
-                    </div>
-    
-                    <div className="modal-group">
-                        {this.props.error && <p className='form-error'>{this.props.error || false}</p>}
-                    </div>
-    
-                    <div className="modal-choice">
-                        <button className='btn btn-medium btn-modal' type="submit">Add</button>
-                    </div>
-                </form>
-            </ReactModal>
-        )
-    }
-}
+        modalChoice={() => (
+            <ModalButton buttonText='Rename'/>
+        )}
+    />
+)
 
 
 export const ModalAddCard = props => {
-
+    console.log('add props', props)
     return (
-        <ReactModal
-            className='modal'
-            isOpen={props.isOpen}
-            contentLabel='Rename deck'
-            onRequestClose={() => props.close('modalAddCard')}
-        >
+    <ModalTemplate 
+        isOpen={props.isOpen}
+        contentLabel='Add Card'
+        close={() => props.close('modalAddCard')}
+        title='Add Card'
+        submit={props.submit}
 
-            <div className="modal-close" onClick={() => props.close('modalAddCard')}>x</div>
-            <form onSubmit={props.submit}>
-                <h3 className='modal-heading' >Add Card</h3>
-    
-                <div className="modal-group">
-                    <label className='modal-label' htmlFor="front">Front</label>
-                    <input
-                        id='someid'
-                        name='front'
-                        className='modal-input'  
-                        autoFocus
-                    />
+        modalContent={() => (
+            <div>
+                <ModalTextInput 
+                    id='inputFront'
+                    label='front'
+                    autoFocus={true}
+                />
 
-                    <label className='modal-label' htmlFor="back">Back</label>
-                    <input 
-                        name='back'
-                        className='modal-input'
-                    />   
-                </div>
-
-           
+                <ModalTextInput 
+                    id='inputBack'
+                    label='back'
+                />
 
                 <div className="modal-group">
                     {props.error && <p className='form-error'>{props.error}</p>}
                 </div>
+            </div>
+        )}
 
-                <div className="modal-choice">
-                    <button className='btn btn-medium btn-modal' type="submit">Add</button>
-                </div>
-            </form>
-        </ReactModal>
-    )
-};
+        modalChoice={() => (
+            <ModalButton buttonText='Add'/>
+        )}
+    />
+
+)}
+
 
 export const ModalDeleteCard = props => (
-    <ReactModal
-        className='modal'
-        isOpen={props.isOpen}
-        contentLabel='Are you sure you want to delete this card?'
-        onRequestClose={() => props.close('modalDeleteCard')}
-    >
-        <div className="modal-close" onClick={() => props.close('modalDeleteCard')}>x</div>
-        <form onSubmit={props.submit}>
-            <h3 className='modal-heading' >Delete Card</h3>
-            <h4 className='modal-subheading'>Are you sure?</h4>
 
-            <div className="modal-choice">
-                <button 
-                    className='btn btn-medium btn-modal'
-                    type="submit" 
-                    name='yes'
-                >
-                    Yes
-                </button>
-                <button 
-                    className='btn btn-medium btn-modal'
-                    type='button' 
-                    onClick={() => props.close('modalDeleteCard')}
-                >
-                    No
-                </button>
+    <ModalTemplate 
+        isOpen={props.isOpen}
+        contentLabel='Are you sure that you want to delete this card?'
+        close={() => props.close('modalDeleteCard')}
+        title='Delete Card'
+        submit={props.submit}
+
+        modalContent={() => (
+            <div>
+                <div className="modal-group">
+                    <h4>Are you sure?</h4>
+                </div>
+                
+                <input type="hidden" name="_id" value={props._id || false} />
             </div>
-            <input type="hidden" name="_id" value={props._id || false} />
-        </form>
-    </ReactModal>
+        )}
+
+        modalChoice={() => (
+            <div>
+                <ModalButton buttonText='yes' />
+                <ModalButton buttonText='no' type='button' onClick={() => props.close('modalDeleteCard')} />
+            </div>
+        )}
+    />
+
 );
 
+export const ModalEditCard = props => (
+    <ModalTemplate 
+        isOpen={props.isOpen}
+        contentLabel='Edit card'
+        close={() => props.close('modalEditCard')}
+        title='Edit Card'
+        submit={props.submit}
 
-export class ModalEditCard extends React.Component {
-    constructor(props) {
-        super(props);
+        modalContent={() => (
+            <div>
 
-        this.inputChange = this.inputChange.bind(this);
+                <ModalTextInput 
+                    id='inputFront'
+                    label='front'
+                    defaultValue={props.front}
+                    autoFocus={true}
+                    onFocus={true}
+                />
 
-        this.state = {
-            front: '',
-            back: ''
-        }
-    }
+                <ModalTextInput 
+                    id='inputBack'
+                    label='back'
+                    defaultValue={props.back}
+                    active={true}
+                />
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.isOpen && !prevProps.isOpen) {
-            console.log('load stuff');
+                <input type="hidden" name="_id" value={props._id || false}/>
 
-            this.setState({
-                front: this.props.front,
-                back: this.props.back
-            });
-        }
-    }
+                <div className="modal-group">
+                    {props.error && <p className='form-error'>{props.error}</p>}
+                </div>
+            </div>
+        )}
 
-    inputChange(e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        });  
-    }
+        modalChoice={() => (
+            <ModalButton buttonText='Edit' />
+        )}
+    />
+)
 
-    render() {
-        return (
-            <ReactModal
-                className='modal'
-                isOpen={this.props.isOpen}
-                contentLabel='Rename deck'
-                onRequestClose={() => this.props.close('modalEditCard')}
-            >
-                <div className="modal-close" onClick={() => props.close('modalEditCard')}>x</div>
-                <form onSubmit={this.props.submit}>
-                    <h3 className='modal-heading' >Edit Card</h3>
 
-                    <div className="modal-group">
-                        <label htmlFor="front" className="modal-label">Front</label>
-                        <input
-                            type="text"
-                            name="front"
-                            className='modal-input'
-                            value={this.state.front}
-                            onChange={this.inputChange}
-                            autoFocus
-                            onFocus={
-                                e => {
-                                    const val = e.target.value;
-                                    e.target.value = '';
-                                    e.target.value = val;
-                                }
-                            }
-                        />
-        
-                        <label htmlFor="back" className="modal-label">Back</label>
-                        <input
-                            type="text"
-                            name="back"
-                            className='modal-input'
-                            value={this.state.back}
-                            onChange={this.inputChange}
-                        />
-                    </div>
-
-                    <input type="hidden" name="_id" value={this.props._id || false}/>
-    
-                    <div className="modal-group">
-                        {this.props.error && <p className='form-error'>{this.props.error}</p>}
-                    </div>
-    
-                    <div className="modal-choice">
-                        <button className='btn btn-medium btn-modal' type="submit">Edit</button>
-                    </div>
-                </form>
-            </ReactModal>
-        )
-    }
-}

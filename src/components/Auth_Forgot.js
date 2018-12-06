@@ -11,9 +11,7 @@ class Auth_Redirect extends React.Component {
         super(props);
 
         this.verifyCallback = this.verifyCallback.bind(this);
-
         this.changeAddress = this.changeAddress.bind(this);
-
         this.handleStart = this.handleStart.bind(this);
         this.handleSend = this.handleSend.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
@@ -21,10 +19,8 @@ class Auth_Redirect extends React.Component {
         this.state = {
             formStage: 'START',
             isVerified: false,
-
             email: '',
             code: ''
-
         };
     }
 

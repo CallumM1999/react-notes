@@ -4,7 +4,10 @@ import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import Router from './routers/Router';
 
+import 'materialize-css/dist/js/materialize.min.js'
+
 import 'normalize.css';
+import 'materialize-css/dist/css/materialize.min.css';
 import './styles/styles.scss';
 
 const consoleStyles = [

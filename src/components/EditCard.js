@@ -4,19 +4,25 @@ import { connect } from 'react-redux';
 const EditCard = props => {
     return (
         <li className="edit-item">
-            <div className="edit-close" onClick={() => props.openModal('modalDeleteCard', { _id: props._id })}>x</div>
-            <div className="edit-edit" onClick={() => props.openModal('modalEditCard', { front: props.front, back: props.back, _id: props._id })}>edit</div>
-            <div className="edit-content">
-                <div className="edit-content-front">
-                    
-                    <div className='edit-content-input' >{props.front}</div>
+            <div 
+                className="edit-close"
+                onClick={() => props.openModal('modalDeleteCard', { _id: props._id })}
+            >
+                <i className="small material-icons grey-text text-darken-4 ">delete</i>
+            </div>
+            <div 
+                className="edit-edit"
+                onClick={() => props.openModal('modalEditCard', { front: props.front, back: props.back, _id: props._id })}
+            >
+                <i className="small material-icons grey-text text-darken-4">edit</i>
+            </div>
+            
+            <div className="edit-item-front">
+                <div className='edit-item-front__content'>{props.front}</div>
+            </div>
 
-                </div>
-                <div className="edit-content-back">
-                    
-                 <div className='edit-content-input' >{props.back}</div>
-
-                </div>
+            <div className="edit-item-back">
+                <div className='edit-item-back__content'>{props.back}</div>
             </div>
         </li>
     );

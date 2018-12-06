@@ -3,12 +3,9 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { withRouter } from 'react-router-dom';
 import EditCard from './EditCard';
-
 import { ModalAddCard, ModalDeleteCard, ModalEditCard } from '../components/Modal';
-
 import { getDecks } from '../requests/decks';
 import { getCard, postCard, putCard, deleteCard } from '../requests/cards';
-
 
 class Edit extends React.Component {
     constructor(props) {
@@ -22,7 +19,6 @@ class Edit extends React.Component {
         this.openModal = this.openModal.bind(this);
 
         this.state = {
-            // undefined: false,
             cards: [],
             modalAddCard: { isOpen: false, error: null },
             modalDeleteCard: { isOpen: false, error: null, _id: null },
@@ -35,7 +31,6 @@ class Edit extends React.Component {
     }
     
     componentWillMount () {
-
         Promise.all([getDecks(this.props.id, this.props.auth.token), getCard(this.props.id, this.props.auth.token)])
         .then(response => {
             const [decks, cards] = response;
@@ -144,12 +139,13 @@ class Edit extends React.Component {
             <div>
                 <Header subheading='Edit' auth={this.props.auth.auth} />
 
+                <div className="edit grey lighten-5">
                 {this.state.loaded ? 
                 
                     <div className='edit-container'>
                         <div>
                             <h2 className='edit-title'>{this.state.deckName}</h2>
-                            <button onClick={() => this.openModal('modalAddCard')} className='btn btn-medium edit-add'>Add card</button>
+                            <button onClick={() => this.openModal('modalAddCard')} className='waves-effect waves-light btn-large grey edit-btn-main'>Add card</button>
                             <ul className='edit-list'>
                                 {
                                     this.state.cards.map((item, index) => {
@@ -169,7 +165,6 @@ class Edit extends React.Component {
                             </ul>
                         </div>
                     </div>
-
                 :
                     <div className="edit-container">
                         {this.state.error ?
@@ -179,7 +174,8 @@ class Edit extends React.Component {
                         }
                     </div>
                 }
-
+                </div>
+                
                 <ModalAddCard 
                     isOpen={this.state.modalAddCard.isOpen}
                     submit={this.addCard}

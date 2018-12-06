@@ -1,78 +1,50 @@
 
-// https://coolors.co/a31932-560a14-650d1b-95141e-201f20
-header {
-    background-color: $color-red-dark;
-    text-align: center;
-    color: #eee;
-}
-.header-char-dark {
-    color: #201f20;
-    margin-left: 5px;
+.header {
+    // background-color: #95141e;
 }
 
-.header-heading,
+.header-logo {
+    font-size: 14vw;
+    text-align: center;
+    display: block;
+
+    > span {
+        margin-left: 5px;
+    }
+}
+
 .header-subheading {
+    text-align: center;
+    padding: 14px 0;
     margin: 0;
 }
-.header-heading {
-    height: 100px;
-    line-height: 100px;
-    font-weight: 100;
-    letter-spacing: 8px;
 
-    &::after {
-        content: "";
-        width: 20px;
-        height: 2px;
-        background-color: white;
-        display: block;
-        margin: -13px auto 0;
-        left: 0;
-        border-radius: 2px;
-        transition: width .6s ease-out;
-    }
-    &:hover {
-        &::after {
-            width: 320px;
-            transition: width .6s ease-out;
-        }
-    }
-}
-.header-subheading {
-    color: #201f20;
-    background-color: #201f20;
-    color: #eee;
+.header-controls {
     height: 60px;
-    line-height: 60px;
-}
-.header-btn {
-    display: inline-block;
-    margin: 1rem 0 0 2rem;
-    padding: 5px 10px;
-}
-.header-account-link {
-    text-decoration: underline;
-    &:hover {
-        color: darken($color: $color-white-1, $amount: 20%);
+    width: 400px;
+    max-width: 100%;
+
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+        margin: 10px;
+        z-index: 0;
+    }
+    a {
+        display: inline-block;
+    }
+    i {
+        vertical-align: middle;
+        // font-size: 6rem;
     }
 }
 
-@media (max-width: 400px) {
-    .header-heading {
-        font-size: 5rem;
-
-        &::after {
-            margin: -18px auto 0;
-        }
-    }
-}
-
-@media (max-width: 300px) {
-    .header-heading {
-        font-size: 4rem;
-
-        &::after {
-            margin: -24px auto 0;
-        }
+@media (min-width: 700px) {
+    .header-logo {
+        font-size: 98px;
     }
 }

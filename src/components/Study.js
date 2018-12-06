@@ -109,15 +109,19 @@ class Study extends React.Component {
                     <div>
                         <Header subheading='Study' />
 
-                        {this.state.error ?
-                            <div className="study-container">
-                                <div className="study-error">Error: {this.state.error}</div>
+                        <div className="study">
+                            <div className="study-head">
+                                <h3 className="study-title">{this.state.deckName}</h3>
                             </div>
-                        :
+
                             <div className="study-container">
-                                <div className="study-loading">loading...</div>
+                                {this.state.error ?
+                                    <div className="study-error">Error: {this.state.error}</div>
+                                :
+                                    <div className="study-loading">loading...</div>
+                                }
                             </div>
-                        }
+                        </div>
                     </div>
                 );
 
@@ -126,14 +130,18 @@ class Study extends React.Component {
                 <div>
                     <Header subheading='Study' />
 
-                    <div className="study-head">
-                    </div>
-                    
-                    <div className="study-container">
-                        <h3 className="study-title">{this.state.deckName}</h3>
+                    <div className="study">
+                        <div className="study-head">
+                            <h3 className="study-title">{this.state.deckName}</h3>
+                            <div className="study-count">2 / 6</div>
+                        </div>
 
-                        <p>Deck has no cards...</p>
-                        <Link to={'/edit/' + this.props.id}>Add cards?</Link>
+                        <div className="study-container">
+                            <div className="study-empty">
+                                <p>Deck contains 0 cards!</p>
+                                <Link to={'/edit/' + this.props.id} className="btn waves-effect waves-light dashboard-item-actions grey darken-2">Add cards?</Link>
+                            </div>
+                        </div>
                     </div>
                     
                 </div>
@@ -143,81 +151,70 @@ class Study extends React.Component {
                 return (
                     <div>
                         <Header subheading='Study' />
-        
-                        <div className="study-container">
+
+                        <div className="study">
                             <div className="study-head">
                                 <h3 className="study-title">{this.state.deckName}</h3>
+                                <div className="study-count">2 / 6</div>
                             </div>
-                            
-                            <div className='study-output'>
-                                <h4 className='study-total'>Total: <span>{this.state.cards.length}</span></h4>
-                            </div>
-        
-                            <div className="study-control">
-                                <div className="study-control-top">
-                                    <div className='study-control-top-container'>
-                                        <button className="btn btn-medium study-btn-study" onClick={this.handleStudyNow}>Study Now</button>
-                                    </div>
+
+                            <div className="study-container-flex">
+                                <h3 className="study-start-total">
+                                    Total: <span>{this.state.cards.length}</span>
+                                </h3>
+                                <div className="study-control">
+                                    <div className="study-control-top">
+                                        <button className="btn-large waves-effect waves-light dashboard-item-actions grey darken-2" onClick={this.handleStudyNow}>Study Now</button>
+                                    </div>  
                                 </div>
-                               
                             </div>
                         </div>
-                    </div>
+                    </div> 
                 );
             case 'study':
                 return (
                     <div>
                         <Header subheading='Study' />
 
-                        <div className="study-container">
+                        <div className="study">
                             <div className="study-head">
                                 <h3 className="study-title">{this.state.deckName}</h3>
-                                 <div className="study-count">{this.state.count +1} / {this.state.cards.length}</div>
+                                <div className="study-count">{this.state.count +1} / {this.state.cards.length}</div>
                             </div>
+                            <div className="study-container-flex">
                                 <div className='study-output'>
-                                    <div className='study-output-container'>
-                                        <div className="study-output-top">
-                                            <div className="study-output-text">
-                                                {this.state.cards[this.state.sequence[this.state.count]].front}
-                                            </div>
+                                    <div className="study-output-top">
+                                        <div className="study-output-top__text">
+                                            {this.state.cards[this.state.sequence[this.state.count]].front}
                                         </div>
-                                        <hr className="study-rule" />
-                                        <div className="study-output-bottom">
-                                            <div className="study-output-text">
-                                                {this.state.showAnswer && this.state.cards[this.state.sequence[this.state.count]].back}
-                                            </div>
+                                    </div>
+                                    <div className="study-output-bottom">
+                                        <div className="study-output-bottom__text">
+                                            {this.state.showAnswer && this.state.cards[this.state.sequence[this.state.count]].back}
                                         </div>
                                     </div>
                                 </div>
-                            <div className="study-control">
-                                <div className="study-control-top">
-                                    <div>
-                                        <div>
-                                            {
-                                                this.state.showAnswer ?
+                                <div className="study-control">
+                                {
+                                    this.state.showAnswer ?
 
-                                                <div className='study-control-top-container'>
-                                                    <button className="btn btn-small study-btn-option" onClick={() => this.handleOption(-1)}>Easy</button>
-                                                    <button className="btn btn-small study-btn-option" onClick={() => this.handleOption(0)}>Good</button>
-                                                    <button className="btn btn-small study-btn-option" onClick={() => this.handleOption(1)}>Hard</button>
-                                                </div>
-
-                                                :
-
-                                                <div className='study-control-top-container'>
-                                                    <button className="btn btn-medium study-btn-study" onClick={this.handleShowAnswer}>Show answer</button>
-                                                </div>
-
-                                            }
-                                        </div>
+                                    <div className="study-control-top">
+                                        <button className="btn waves-effect waves-light grey darken-2" onClick={() => this.handleOption(1)}>Easy</button>
+                                        <button className="btn waves-effect waves-light grey darken-2" onClick={() => this.handleOption(0)}>Good</button>
+                                        <button className="btn waves-effect waves-light grey darken-2" onClick={() => this.handleOption(-1)}>Hard</button>
                                     </div>
-                                </div>
-                                <div className="study-control-bottom">
-                                    <button className="btn btn-small study-btn-exit" onClick={this.handleExit}>exit</button>
+                                    :
+                                    <div className="study-control-top">
+                                        <button className="btn-large waves-effect waves-light grey darken-2" onClick={this.handleShowAnswer}>Show answer</button>
+                                    </div>
+                                }
+                                    <div className="study-control-bottom">
+                                        <button className="btn waves-effect waves-light grey darken-2" onClick={this.handleExit}>exit</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </div>         
+                    </div>      
                 );
 
             case 'complete':
@@ -225,20 +222,18 @@ class Study extends React.Component {
                     <div>
                         <Header subheading='Study' />
 
-                        <div className="study-container">
+                        <div className="study">
                             <div className="study-head">
                                 <h3 className="study-title">{this.state.deckName}</h3>
-      
                             </div>
-                            
-                                <div className='study-output'>
-                            
-                                    <div>
-                                        <h3 className='study-subheading'>Results</h3>
-                                        <ul className='study-list'>
+
+                            <div className="study-container-flex">
+                                <div className='study-results'>
+                                    <h3>Results</h3>
+                                        <ul className='study-results-list'>
                                         {
                                             this.state.results.map(item => (
-                                                <li className='study-list-item' key={item.id}>
+                                                <li className='study-results-list-item' key={item.id}>
                                                     <div>
                                                         <span>{this.state.cards[item.id].front}</span>
                                                         <span>{this.state.cards[item.id].back}</span>
@@ -246,19 +241,17 @@ class Study extends React.Component {
                                                     <div>{item.score}</div>
                                                 </li>
                                             ))
-                                        }
-                                        </ul>
-                                    </div>
+                                        } 
+                                    </ul>
                                 </div>
-
-                            
-                            <div className="study-control">
-                                <div className="study-control-bottom">
-                                    <button className="btn btn-small study-btn-exit" onClick={this.handleExit}>exit</button>
+                                <div className="study-control">
+                                    <div className="study-control-top">
+                                        <button className="btn-large waves-effect waves-light grey darken-2" onClick={this.handleExit}>exit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>  
                 );  
         }                   
     }

@@ -5,7 +5,8 @@
   "author": "<callummac@protonmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "jest": "20.0.4"
+    "jest": "20.0.4",
+    "live-server": "^1.2.1"
   },
   "scripts": {
     "server": "live-server public",
@@ -34,6 +35,7 @@
     "express": "^4.16.4",
     "extract-text-webpack-plugin": "3.0.0",
     "jsonwebtoken": "8.3.0",
+    "materialize-css": "^1.0.0-rc.2",
     "node-sass": "4.5.3",
     "normalize.css": "^8.0.1",
     "react": "15.6.1",

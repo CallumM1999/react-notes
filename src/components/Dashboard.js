@@ -1,15 +1,9 @@
 import React from 'react';
 import DashboardItem from '../components/DashboardItem';
 import { connect } from 'react-redux';
-
 import { ModalAddDeck, ModalDeleteDeck, ModalRenameDeck } from '../components/Modal';
-
 import Header from '../components/Header';
-
 import { getDecks, postDecks, putDecks, deleteDecks } from '../requests/decks';
-
-
-
 class Dashboard extends React.Component {
     constructor(props) {
         super(props);
@@ -111,35 +105,30 @@ class Dashboard extends React.Component {
         return (
             <div>
                 <Header subheading='Dashboard' auth={this.props.auth.auth} />
+                <div className="dashboard">
+                    <button className='waves-effect waves-light btn-large grey dashboard-btn-main' onClick={() => this.openModal('modalAddDeck')} >Add Deck</button>
 
-                <button className='btn btn-big dashboard-add' onClick={() => this.openModal('modalAddDeck')}>Add Deck</button>
-
-                {this.state.loaded ? 
-                    
-                    <ul className="dashboard-container">
-                    {
-                        this.state.decks.map((deck, index) => {
-                            return (
-                                <DashboardItem 
-                                    key={index} 
-                                    name={deck.name} 
-                                    _id={deck._id}
-                                    openModal={this.openModal}
-                                />                
-                            );
-                        })
+                    {this.state.loaded ? 
+                        <ul className="dashboard-container">
+                        {
+                            this.state.decks.map((deck, index) => {
+                                return (
+                                    <DashboardItem 
+                                        key={index} 
+                                        name={deck.name} 
+                                        _id={deck._id}
+                                        openModal={this.openModal}
+                                    />                
+                                );
+                            })
+                        }
+                        </ul>
+                    : 
+                        <div className="dashboard-container">
+                            <p className='dashboard-loading'>loading...</p>
+                        </div>
                     }
-                    </ul>
-                    
-                : 
-                
-                    <div className="dashboard-container">
-                        <p className='dashboard-loading'>loading...</p>
-                    </div>
-
-                }
-
-                
+                </div>
 
                 <ModalAddDeck 
                     isOpen={this.state.modalAddDeck.isOpen}

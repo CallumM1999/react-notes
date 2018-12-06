@@ -1,20 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Recaptcha from '../components/Recaptcha';
-
 import { Redirect } from 'react-router-dom';
 import authorize from '../actions/authorize';
-
-import Form from './Form';
-
-import { login } from '../requests/auth';
-
 import validator from 'validator';
 import checkAuth from '../actions/checkAuth';
-
-import FormLink from '../components/FormLink';
-
+import FormTextInput from '../components/FormTextInput';
 import Header from '../components/Header';
+import Recaptcha from '../components/Recaptcha';
+import { Link } from 'react-router-dom';
+import { login } from '../requests/auth';
 
 class Auth_Login extends React.Component {
     constructor(props) {
@@ -24,7 +18,7 @@ class Auth_Login extends React.Component {
         this.loginHandler = this.loginHandler.bind(this);
         this.setError = this.setError.bind(this);
         this.inputChange = this.inputChange.bind(this);
-
+3
         this.state = {
             email: { error: null, value: '' },
             password: { error: null, value: '' },
@@ -33,8 +27,6 @@ class Auth_Login extends React.Component {
             loading: false,
             success: false
         };
-
-        // console.log('props', props)
     }
 
     verifyCallback() {
@@ -126,41 +118,54 @@ class Auth_Login extends React.Component {
         
         return (
             <div>
-                <Header subheading='Login'/>
-                
-                <Form title='Login' handler={this.loginHandler}>
+                <Header />
+                <div className="form-container">
+                    <form id="loginForm" onSubmit={this.loginHandler}>
+                        <h3 className="form-heading">Login</h3>
 
-                    <div className="form-group">
-                        <input className="form-input" type="text" name="email" placeholder='Email' value={this.state.email.value} onChange={this.inputChange}/> 
-                        <p className="input-err">{this.state.email.error}</p>
-                    </div>
+                        <FormTextInput 
+                            id='inputEmail'
+                            label='email'
+                            name='email'
+                            value={this.state.email.value}
+                            onChange={this.inputChange}
+                            error={this.state.email.error}
+                            autoFocus={true}
+                        />
 
-                    <div className="form-group">
-                        <input className="form-input" type="password" name="password" placeholder='Password' value={this.state.password.value} onChange={this.inputChange}/>
-                        <p className="input-err">{this.state.password.error}</p>
-                    </div>
+                        <FormTextInput 
+                            id='inputPassword'
+                            type='password'
+                            label='password'
+                            name='password'
+                            value={this.state.password.value}
+                            onChange={this.inputChange}
+                            error={this.state.password.error}
+                        />
 
-                    <div className="form-group">
-                        {this.state.main.error && <p className="form-error">{this.state.main.error}</p>}
-                    </div>
+                        <div className="form-group form-control">
+                            <input type="submit" value='Login' className="waves-effect waves-light btn-large grey" />
+                        </div>
 
-                    <div className="form-group">
-                        <input type="submit" value="Login" className="btn form-submit" />
-                    </div>
+                        <div className="form-group form-loading">
+                            {this.state.loading && <p>Loading...</p>}
+                        </div>
 
-                    <div className="form-group form-loading">
-                        {this.state.loading && <p>Loading...</p>}
-                    </div>
+                        <div className="form-group">
+                            {this.state.main.error && <p className="form-error">{this.state.main.error}</p>}
+                        </div>
 
-                    <div className="form-group">
-                        <Recaptcha verify={this.verifyCallback}/>
-                    </div>
+                        <div className="form-group">
+                            <Recaptcha verify={this.verifyCallback}/>
+                        </div>
 
-                    <div className='form-group form-links'>
-                        <FormLink name='register'/>
-                        <FormLink name='forgot'/>
-                    </div>
-                </Form>
+                        <div className='form-group form-links'>
+                            <Link className='form_link' to='/register'>Register</Link>
+                            <Link className='form_link' to='/forgot'>Forgot</Link>
+                        </div>
+
+                    </form>
+                </div>
             </div>
         );
     }

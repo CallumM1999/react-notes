@@ -1,123 +1,49 @@
 .modal {
     position: absolute;
-    box-sizing: border-box;
     width: 600px;
     max-width: calc(100% - 2rem);
-    // height: 450px;
-
-    padding: .5rem .5rem 10.5rem;
-
+    padding: .5rem;
     left: 50%;
     top: 50%;
-    
     transform: translate(-50%, -50%);
-
-
-    background-color: $color-white-2;
-
     border-radius: 3px;
     border: 1px solid $color-black-light;
-}
-.modal-heading,
-.modal-subheading {
-    text-align: center;
-    font-weight: 100;
-}
-.modal-heading {
-    font-size: 5rem;
-    margin: 3rem;
-}
-.modal-subheading {
-    font-size: 3.5rem;
-    margin: 2.5rem;
-}
-
-.modal-group,
-.modal-choice {
-    width: 100%;
-    padding: 2rem 1rem;
-    box-sizing: border-box
-}
-
-.modal-group {
-    // background-color: purple;
-    
-}
-
-.modal-choice {
-    position: absolute;
-    left: 0;
-    bottom: 2rem;
-
-
     display: flex;
-    justify-content: center;
-}
-
-.btn-modal {
-    width: 200px;
-    margin: 0 1rem;
-    background-color: $color-black-light;
-    color: $color-white-1;
-}
-
-.modal-input {
-    border: 1px solid #ccc;
-    border-radius: 3px;
-
-    width: 100%;
-    height: 7rem;
-    font-size: 4rem;
-
-    padding: 0 1rem;
-    box-sizing: border-box;
-}
-.modal-label {
-    text-align: center;
-    display: block;
-    font-size: 3.5rem;
-    margin: 2rem 0;
+    flex-direction: column;
 }
 
 .modal-close {
     position: absolute;
     top: .5rem;
     right: .5rem;
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
-    text-align: center;
     cursor: pointer;
+}
 
-    font-size: 3rem;
+.modal-head {
+    text-align: center;
 
-    &:hover {
-        color: $color-red-dark;
-
+    > h3 {
+        padding: 0 30px;
     }
 }
 
-@media (min-width: 600px) {
-    .modal {
-        padding: 2rem 2rem 12rem;
+.modal-content {
+    padding: 0 1rem !important;
+}
 
-    }
-
-    .modal-group,
-    .modal-choice {
-        padding: 2rem;
-
+.modal-choice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+    button {
+        margin: 0 2rem;
     }
 }
-@media (max-height: 600px) {
 
-    .modal-group,
-    .modal-choice {
-        padding: .5rem;
+@media (min-width: 250px) {
+    .modal-content {
+        padding: 0 2rem !important;
 
-    }
-
-    .modal-heading {
-        margin: 1rem;
     }
 }

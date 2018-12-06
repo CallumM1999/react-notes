@@ -1,13 +1,10 @@
 import React from 'react';
-import Form from './Form';
 import Recaptcha from '../components/Recaptcha';
-import FormLink from '../components/FormLink';
-
 import { normalizeEmail, isEmail } from 'validator';
 import { getResetCode } from '../requests/auth';
-
 import Header from '../components/Header';
-
+import FormTextInput from '../components/FormTextInput';
+import { Link } from 'react-router-dom';
 
 class Auth_Forgot_Start extends React.Component {
     constructor(props) {
@@ -25,7 +22,6 @@ class Auth_Forgot_Start extends React.Component {
     }
 
     inputChange(e) {
-        // e.preventDefault();
         this.setState({
             [e.target.name]: {
                 ...this.state[e.target.name],
@@ -47,8 +43,6 @@ class Auth_Forgot_Start extends React.Component {
         e.preventDefault();
 
         if (this.state.loading) return;
-
-        console.log('handleSend()');
 
         let errors = false;
 
@@ -90,50 +84,48 @@ class Auth_Forgot_Start extends React.Component {
     render() {
         return (
             <div>
-                <Header subheading='Reset'/>
+                <Header />
+                <div className="form-container">
+                    <form id="loginForm" onSubmit={this.handleSubmit}>
+                        <h3 className="form-heading">Forgot</h3>
 
-                <Form title='Forgot' handler={this.handleSubmit}>
-                    <div className='form-group'>
-                        <input 
-                            type="text" 
-                            name="email" 
-                            className='form-input' 
-                            placeholder='Email' 
+                        <FormTextInput 
+                            id='inputEmail'
+                            label='email'
+                            name='email'
                             value={this.state.email.value}
                             onChange={this.inputChange}
-                        />       
-                        <p className="input-err">{this.state.email.error}</p>
-                    </div>
+                            error={this.state.email.error}
+                            autoFocus={true}
+                        />
 
-                    <div className='form-group'>
-                        {this.state.main.error && <p className='form-error'>{this.state.main.error}</p>}
-                    </div>
+                        <div className="form-group form-control">
+                            <input type="submit" value='Submit' className="waves-effect waves-light btn-large grey" />
+                        </div>
 
-                    <div className='form-group'>
-                        <input type="submit" value="Confirm" className='btn form-submit' />
-                    </div>
+                        <div className="form-group form-loading">
+                            {this.state.loading && <p>Loading...</p>}
+                        </div>
 
-                    <div className="form-group form-loading">
-                        {this.state.loading && <p>Loading...</p>}
-                    </div>
+                        <div className="form-group">
+                            {this.state.main.error && <p className="form-error">{this.state.main.error}</p>}
+                        </div>
 
-                    <div className="form-group">
-                        <Recaptcha verify={this.props.verifyCallback}/>
-                    </div>
+                        <div className="form-group">
+                            <Recaptcha verify={this.verifyCallback}/>
+                        </div>
+                        
 
-                    <div className='form-group form-links'>
-                        <FormLink name='login'/>
-                        <FormLink name='register'/>
-                    </div>
-                </Form>
+                        <div className='form-group form-links'>
+                            <Link className='form_link' to='/login'>Login</Link>
+                            <Link className='form_link' to='/register'>Register</Link>
+                        </div>
+
+                    </form>
+                </div>
             </div>
-
-            
         );
-    }
+    }            
 }
-
-
-
 
 export default Auth_Forgot_Start;

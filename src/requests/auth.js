@@ -3,7 +3,7 @@ import { baseURL } from '../config/axios.defaults';
 
 export const getResetCode = (email) => {
     return new Promise((resolve, reject) => {
-        axios.get(baseURL + '/reset/code', { headers: { email } })
+        axios.post(baseURL + '/reset/code', { email })
         .then(response => resolve({ status: 'success', message: response.data }))
         .catch(error => {
             if (error.response) resolve({ status: 'error', message: error.response });
@@ -14,7 +14,7 @@ export const getResetCode = (email) => {
 
 export const getResendCode = (email) => {
     return new Promise((resolve, reject) => {
-        axios.get(baseURL + '/reset/code/resend', { headers: { email } })
+        axios.post(baseURL + '/reset/code/resend', { email })
         .then(response => resolve({ status: 'success', message: response.data }))
         .catch(error => {
             if (error.response) resolve({ status: 'error', message: error.response });
@@ -25,7 +25,7 @@ export const getResendCode = (email) => {
 
 export const postConfirm = (email, code) => {
     return new Promise((resolve, reject) => {
-        axios.post(baseURL + '/reset/confirm', {}, { headers: { email, code } })
+        axios.post(baseURL + '/reset/confirm', { email, code })
         .then(response => {
             console.log('postConfirm', response)
             resolve({ status: 'success', message: response.data })
@@ -41,7 +41,7 @@ export const postConfirm = (email, code) => {
 
 export const postUpdate = (email, code, password) => {
     return new Promise((resolve, reject) => {
-        axios.post(baseURL + '/reset/update', {}, { headers: { email, code, password } })
+        axios.post(baseURL + '/reset/update', { email, code, password })
         .then(response => resolve({ status: 'success', message: response.data }))
         .catch(error => {
             if (error.response) resolve({ status: 'error', message: error.response });

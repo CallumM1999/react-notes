@@ -1,59 +1,37 @@
-.study-container {
-    background-color: #eee;
+.study {
     max-width: 600px;
     margin: 0 auto;
     position: relative;
-    min-height: 600px;
+    background-color: #eee;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    // min-height: 600px;
+
+}
+
+.study-container,
+.study-container-flex {
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.study-container-flex {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 5px;
 }
+
+
 .study-head {
     position: relative;
 }
-.study-subheading {
-    text-align: center;
-    margin: 1rem 0;
-}
-.study-output {
-    flex-grow: 1;
-    padding: 20px;
-    display: contents;
-    &-container {
-        display: flex;
-        flex-direction: column;
-        height: 320px;
-        max-height: 100%;
-    }
-    &-top,
-    &-bottom {
-        flex-grow: 1;
-        position: relative;
-        font-weight: 100;
-    }
-    &-text {
-        text-align: center;
-        width: 100%;
-        position: absolute;
-        top: 50%;
-        font-size: 3.2rem;
 
-        transform: translateY(-50%);
-    }
-}
-.study-rule {
-    size: 20px;
-    width: 200px;
-}
-.study-control {
-    padding: 20px;
-    &-top {
-        &-container {
-            display: flex;
-            justify-content: center;
-        }
-    }
+.study-empty {
+    margin-top: 150px;
+    font-size: 30px;
+    text-align: center;
 }
 .study-title {
     font-weight: 200;
@@ -62,66 +40,91 @@
     text-overflow: ellipsis;
     overflow: hidden; 
     padding: 0 2rem;
+}
+
+.study-start-total {
+    text-align: center;
+
+    margin-top: 50px;
+    // margin-top: 160px;
 
 }
+
+.study-control {
+    margin-top: 50px;
+
+    padding: 20px;
+    // height: 120px;
+    background-color: #ddd;
+
+    &-top,
+    &-bottom {
+        padding: 5px 0;
+    }
+
+    &-top {
+        display: flex;
+        justify-content: center;
+
+        > button {
+            margin: 0 12px;
+        }
+    }
+}
+
+.study-output {
+    background-color: #fff;
+    border-radius: 3px;
+    width: 400px;
+    max-width: 100%;
+    height: 250px;
+    margin: 20px auto 0;
+    display: flex;
+    flex-direction: column;    
+
+    &-top,
+    &-bottom {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+    }
+
+    &-bottom {
+        background-color: #fafafa;
+        border-top: 1px solid #eee;
+    }
+}
+
+.study-results {
+    width: 450px;
+    max-width: 100%;
+    margin: 20px auto 0; 
+    text-align: center;
+}
+
+.study-results-list {
+    display: flex;
+    flex-direction: column;
+    font-size: 22px;
+    font-weight: 100;
+    &-item {
+        background-color: #fff;
+        border-radius: 3px;
+        height: 60px;
+        padding: 0 20px;
+        margin: 12px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
 .study-count {
     position: absolute;
     right: 10px;
     top: 10px;    
-}
-.study-btn {
-    &-study,
-    &-option {
-        &hover {
-            background-color: lighten($color: #444, $amount: 4%)
-        }
-    }
-    &-exit {
-        background-color: #95141e;
-        color: #fff;
-        
-        &:hover {
-            background-color: lighten($color: #95141e, $amount: 4%)
-        }
-    }
-    &-study {
-        background-color: #444;
-        color: #fff;
-    }
-    &-option {
-        margin: 0 1.2rem 2rem;
-        background-color: #444;
-        color: #fff;
-        width: 120px;
-    }
-}
-.study-total {
-    font-weight: 100;
-    text-align: center;
-    span {
-        margin-left: 2rem;
-        color: red;
-    }
-}
-.study-list {
-    padding: 20px;
-    &-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 3px;
-        margin: 0 0 20px;
-        span {
-            margin: 0 5px;
-        }
-    }
-}
-
-.study-loading {
-    font-size: 4rem;
-    text-align: center;
-    margin-top: 12rem;
 }
 
 .study-error {
@@ -131,15 +134,13 @@
 }
 
 @media (min-width: 600px) {
-    .study-container {
-        margin: 4rem auto;
-
+    .study {
+        margin: 4rem auto 0;
     }
 }
 
 @media (min-width: 800px) {
-    .study-container {
-        margin: 7rem auto;
-
+    .study {
+        margin: 7rem auto 0;
     }
 }
