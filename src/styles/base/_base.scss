@@ -19,4 +19,5 @@ a {
 
 button {
     transition: none !important; // materialize button animation
+    z-index: 0 !important;
 }
