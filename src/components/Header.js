@@ -13,6 +13,7 @@ class Header extends React.Component {
         localStorage.removeItem('token');
         this.props.dispatch(deauthorize);
     }
+    // link to account disabled, account page not functional
     render() {
         const { subheading } = this.props;
         return (
@@ -24,7 +25,7 @@ class Header extends React.Component {
                 <p className="header-controls">
                 {
                     this.props.auth.auth && 
-                    <Link to="/account"><i className="medium material-icons grey-text text-darken-4">account_box</i></Link>
+                    <Link to="#"><i className="medium material-icons grey-text text-darken-4">account_box</i></Link>
                 }
                 {
                     this.props.auth.auth && 
