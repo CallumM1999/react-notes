@@ -77,7 +77,7 @@ class DashboardItem extends React.Component {
         } else {
             return (
                 <li className='dashboard-item'>
-                    <Link className="dashboard-item-label" to={`/study/${this.props._id}`}>{this.props.name}</Link> 
+                    <Link className="dashboard-item-label black-text" to={`/study/${this.props._id}`}>{this.props.name}</Link> 
                     <button className='btn waves-effect waves-light dashboard-item-actions grey darken-2' onClick={this.openOptions}>actions</button>
                 </li>
             );

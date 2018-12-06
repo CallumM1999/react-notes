@@ -114,7 +114,7 @@ export const ModalDeleteDeck = props => (
         modalContent={() => (
             <div>
                 <div className="modal-group">
-                    <h3>Are you sure?</h3>
+                    <h4 className='modal-subheading'>Are you sure?</h4>
                 </div>
                 <input type="hidden" name="_id" value={props._id || false} />
             </div>
@@ -210,7 +210,7 @@ export const ModalDeleteCard = props => (
         modalContent={() => (
             <div>
                 <div className="modal-group">
-                    <h4>Are you sure?</h4>
+                    <h4 className='modal-subheadingreactreact'>Are you sure?</h4>
                 </div>
                 
                 <input type="hidden" name="_id" value={props._id || false} />

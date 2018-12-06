@@ -2,6 +2,8 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+
 // const debug = process.env.NODE_ENV !== "production";
 
 
@@ -13,6 +15,7 @@ module.exports = env => {
     // console.log('webpack', isProduction)
     
     return {
+        mode: 'development',
         entry: './src/app.js',
         output: {
             path: path.join(__dirname, 'public', 'dist'),
@@ -55,8 +58,23 @@ module.exports = env => {
         devServer: {
             contentBase: path.join(__dirname, 'public'),
             historyApiFallback: true,
-            publicPath: '/dist/'
+            publicPath: '/dist/',
+            // compress: true
 
         },
+        optimization: {
+            minimizer:isProduction ? [
+                new UglifyJSPlugin({
+                    uglifyOptions: {
+                        compress: {
+                            drop_console: true
+                        },
+                    output: {
+                        comments: false
+                        }
+                    },
+                }),
+            ] : []
+        }
     }
 };
