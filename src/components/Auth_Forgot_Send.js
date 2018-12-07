@@ -1,10 +1,18 @@
 import React from 'react';
 import { isEmpty, normalizeEmail } from 'validator';
 import { getResendCode, postConfirm } from '../requests/auth';
-
-import Header from '../components/Header';
-import FormTextInput from '../components/FormTextInput';
 import { Link } from 'react-router-dom';
+import Loadable from 'react-loadable';
+
+const Header = Loadable({
+    loader: () => import('./Header'),
+    loading: () => <div>Loading...</div>
+});
+
+const FormTextInput = Loadable({
+    loader: () => import('./FormTextInput'),
+    loading: () => <div>Loading...</div>
+});
 
 class Auth_Forgot_Send extends React.Component {
     constructor(props) {

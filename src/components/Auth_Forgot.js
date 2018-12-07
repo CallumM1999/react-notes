@@ -1,10 +1,21 @@
 import React from 'react';
-
 import { Redirect } from 'react-router-dom';
+import Loadable from 'react-loadable';
 
-import Start from '../components/Auth_Forgot_Start';
-import Send from '../components/Auth_Forgot_Send';
-import Update from '../components/Auth_Forgot_Update';
+const Start = Loadable({
+    loader: () => import('./Auth_Forgot_Start'),
+    loading: () => <div>Loading...</div>
+});
+
+const Send = Loadable({
+    loader: () => import('./Auth_Forgot_Send'),
+    loading: () => <div>Loading...</div>
+});
+
+const Update = Loadable({
+    loader: () => import('./Auth_Forgot_Update'),
+    loading: () => <div>Loading...</div>
+});
 
 class Auth_Redirect extends React.Component {
     constructor(props) {

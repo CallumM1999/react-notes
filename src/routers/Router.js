@@ -1,17 +1,54 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-
-import Auth_Login from '../components/Auth_Login';
-import Auth_Forgot from '../components/Auth_Forgot';
-import Auth_Register from '../components/Auth_Register';
-
-import Dashboard from '../components/Dashboard';
-import Edit from '../components/Edit';
-import PageNotFound from '../components/PageNotFound';
 import PrivateRoute from '../components/PrivateRoute';
-import Study from '../components/Study';
-import Account from '../components/Account';
+import Loadable from 'react-loadable';
+
+const Auth_Login = Loadable({
+    loader: () => import('../components/Auth_Login'),
+    loading: () => <div>Loading...</div>
+});
+
+const Auth_Forgot = Loadable({
+    loader: () => import('../components/Auth_Forgot'),
+    loading: () => <div>Loading...</div>
+});
+
+const Auth_Register = Loadable({
+    loader: () => import('../components/Auth_Register'),
+    loading: () => <div>Loading...</div>
+});
+
+const Dashboard = Loadable({
+    loader: () => import('../components/Dashboard'),
+    loading: () => <div>Loading...</div>
+});
+
+const Edit = Loadable({
+    loader: () => import('../components/Edit'),
+    loading: () => <div>Loading...</div>
+});
+
+const PageNotFound = Loadable({
+    loader: () => import('../components/PageNotFound'),
+    loading: () => <div>Loading...</div>
+});
+
+// const PrivateRoute = Loadable({
+//     loader: () => import('../components/PrivateRoute'),
+//     loading: () => <div>Loading...</div>
+// });
+
+const Study = Loadable({
+    loader: () => import('../components/Study'),
+    loading: () => <div>Loading...</div>
+});
+
+const Account = Loadable({
+    loader: () => import('../components/Account'),
+    loading: () => <div>Loading...</div>
+});
+
 
 const Router = props => {
 

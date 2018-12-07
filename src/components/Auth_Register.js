@@ -1,13 +1,33 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Recaptcha from '../components/Recaptcha';
 import validator from 'validator';
 import { register } from '../requests/auth';
 import authorize from '../actions/authorize';
-import Header from '../components/Header';
 import { Link } from 'react-router-dom';
-import FormTextInput from '../components/FormTextInput';
+
+import Loadable from 'react-loadable';
+
+const Header = Loadable({
+    loader: () => import('./Header'),
+    loading: () => <div>Loading...</div>
+});
+
+const FormTextInput = Loadable({
+    loader: () => import('./FormTextInput'),
+    loading: () => <div>Loading...</div>
+});
+
+const Recaptcha = Loadable({
+    loader: () => import('./Recaptcha'),
+    loading: () => <div>Loading...</div>
+});
+
+const SplitTest = Loadable({
+    loader: () => import('../components/SplitTest'),
+    loading: () => <div>Loading...</div>
+});
+
 
 class Auth_Register extends React.Component {
     constructor(props) {
@@ -140,6 +160,7 @@ class Auth_Register extends React.Component {
         return (
             <div>
                 <Header />
+
                 <div className="form-container">
                     <form onSubmit={this.registerHandler} id="registerForm">
                         <h3 className="form-heading">Register</h3>
@@ -196,7 +217,8 @@ class Auth_Register extends React.Component {
                         </div>
 
                         <div className="form-group">
-                            <Recaptcha verify={this.verifyCallback}/>
+                            <Recaptcha verify={this.verifyCallback} />
+                           
                         </div>
 
                         <div className='form-group form-links'>

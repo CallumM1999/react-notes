@@ -1,9 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Header from '../components/Header';
 import { withRouter } from 'react-router-dom';
-
 import { isEmail } from 'validator';
+import Loadable from 'react-loadable';
+
+const Header = Loadable({
+    loader: () => import('./Header'),
+    loading: () => <div>Loading...</div>
+});
 
 class Account extends React.Component {
     constructor(props) {

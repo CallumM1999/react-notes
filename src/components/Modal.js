@@ -4,13 +4,13 @@ import ReactModal from 'react-modal';
 ReactModal.setAppElement('#app');
 
 const ModalCloseButton = props => (
-    <div className="modal-close" onClick={ props.onClick } >
+    <div className="modl-close" onClick={ props.onClick } >
         <i className="small material-icons grey-text text-darken-4">close</i>
     </div>
 );
 
 const ModalHead = props => (
-    <div className="modal-head">
+    <div className="modl-head">
         <h3>{ props.headText }</h3>
     </div>
 );
@@ -26,10 +26,10 @@ const ModalButton = props => (
 );
 
 const ModalTextInput = props => (
-    <div className="input-field modal-group">
+    <div className="input-field modl-group">
         <input 
             type="text" 
-            className='modal-input' 
+            className='modl-input' 
             id={ props.id } 
             autoFocus={ props.autoFocus }
             name={ props.label }
@@ -51,7 +51,7 @@ const ModalTextInput = props => (
 
 const ModalTemplate = props => (
     <ReactModal
-            className='modal'
+            className='modl white'
             isOpen={props.isOpen}
             contentLabel={props.contentLabel}
             onRequestClose={props.close}
@@ -60,13 +60,13 @@ const ModalTemplate = props => (
 
             <ModalHead headText={props.title}/>
 
-            <form className='modal-form' onSubmit={props.submit}>
+            <form className='modl-form' onSubmit={props.submit}>
 
-                <div className="modal-content">
+                <div className="modl-content">
                     <props.modalContent />
                 </div>
 
-                <div className="modal-choice">
+                <div className="modl-choice">
                     <props.modalChoice />
                 </div>
 
@@ -91,7 +91,7 @@ export const ModalAddDeck = props => (
                     autoFocus={true}
                 />
 
-                <div className="modal-group">
+                <div className="modl-group">
                     {props.error && <p className='form-error'>{props.error}</p>}
                 </div>
             </div>
@@ -113,8 +113,8 @@ export const ModalDeleteDeck = props => (
 
         modalContent={() => (
             <div>
-                <div className="modal-group">
-                    <h4 className='modal-subheading'>Are you sure?</h4>
+                <div className="modl-group">
+                    <h4 className='modl-subheading'>Are you sure?</h4>
                 </div>
                 <input type="hidden" name="_id" value={props._id || false} />
             </div>
@@ -147,7 +147,7 @@ export const ModalRenameDeck = props => (
                     onFocus={true}
                 />
 
-                <div className="modal-group">
+                <div className="modl-group">
                     {props.error && <p className='form-error'>{props.error || false}</p>}
                 </div>
             </div>
@@ -184,7 +184,7 @@ export const ModalAddCard = props => {
                     label='back'
                 />
 
-                <div className="modal-group">
+                <div className="modl-group">
                     {props.error && <p className='form-error'>{props.error}</p>}
                 </div>
             </div>
@@ -209,8 +209,8 @@ export const ModalDeleteCard = props => (
 
         modalContent={() => (
             <div>
-                <div className="modal-group">
-                    <h4 className='modal-subheadingreactreact'>Are you sure?</h4>
+                <div className="modl-group">
+                    <h4 className='modl-subheadingreactreact'>Are you sure?</h4>
                 </div>
                 
                 <input type="hidden" name="_id" value={props._id || false} />
@@ -255,7 +255,7 @@ export const ModalEditCard = props => (
 
                 <input type="hidden" name="_id" value={props._id || false}/>
 
-                <div className="modal-group">
+                <div className="modl-group">
                     {props.error && <p className='form-error'>{props.error}</p>}
                 </div>
             </div>

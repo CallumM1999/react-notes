@@ -1,10 +1,23 @@
 import React from 'react';
-import Recaptcha from '../components/Recaptcha';
 import { normalizeEmail, isEmail } from 'validator';
 import { getResetCode } from '../requests/auth';
-import Header from '../components/Header';
-import FormTextInput from '../components/FormTextInput';
 import { Link } from 'react-router-dom';
+import Loadable from 'react-loadable';
+
+const Header = Loadable({
+    loader: () => import('./Header'),
+    loading: () => <div>Loading...</div>
+});
+
+const Recaptcha = Loadable({
+    loader: () => import('./Recaptcha'),
+    loading: () => <div>Loading...</div>
+});
+
+const FormTextInput = Loadable({
+    loader: () => import('./FormTextInput'),
+    loading: () => <div>Loading...</div>
+});
 
 class Auth_Forgot_Start extends React.Component {
     constructor(props) {

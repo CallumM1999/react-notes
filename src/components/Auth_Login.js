@@ -4,11 +4,26 @@ import { Redirect } from 'react-router-dom';
 import authorize from '../actions/authorize';
 import validator from 'validator';
 import checkAuth from '../actions/checkAuth';
-import FormTextInput from '../components/FormTextInput';
-import Header from '../components/Header';
-import Recaptcha from '../components/Recaptcha';
 import { Link } from 'react-router-dom';
 import { login } from '../requests/auth';
+
+import Loadable from 'react-loadable';
+
+const Header = Loadable({
+    loader: () => import('./Header'),
+    loading: () => <div>Loading...</div>
+});
+
+const Recaptcha = Loadable({
+    loader: () => import('./Recaptcha'),
+    loading: () => <div>Loading...</div>
+});
+
+const FormTextInput = Loadable({
+    loader: () => import('./FormTextInput'),
+    loading: () => <div>Loading...</div>
+});
+
 
 class Auth_Login extends React.Component {
     constructor(props) {
@@ -18,7 +33,7 @@ class Auth_Login extends React.Component {
         this.loginHandler = this.loginHandler.bind(this);
         this.setError = this.setError.bind(this);
         this.inputChange = this.inputChange.bind(this);
-3
+
         this.state = {
             email: { error: null, value: '' },
             password: { error: null, value: '' },

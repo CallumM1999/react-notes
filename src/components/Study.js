@@ -1,9 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
-import Header from './Header';
 import { getCard } from '../requests/cards';
 import { getDecks } from '../requests/decks';
+
+import Loadable from 'react-loadable';
+
+const Header = Loadable({
+    loader: () => import('./Header'),
+    loading: () => <div>Loading...</div>
+});
 
 class Study extends React.Component {
     constructor(props) {

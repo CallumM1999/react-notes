@@ -1,9 +1,20 @@
 import React from 'react';
-import DashboardItem from '../components/DashboardItem';
 import { connect } from 'react-redux';
 import { ModalAddDeck, ModalDeleteDeck, ModalRenameDeck } from '../components/Modal';
-import Header from '../components/Header';
 import { getDecks, postDecks, putDecks, deleteDecks } from '../requests/decks';
+import Loadable from 'react-loadable';
+
+const DashboardItem = Loadable({
+    loader: () => import('./DashboardItem'),
+    loading: () => <div>Loading...</div>
+});
+
+const Header = Loadable({
+    loader: () => import('./Header'),
+    loading: () => <div>Loading...</div>
+});
+
+
 class Dashboard extends React.Component {
     constructor(props) {
         super(props);

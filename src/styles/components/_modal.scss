@@ -1,4 +1,4 @@
-.modal {
+.modl {
     position: absolute;
     width: 600px;
     max-width: calc(100% - 2rem);
@@ -12,14 +12,14 @@
     flex-direction: column;
 }
 
-.modal-close {
+.modl-close {
     position: absolute;
     top: .5rem;
     right: .5rem;
     cursor: pointer;
 }
 
-.modal-head {
+.modl-head {
     text-align: center;
 
     > h3 {
@@ -27,15 +27,15 @@
     }
 }
 
-.modal-subheading {
+.modl-subheading {
     text-align: center;
 }
 
-.modal-content {
+.modl-content {
     padding: 0 1rem !important;
 }
 
-.modal-choice {
+.modl-choice {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,7 +46,7 @@
 }
 
 @media (min-width: 250px) {
-    .modal-content {
+    .modl-content {
         padding: 0 2rem !important;
 
     }

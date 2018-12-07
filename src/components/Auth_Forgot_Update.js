@@ -1,9 +1,18 @@
 import React from 'react';
 import { isEmpty, normalizeEmail, isAscii } from 'validator';
 import { postUpdate } from '../requests/auth';
-import Header from '../components/Header';
-import FormTextInput from '../components/FormTextInput';
 import { Link } from 'react-router-dom';
+import Loadable from 'react-loadable';
+
+const Header = Loadable({
+    loader: () => import('./Header'),
+    loading: () => <div>Loading...</div>
+});
+
+const FormTextInput = Loadable({
+    loader: () => import('./FormTextInput'),
+    loading: () => <div>Loading...</div>
+});
 
 class Auth_Forgot_Update extends React.Component {
     constructor(props) {

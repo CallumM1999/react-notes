@@ -4,24 +4,27 @@ const webpack = require('webpack');
 
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
-// const debug = process.env.NODE_ENV !== "production";
+// const PurifyCSSPlugin = require('purifycss-webpack');
+// const glob = require('glob-all');
 
+// const debug = process.env.NODE_ENV !== "production";
 
 module.exports = env => {
     const CSSExtract = new ExtractTextPlugin('styles.css');
 
     const isProduction = env === 'production';
-
-    // console.log('webpack', isProduction)
     
     return {
         mode: 'development',
-        entry: './src/app.js',
+        entry: [
+            path.join(__dirname, "src/app.js")
+        ],
         output: {
             path: path.join(__dirname, 'public', 'dist'),
-            filename: 'bundle.js',
+            filename: '[name].bundle.js',
+            chunkFilename: '[name].bundle.js',
+            publicPath: '/dist/'
         },
-        // watch: true,
 
         module: {
             rules: [{
@@ -51,17 +54,20 @@ module.exports = env => {
         devtool:isProduction ? 'source-map' : 'inline-source-map',
         plugins: [
             CSSExtract,
+            // new PurifyCSSPlugin({
+            //     paths: glob.sync(path.join(__dirname, 'src/components/*.js'))
+            // }),
             new webpack.DefinePlugin({
                 API_BASE_URL: isProduction ? JSON.stringify('https://agile-mountain-99443.herokuapp.com') : JSON.stringify('http://localhost:3000'),
-            })
+            }),
+            
         ],
         devServer: {
             contentBase: path.join(__dirname, 'public'),
             historyApiFallback: true,
-            publicPath: '/dist/',
-            // compress: true
-
+            publicPath: '/dist',
         },
+   
         optimization: {
             minimizer:isProduction ? [
                 new UglifyJSPlugin({
