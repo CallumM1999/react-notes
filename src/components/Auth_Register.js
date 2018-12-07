@@ -23,12 +23,6 @@ const Recaptcha = Loadable({
     loading: () => <div>Loading...</div>
 });
 
-const SplitTest = Loadable({
-    loader: () => import('../components/SplitTest'),
-    loading: () => <div>Loading...</div>
-});
-
-
 class Auth_Register extends React.Component {
     constructor(props) {
         super(props);
