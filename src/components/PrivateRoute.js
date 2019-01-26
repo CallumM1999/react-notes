@@ -8,6 +8,15 @@ class PrivateRoute extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        // console.log('private route', this.props.auth)
+        if (!checkAuth(this.props.auth)) {
+            this.props.dispatch(deauthorize);
+        }
+    }
+
+
+
     render() {
         return (checkAuth(this.props.auth)) ? (
             <this.props.component id={this.props.computedMatch.params.id} />
