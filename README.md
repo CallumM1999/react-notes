@@ -1,4 +1,5 @@
 # Notes App
+Notes app build with react.
 
 ## Table of Contents
 * [About](#About)
