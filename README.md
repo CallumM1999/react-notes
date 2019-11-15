@@ -20,7 +20,7 @@ Initialize package manager.
 yarn
 ```
 
-You need to setup the API server locally, here is a [guide](https://github.com/CallumM1999/react-api#installation).
+You need to setup the API server locally, here is a [guide](https://github.com/thecallum/react-api#installation).
 
 Now that you have setup the API, you can serve the files locally. 
 
@@ -44,54 +44,54 @@ yarn start
 
 Login page
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/login.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/login.png"/>
 
 Register page
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/register.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/register.png"/>
 
 Forgot page
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/forgot.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/forgot.png"/>
 
 #
 
 Dashboard page
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/dashboard.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/dashboard.png"/>
 
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/dashboard_add.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/dashboard_add.png"/>
 
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/dashboard_delete.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/dashboard_delete.png"/>
 
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/dashboard_rename.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/dashboard_rename.png"/>
 
 Edit page
 
 #
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/edit.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/edit.png"/>
 
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/edit_add.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/edit_add.png"/>
 
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/edit_delete.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/edit_delete.png"/>
 
 Study page
 
 #
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/study.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/study.png"/>
 
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/study_2.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/study_2.png"/>
 
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/study_4.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/study_4.png"/>
 
 
-<img src="https://raw.githubusercontent.com/CallumM1999/react-notes/master/readme_assets/study_results.png"/>
+<img src="https://raw.githubusercontent.com/thecallum/react-notes/master/readme_assets/study_results.png"/>
